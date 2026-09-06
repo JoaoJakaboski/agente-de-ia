@@ -1,0 +1,106 @@
+texto,intencao
+vocês cortam mdf?,materiais_laser
+dá pra cortar acrílico na laser?,materiais_laser
+corta madeira também?,materiais_laser
+quais materiais vocês trabalham no corte a laser,materiais_laser
+consigo gravar em couro?,materiais_laser
+o laser corta compensado de 10mm?,materiais_laser
+gravam em papel e papelão?,materiais_laser
+que tipo de acrílico vocês usam,materiais_laser
+tem como cortar isopor?,materiais_laser
+o corte a laser serve pra madeira fina?,materiais_laser
+vocês cortam metal?,materiais_laser
+qual a espessura máxima de mdf que corta,materiais_laser
+dá pra gravar em vidro?,materiais_laser
+corta acrílico colorido também?,materiais_laser
+qual material fica melhor pra placa de identificação,materiais_laser
+qual o tamanho máximo pra impressão 3d,limites_tecnicos
+até quantos cm vocês imprimem em 3d,limites_tecnicos
+"minha peça é grande, dá pra imprimir inteira?",limites_tecnicos
+qual o volume de impressão da impressora,limites_tecnicos
+imprime peça de 30cm de altura?,limites_tecnicos
+tem limite de tamanho pra peça em 3d?,limites_tecnicos
+qual material usam na impressão 3d,limites_tecnicos
+dá pra imprimir em resina?,limites_tecnicos
+a peça pode ser dividida se for grande demais?,limites_tecnicos
+qual a potência do laser de vocês,limites_tecnicos
+o laser de 10w corta metal?,limites_tecnicos
+até que espessura o equipamento de vocês trabalha,limites_tecnicos
+como funciona pra pedir um orçamento,processo_orcamento
+o que eu preciso mandar pra vocês fazerem o orçamento,processo_orcamento
+preciso ter o arquivo pronto pra pedir orçamento?,processo_orcamento
+que formato de arquivo vocês aceitam,processo_orcamento
+"não tenho o design pronto, vocês fazem?",processo_orcamento
+quero fazer um orçamento de corte a laser,processo_orcamento
+como faço pra encomendar uma peça em 3d,processo_orcamento
+preciso informar quantidade pro orçamento?,processo_orcamento
+vocês criam o design ou eu preciso mandar pronto,processo_orcamento
+quero saber como pedir um orçamento de impressão 3d,processo_orcamento
+quais informações vocês precisam pra fechar o pedido,processo_orcamento
+gostaria de orçar uma placa personalizada,processo_orcamento
+oi,saudacao
+olá,saudacao
+bom dia,saudacao
+boa tarde,saudacao
+boa noite,saudacao
+oii tudo bem,saudacao
+"oi, gostaria de saber mais sobre vocês",saudacao
+alguém pode me ajudar?,saudacao
+"oi, vocês estão disponíveis?",saudacao
+quanto custa o corte a laser,outros
+qual o preço da impressão 3d,outros
+quanto tempo demora pra ficar pronto,outros
+tem desconto pra quantidade grande,outros
+vocês fazem entrega?,outros
+qual o horário de funcionamento,outros
+onde vocês ficam localizados,outros
+posso ir buscar pessoalmente,outros
+meu pedido já ficou pronto?,outros
+quero cancelar meu pedido,outros
+vocês trabalham com compensado naval?,materiais_laser
+dá pra cortar EVA?,materiais_laser
+o laser grava em madeira maciça?,materiais_laser
+qual espessura de acrílico vocês cortam,materiais_laser
+cortam papelão ondulado?,materiais_laser
+fazem gravação em placa de couro sintético?,materiais_laser
+o corte funciona em fórmica?,materiais_laser
+tem como gravar em madeira de demolição?,materiais_laser
+vocês cortam pvc?,materiais_laser
+dá pra fazer em mdf cru ou só laminado?,materiais_laser
+gravam texto em couro legítimo?,materiais_laser
+qual a espessura mínima de acrílico que vocês trabalham,materiais_laser
+qual a potência exata do equipamento de corte,limites_tecnicos
+consigo imprimir algo de 25 cm de largura?,limites_tecnicos
+o volume máximo é em cm ou mm?,limites_tecnicos
+dá pra unir peças impressas separadamente?,limites_tecnicos
+qual é o limite de altura da impressora 3d,limites_tecnicos
+um laser de 10w corta chapa grossa?,limites_tecnicos
+até quantos milímetros de mdf o laser aguenta,limites_tecnicos
+"minha peça tem 22x22, ainda cabe?",limites_tecnicos
+o equipamento de vocês é a laser co2 ou diodo?,limites_tecnicos
+como eu envio o arquivo pra vocês,processo_orcamento
+aceita arquivo em pdf ou tem que ser vetor mesmo?,processo_orcamento
+preciso mandar o arquivo em stl certo?,processo_orcamento
+"quero fechar um pedido, como faço",processo_orcamento
+me ajudam a criar o design da peça?,processo_orcamento
+quais dados vocês pedem pra fazer o orçamento,processo_orcamento
+posso pedir várias peças no mesmo orçamento?,processo_orcamento
+preciso informar as dimensões em cm?,processo_orcamento
+como faço pra pedir uma gravação personalizada,processo_orcamento
+vocês avaliam o arquivo antes de confirmar o orçamento?,processo_orcamento
+"e aí, tudo certo?",saudacao
+oii,saudacao
+"boa noite, posso perguntar uma coisa?",saudacao
+"olá, gostaria de tirar uma dúvida",saudacao
+"bom dia, tudo bem com vocês?",saudacao
+"oi, alguém aí?",saudacao
+qual o valor do orçamento,outros
+em quanto tempo fica pronto meu pedido,outros
+tem frete pra outra cidade?,outros
+aceita pix?,outros
+já pode confirmar o prazo de entrega?,outros
+"meu pedido atrasou, o que houve?",outros
+quero alterar um pedido que já fiz,outros
+posso pagar parcelado?,outros
+como acompanho o status do meu pedido,outros
+estou insatisfeito com a peça que recebi,outros
