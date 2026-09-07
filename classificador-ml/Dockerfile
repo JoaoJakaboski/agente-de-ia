@@ -10,4 +10,4 @@ COPY . .
 ENV PORT=5001
 EXPOSE 5001
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5001", "--workers", "2", "servidor:app"]
+CMD ["python", "servidor.py"]
