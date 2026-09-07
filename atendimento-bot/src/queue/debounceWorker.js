@@ -8,13 +8,12 @@ function iniciarWorkerDebounce(processarMensagemAgregada) {
   const worker = new Worker(
     NOME_FILA_DEBOUNCE,
     async (job) => {
-      const { empresaId, empresaSlug, telefone } = job.data;
+      const { empresaId, empresaSlug, instanciaEvolution, telefone } = job.data;
       const mensagens = await consumirBuffer(empresaId, telefone);
-
       if (mensagens.length === 0) return;
 
       const textoCombinado = mensagens.join("\n");
-      await processarMensagemAgregada(empresaId, empresaSlug, telefone, textoCombinado);
+      await processarMensagemAgregada(empresaId, empresaSlug, instanciaEvolution, telefone, textoCombinado);
     },
     { connection: redis }
   );

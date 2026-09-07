@@ -23,7 +23,6 @@ async function buscarEmpresaPorInstancia(instanciaEvolution) {
     console.error("Erro ao buscar empresa:", error);
     return null;
   }
-
   cacheEmpresas.set(instanciaEvolution, { empresa: data, expiraEm: Date.now() + CACHE_TTL_MS });
   return data;
 }

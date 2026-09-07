@@ -13,7 +13,6 @@ async function classificarIntencao(empresaSlug, texto) {
       body: JSON.stringify({ empresa: empresaSlug, texto }),
       signal: controller.signal,
     });
-
     if (!resposta.ok) {
       console.error("classificador retornou erro:", resposta.status);
       return null;
