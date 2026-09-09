@@ -12,7 +12,7 @@ async function carregarRegras(empresaId) {
 
   const { data, error } = await supabase
     .from("regras_faq")
-    .select("intencao, resposta")
+    .select("intencao, resposta, escalar_humano")
     .eq("empresa_id", empresaId)
     .eq("ativo", true);
 
@@ -23,7 +23,7 @@ async function carregarRegras(empresaId) {
 
   const regras = {};
   for (const linha of data) {
-    regras[linha.intencao] = linha.resposta;
+    regras[linha.intencao] = { resposta: linha.resposta, escalarHumano: linha.escalar_humano };
   }
 
   cacheRegras.set(empresaId, { regras, expiraEm: Date.now() + CACHE_TTL_MS });

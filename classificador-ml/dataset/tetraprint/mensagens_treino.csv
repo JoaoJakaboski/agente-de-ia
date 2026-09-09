@@ -1,4 +1,4 @@
-texto,intencao
+﻿texto,intencao
 vocês cortam mdf?,materiais_laser
 dá pra cortar acrílico na laser?,materiais_laser
 corta madeira também?,materiais_laser
@@ -14,30 +14,30 @@ qual a espessura máxima de mdf que corta,materiais_laser
 dá pra gravar em vidro?,materiais_laser
 corta acrílico colorido também?,materiais_laser
 qual material fica melhor pra placa de identificação,materiais_laser
-qual o tamanho máximo pra impressão 3d,limites_tecnicos
-até quantos cm vocês imprimem em 3d,limites_tecnicos
-"minha peça é grande, dá pra imprimir inteira?",limites_tecnicos
-qual o volume de impressão da impressora,limites_tecnicos
-imprime peça de 30cm de altura?,limites_tecnicos
-tem limite de tamanho pra peça em 3d?,limites_tecnicos
-qual material usam na impressão 3d,limites_tecnicos
-dá pra imprimir em resina?,limites_tecnicos
-a peça pode ser dividida se for grande demais?,limites_tecnicos
-qual a potência do laser de vocês,limites_tecnicos
-o laser de 10w corta metal?,limites_tecnicos
-até que espessura o equipamento de vocês trabalha,limites_tecnicos
-como funciona pra pedir um orçamento,processo_orcamento
-o que eu preciso mandar pra vocês fazerem o orçamento,processo_orcamento
-preciso ter o arquivo pronto pra pedir orçamento?,processo_orcamento
-que formato de arquivo vocês aceitam,processo_orcamento
-"não tenho o design pronto, vocês fazem?",processo_orcamento
-quero fazer um orçamento de corte a laser,processo_orcamento
-como faço pra encomendar uma peça em 3d,processo_orcamento
-preciso informar quantidade pro orçamento?,processo_orcamento
-vocês criam o design ou eu preciso mandar pronto,processo_orcamento
-quero saber como pedir um orçamento de impressão 3d,processo_orcamento
-quais informações vocês precisam pra fechar o pedido,processo_orcamento
-gostaria de orçar uma placa personalizada,processo_orcamento
+qual o tamanho máximo pra impressão 3d,limites_3d
+até quantos cm vocês imprimem em 3d,limites_3d
+"minha peça é grande, dá pra imprimir inteira?",limites_3d
+qual o volume de impressão da impressora,limites_3d
+imprime peça de 30cm de altura?,limites_3d
+tem limite de tamanho pra peça em 3d?,limites_3d
+qual material usam na impressão 3d,materiais_3d
+dá pra imprimir em resina?,materiais_3d
+a peça pode ser dividida se for grande demais?,limites_3d
+qual a potência do laser de vocês,limites_laser
+o laser de 10w corta metal?,limites_laser
+até que espessura o equipamento de vocês trabalha,limites_laser
+como funciona pra pedir um orçamento,orcamento_geral
+o que eu preciso mandar pra vocês fazerem o orçamento,orcamento_geral
+preciso ter o arquivo pronto pra pedir orçamento?,arquivos_aceitos
+que formato de arquivo vocês aceitam,arquivos_aceitos
+"não tenho o design pronto, vocês fazem?",criacao_arte
+quero fazer um orçamento de corte a laser,orcamento_laser
+como faço pra encomendar uma peça em 3d,orcamento_3d
+preciso informar quantidade pro orçamento?,orcamento_geral
+vocês criam o design ou eu preciso mandar pronto,criacao_arte
+quero saber como pedir um orçamento de impressão 3d,orcamento_3d
+quais informações vocês precisam pra fechar o pedido,orcamento_geral
+gostaria de orçar uma placa personalizada,orcamento_laser
 oi,saudacao
 olá,saudacao
 bom dia,saudacao
@@ -47,16 +47,16 @@ oii tudo bem,saudacao
 "oi, gostaria de saber mais sobre vocês",saudacao
 alguém pode me ajudar?,saudacao
 "oi, vocês estão disponíveis?",saudacao
-quanto custa o corte a laser,outros
-qual o preço da impressão 3d,outros
-quanto tempo demora pra ficar pronto,outros
-tem desconto pra quantidade grande,outros
-vocês fazem entrega?,outros
-qual o horário de funcionamento,outros
-onde vocês ficam localizados,outros
-posso ir buscar pessoalmente,outros
-meu pedido já ficou pronto?,outros
-quero cancelar meu pedido,outros
+quanto custa o corte a laser,precos_laser
+qual o preço da impressão 3d,precos_3d
+quanto tempo demora pra ficar pronto,prazo_producao
+tem desconto pra quantidade grande,desconto_quantidade
+vocês fazem entrega?,entrega
+qual o horário de funcionamento,horario
+onde vocês ficam localizados,localizacao
+posso ir buscar pessoalmente,entrega
+meu pedido já ficou pronto?,status_pedido
+quero cancelar meu pedido,alteracao_cancelamento
 vocês trabalham com compensado naval?,materiais_laser
 dá pra cortar EVA?,materiais_laser
 o laser grava em madeira maciça?,materiais_laser
@@ -69,38 +69,472 @@ vocês cortam pvc?,materiais_laser
 dá pra fazer em mdf cru ou só laminado?,materiais_laser
 gravam texto em couro legítimo?,materiais_laser
 qual a espessura mínima de acrílico que vocês trabalham,materiais_laser
-qual a potência exata do equipamento de corte,limites_tecnicos
-consigo imprimir algo de 25 cm de largura?,limites_tecnicos
-o volume máximo é em cm ou mm?,limites_tecnicos
-dá pra unir peças impressas separadamente?,limites_tecnicos
-qual é o limite de altura da impressora 3d,limites_tecnicos
-um laser de 10w corta chapa grossa?,limites_tecnicos
-até quantos milímetros de mdf o laser aguenta,limites_tecnicos
-"minha peça tem 22x22, ainda cabe?",limites_tecnicos
-o equipamento de vocês é a laser co2 ou diodo?,limites_tecnicos
-como eu envio o arquivo pra vocês,processo_orcamento
-aceita arquivo em pdf ou tem que ser vetor mesmo?,processo_orcamento
-preciso mandar o arquivo em stl certo?,processo_orcamento
-"quero fechar um pedido, como faço",processo_orcamento
-me ajudam a criar o design da peça?,processo_orcamento
-quais dados vocês pedem pra fazer o orçamento,processo_orcamento
-posso pedir várias peças no mesmo orçamento?,processo_orcamento
-preciso informar as dimensões em cm?,processo_orcamento
-como faço pra pedir uma gravação personalizada,processo_orcamento
-vocês avaliam o arquivo antes de confirmar o orçamento?,processo_orcamento
+qual a potência exata do equipamento de corte,limites_laser
+consigo imprimir algo de 25 cm de largura?,limites_3d
+o volume máximo é em cm ou mm?,limites_3d
+dá pra unir peças impressas separadamente?,limites_3d
+qual é o limite de altura da impressora 3d,limites_3d
+um laser de 10w corta chapa grossa?,limites_laser
+até quantos milímetros de mdf o laser aguenta,limites_laser
+"minha peça tem 22x22, ainda cabe?",limites_3d
+o equipamento de vocês é a laser co2 ou diodo?,limites_laser
+como eu envio o arquivo pra vocês,arquivos_aceitos
+aceita arquivo em pdf ou tem que ser vetor mesmo?,arquivos_aceitos
+preciso mandar o arquivo em stl certo?,arquivos_aceitos
+"quero fechar um pedido, como faço",orcamento_geral
+me ajudam a criar o design da peça?,criacao_arte
+quais dados vocês pedem pra fazer o orçamento,orcamento_geral
+posso pedir várias peças no mesmo orçamento?,orcamento_geral
+preciso informar as dimensões em cm?,orcamento_geral
+como faço pra pedir uma gravação personalizada,orcamento_laser
+vocês avaliam o arquivo antes de confirmar o orçamento?,orcamento_geral
 "e aí, tudo certo?",saudacao
 oii,saudacao
 "boa noite, posso perguntar uma coisa?",saudacao
 "olá, gostaria de tirar uma dúvida",saudacao
 "bom dia, tudo bem com vocês?",saudacao
 "oi, alguém aí?",saudacao
-qual o valor do orçamento,outros
-em quanto tempo fica pronto meu pedido,outros
-tem frete pra outra cidade?,outros
-aceita pix?,outros
-já pode confirmar o prazo de entrega?,outros
-"meu pedido atrasou, o que houve?",outros
-quero alterar um pedido que já fiz,outros
-posso pagar parcelado?,outros
-como acompanho o status do meu pedido,outros
-estou insatisfeito com a peça que recebi,outros
+qual o valor do orçamento,precos_geral
+em quanto tempo fica pronto meu pedido,prazo_producao
+tem frete pra outra cidade?,entrega
+aceita pix?,pagamento
+já pode confirmar o prazo de entrega?,prazo_producao
+"meu pedido atrasou, o que houve?",problema_pedido
+quero alterar um pedido que já fiz,alteracao_cancelamento
+posso pagar parcelado?,pagamento
+como acompanho o status do meu pedido,status_pedido
+estou insatisfeito com a peça que recebi,problema_pedido
+quais materiais a laser de vocês corta,materiais_laser
+o que vocês conseguem cortar no laser,materiais_laser
+que materiais posso usar no corte a laser,materiais_laser
+dá pra cortar mdf no laser,materiais_laser
+posso fazer uma gravação em madeira,materiais_laser
+vocês gravam couro?,materiais_laser
+acrílico dá pra cortar?,materiais_laser
+vocês trabalham com compensado?,materiais_laser
+o laser corta papelão?,materiais_laser
+dá pra gravar em mdf?,materiais_laser
+vocês fazem gravação em madeira maciça?,materiais_laser
+aceitam acrílico para corte?,materiais_laser
+posso levar meu próprio material para cortar?,materiais_laser
+o laser trabalha com madeira fina?,materiais_laser
+vocês fazem corte em couro?,materiais_laser
+consigo gravar uma logo em MDF?,materiais_laser
+vocês cortam compensado naval?,materiais_laser
+dá pra cortar uma chapa de acrílico?,materiais_laser
+o laser serve para gravação também?,materiais_laser
+vocês fazem corte e gravação na mesma peça?,materiais_laser
+quais materiais não podem ir no laser?,materiais_laser
+posso fazer uma placa em acrílico?,materiais_laser
+vocês cortam madeira?,materiais_laser
+qual a potência do laser,limites_laser
+o laser é de quantos watts,limites_laser
+é laser de diodo ou co2?,limites_laser
+qual a potência do equipamento?,limites_laser
+qual espessura o laser consegue cortar?,limites_laser
+até quantos mm vocês cortam?,limites_laser
+qual a espessura máxima no MDF?,limites_laser
+o laser de 10w corta material grosso?,limites_laser
+qual o tamanho máximo do corte?,limites_laser
+qual a área útil do laser?,limites_laser
+até que tamanho vocês conseguem cortar uma chapa?,limites_laser
+o laser de vocês é 10w?,limites_laser
+esse laser consegue cortar metal?,limites_laser
+10w corta aço?,limites_laser
+10 watts dá conta de chapa grossa?,limites_laser
+qual o limite de espessura do corte a laser?,limites_laser
+qual a capacidade do laser de diodo?,limites_laser
+o laser consegue cortar uma peça de 1 cm?,limites_laser
+qual o maior tamanho que cabe no laser?,limites_laser
+qual é a área de trabalho do laser?,limites_laser
+posso cortar uma chapa grande?,limites_laser
+até quantos centímetros de material vocês cortam?,limites_laser
+o laser corta materiais muito espessos?,limites_laser
+qual a potência exata da máquina?,limites_laser
+qual filamento vocês usam,materiais_3d
+que material vocês usam na impressão 3d,materiais_3d
+imprimem em PLA?,materiais_3d
+vocês trabalham com PETG?,materiais_3d
+tem TPU para impressão?,materiais_3d
+quais materiais de filamento estão disponíveis?,materiais_3d
+posso escolher o material da impressão?,materiais_3d
+qual plástico vocês usam?,materiais_3d
+imprime em plástico?,materiais_3d
+qual material é usado na Ender 3?,materiais_3d
+vocês imprimem com PLA?,materiais_3d
+tem opção de outro filamento?,materiais_3d
+quais filamentos vocês têm?,materiais_3d
+a impressão é feita em PLA?,materiais_3d
+vocês usam PETG?,materiais_3d
+dá para imprimir em TPU?,materiais_3d
+qual material fica melhor para minha peça?,materiais_3d
+qual filamento é mais resistente?,materiais_3d
+vocês fazem impressão em resina?,materiais_3d
+a peça pode ser feita em ABS?,materiais_3d
+que tipos de material estão disponíveis para 3d?,materiais_3d
+posso escolher entre diferentes materiais?,materiais_3d
+qual material vocês recomendam para uma peça de uso?,materiais_3d
+o material da impressão pode ser escolhido?,materiais_3d
+qual o tamanho máximo da impressão 3d?,limites_3d
+até que tamanho vocês imprimem?,limites_3d
+qual o volume máximo da impressora 3d?,limites_3d
+qual a altura máxima da impressão?,limites_3d
+qual a largura máxima da peça?,limites_3d
+uma peça de 25 cm cabe?,limites_3d
+consigo imprimir uma peça de 30 cm?,limites_3d
+"minha peça é maior que a impressora, e agora?",limites_3d
+qual o limite de tamanho da Ender 3 V3 SE?,limites_3d
+qual o tamanho máximo que cabe na impressora?,limites_3d
+até quantos centímetros vocês conseguem imprimir?,limites_3d
+a impressora suporta peças grandes?,limites_3d
+posso imprimir uma peça de 20 cm?,limites_3d
+uma peça com 22 cm cabe?,limites_3d
+e se minha peça passar do tamanho da impressora?,limites_3d
+vocês conseguem dividir um modelo grande?,limites_3d
+dá para imprimir em partes?,limites_3d
+posso montar depois uma peça que foi dividida?,limites_3d
+qual é o volume de impressão disponível?,limites_3d
+qual o limite de altura da impressão?,limites_3d
+qual o limite de largura da impressão?,limites_3d
+qual o limite de profundidade da impressão?,limites_3d
+uma peça grande pode ser separada em várias partes?,limites_3d
+qual o tamanho máximo em centímetros?,limites_3d
+quero orçamento para corte a laser,orcamento_laser
+como faço orçamento de uma peça a laser,orcamento_laser
+quero cotar um corte em MDF,orcamento_laser
+preciso de orçamento para gravação a laser,orcamento_laser
+quanto preciso informar para orçar um corte,orcamento_laser
+quero mandar uma peça para orçamento do laser,orcamento_laser
+como orçamento uma placa personalizada,orcamento_laser
+quero cotar uma gravação,orcamento_laser
+como faço para pedir um orçamento de corte,orcamento_laser
+quero fazer uma cotação de laser,orcamento_laser
+preciso orçar uma peça de acrílico,orcamento_laser
+como vocês fazem o orçamento do corte?,orcamento_laser
+quero saber como enviar um projeto para orçamento,orcamento_laser
+"tenho um desenho para cortar, como peço orçamento?",orcamento_laser
+posso mandar meu arquivo para vocês calcularem o corte?,orcamento_laser
+quero cotar corte e gravação juntos,orcamento_laser
+como faço para orçar uma placa?,orcamento_laser
+quero orçamento para várias peças cortadas,orcamento_laser
+preciso de orçamento de gravação em MDF,orcamento_laser
+como solicitar orçamento para laser,orcamento_laser
+quero encomendar uma peça cortada a laser,orcamento_laser
+tenho uma arte e quero saber o valor do corte,orcamento_laser
+quero fazer uma cotação de gravação,orcamento_laser
+como mando os dados para orçamento do laser?,orcamento_laser
+quero orçamento para impressão 3d,orcamento_3d
+como faço orçamento de uma peça 3d,orcamento_3d
+quero cotar uma impressão,orcamento_3d
+preciso saber como orçar uma peça em 3d,orcamento_3d
+posso mandar meu STL para orçamento?,orcamento_3d
+"quero imprimir uma peça, como faço?",orcamento_3d
+como peço orçamento de impressão 3d?,orcamento_3d
+quero cotar um modelo STL,orcamento_3d
+tenho um arquivo 3d para imprimir,orcamento_3d
+como envio uma peça 3d para orçamento?,orcamento_3d
+quero encomendar uma impressão 3d,orcamento_3d
+quanto preciso informar para orçar uma impressão?,orcamento_3d
+quero fazer uma cotação de impressão,orcamento_3d
+como calculam o orçamento de uma peça 3d?,orcamento_3d
+tenho um modelo e quero saber como pedir orçamento,orcamento_3d
+"quero imprimir várias unidades, como faço o orçamento?",orcamento_3d
+como solicito orçamento para uma impressão?,orcamento_3d
+quero cotar uma peça personalizada em 3d,orcamento_3d
+posso mandar o modelo para vocês avaliarem?,orcamento_3d
+"tenho um STL, quero fazer orçamento",orcamento_3d
+como faço para encomendar uma peça impressa?,orcamento_3d
+quero orçamento de uma peça que encontrei na internet,orcamento_3d
+como mandar o arquivo para cotar impressão 3d?,orcamento_3d
+quero cotar uma peça para impressão,orcamento_3d
+como peço um orçamento?,orcamento_geral
+o que preciso enviar para fazer orçamento?,orcamento_geral
+quais informações vocês precisam para cotar?,orcamento_geral
+como funciona o orçamento?,orcamento_geral
+o que vocês precisam saber para calcular o orçamento?,orcamento_geral
+preciso mandar quantidade?,orcamento_geral
+tenho que informar as medidas?,orcamento_geral
+preciso informar o prazo?,orcamento_geral
+como faço para solicitar uma cotação?,orcamento_geral
+quais dados devo mandar?,orcamento_geral
+o que preciso informar junto com o projeto?,orcamento_geral
+como começo um pedido?,orcamento_geral
+quero solicitar uma cotação,orcamento_geral
+como faço para encomendar?,orcamento_geral
+"quero fechar um pedido, qual o procedimento?",orcamento_geral
+como funciona para fazer um pedido?,orcamento_geral
+quais informações vocês precisam para fechar o pedido?,orcamento_geral
+posso mandar foto junto com o pedido?,orcamento_geral
+o que preciso passar para vocês?,orcamento_geral
+como envio os detalhes do meu pedido?,orcamento_geral
+quero saber como funciona a contratação,orcamento_geral
+como faço para pedir uma peça personalizada?,orcamento_geral
+quais dados preciso informar?,orcamento_geral
+quais formatos de arquivo vocês aceitam?,arquivos_aceitos
+posso mandar SVG?,arquivos_aceitos
+vocês aceitam DXF?,arquivos_aceitos
+PDF serve para o corte?,arquivos_aceitos
+posso mandar arquivo STL?,arquivos_aceitos
+qual formato devo enviar para impressão 3d?,arquivos_aceitos
+precisa ser vetor?,arquivos_aceitos
+posso enviar meu arquivo em PDF?,arquivos_aceitos
+aceita arquivo de Illustrator?,arquivos_aceitos
+posso mandar o projeto em PNG?,arquivos_aceitos
+qual arquivo vocês precisam para corte a laser?,arquivos_aceitos
+qual formato é melhor para gravação?,arquivos_aceitos
+STL é o formato para impressão?,arquivos_aceitos
+como envio meu arquivo?,arquivos_aceitos
+onde mando o arquivo do projeto?,arquivos_aceitos
+vocês aceitam arquivo vetorial?,arquivos_aceitos
+posso mandar uma imagem para vocês avaliarem?,arquivos_aceitos
+qual extensão devo usar?,arquivos_aceitos
+"meu arquivo está em PDF, serve?",arquivos_aceitos
+"meu modelo está em STL, posso enviar?",arquivos_aceitos
+preciso converter minha arte para vetor?,arquivos_aceitos
+qual formato vocês preferem para laser?,arquivos_aceitos
+qual formato devo mandar para orçamento?,arquivos_aceitos
+vocês conseguem abrir STL?,arquivos_aceitos
+vocês fazem a arte?,criacao_arte
+"não tenho o desenho, vocês criam?",criacao_arte
+vocês desenvolvem a peça?,criacao_arte
+podem fazer o desenho para mim?,criacao_arte
+"não tenho arquivo, consigo pedir mesmo assim?",criacao_arte
+vocês fazem projeto personalizado?,criacao_arte
+vocês criam uma arte a partir de uma ideia?,criacao_arte
+"só tenho uma foto, vocês conseguem fazer?",criacao_arte
+posso pedir ajuda para criar o desenho?,criacao_arte
+vocês modelam peças 3d?,criacao_arte
+vocês fazem modelagem para impressão 3d?,criacao_arte
+"não tenho STL, vocês podem criar?",criacao_arte
+vocês fazem a arte da placa?,criacao_arte
+"preciso de uma logo em uma peça, vocês criam?",criacao_arte
+vocês conseguem preparar o arquivo para o laser?,criacao_arte
+vocês fazem desenho para corte?,criacao_arte
+posso mandar uma referência para vocês criarem?,criacao_arte
+vocês transformam uma imagem em arquivo de corte?,criacao_arte
+"preciso criar uma peça do zero, vocês fazem?",criacao_arte
+vocês oferecem serviço de design?,criacao_arte
+quem não tem arquivo pronto pode pedir orçamento?,criacao_arte
+vocês fazem modelos personalizados?,criacao_arte
+podem ajustar meu desenho para corte?,criacao_arte
+vocês conseguem adaptar um arquivo?,criacao_arte
+quanto custa cortar no laser?,precos_laser
+qual o preço do corte a laser?,precos_laser
+quanto sai uma gravação a laser?,precos_laser
+qual o valor de uma peça cortada?,precos_laser
+quanto custa gravar uma logo?,precos_laser
+qual o preço da gravação?,precos_laser
+quanto fica uma placa cortada a laser?,precos_laser
+qual o valor para cortar MDF?,precos_laser
+quanto custa uma gravação em madeira?,precos_laser
+quanto vocês cobram pelo laser?,precos_laser
+o corte a laser é cobrado como?,precos_laser
+qual o valor do serviço de laser?,precos_laser
+quanto fica cortar uma peça?,precos_laser
+quanto custa uma placa personalizada no laser?,precos_laser
+qual o preço de um corte em acrílico?,precos_laser
+quanto fica uma gravação em MDF?,precos_laser
+vocês cobram por peça ou por corte?,precos_laser
+quanto eu vou pagar pelo corte?,precos_laser
+tem preço fixo para corte a laser?,precos_laser
+quanto sai o serviço de gravação?,precos_laser
+qual é o valor do laser?,precos_laser
+me passa o preço do corte,precos_laser
+quanto fica para cortar essa arte?,precos_laser
+qual o custo de uma gravação?,precos_laser
+quanto custa uma impressão 3d?,precos_3d
+qual o preço da impressão?,precos_3d
+quanto fica para imprimir uma peça?,precos_3d
+qual o valor de uma peça 3d?,precos_3d
+quanto vocês cobram por impressão?,precos_3d
+qual o preço para imprimir meu STL?,precos_3d
+quanto custa fazer uma peça em 3d?,precos_3d
+qual o valor de uma impressão personalizada?,precos_3d
+quanto sai uma impressão pequena?,precos_3d
+quanto fica imprimir várias peças?,precos_3d
+qual o custo da impressão 3d?,precos_3d
+me passa o preço da impressão,precos_3d
+quanto vocês cobram para imprimir?,precos_3d
+quanto fica uma peça impressa?,precos_3d
+qual o valor para imprimir esse modelo?,precos_3d
+quanto custa uma peça personalizada?,precos_3d
+quanto sai para imprimir um STL?,precos_3d
+tem preço por grama na impressão?,precos_3d
+como é calculado o preço da impressão?,precos_3d
+qual o custo para fazer uma peça 3d?,precos_3d
+quanto vou pagar para imprimir?,precos_3d
+qual o valor de uma impressão?,precos_3d
+quanto fica essa peça na impressora 3d?,precos_3d
+quanto custa imprimir esse arquivo?,precos_3d
+qual o valor do orçamento?,precos_geral
+quanto vai ficar meu pedido?,precos_geral
+qual o preço do serviço?,precos_geral
+quanto eu vou gastar?,precos_geral
+qual o valor aproximado?,precos_geral
+quanto custa?,precos_geral
+tem como saber o preço antes?,precos_geral
+qual seria o valor?,precos_geral
+me passa um valor,precos_geral
+quanto fica mais ou menos?,precos_geral
+qual o custo total?,precos_geral
+quanto vou pagar pelo pedido?,precos_geral
+tem uma estimativa de preço?,precos_geral
+quanto sai tudo?,precos_geral
+qual o valor final?,precos_geral
+quanto custa fazer isso?,precos_geral
+quanto tempo demora para ficar pronto?,prazo_producao
+qual o prazo de produção?,prazo_producao
+em quanto tempo vocês fazem?,prazo_producao
+quando fica pronto?,prazo_producao
+quanto tempo leva o corte?,prazo_producao
+quanto demora a impressão 3d?,prazo_producao
+qual o tempo para produzir?,prazo_producao
+qual o prazo para minha peça?,prazo_producao
+vocês conseguem entregar até uma data específica?,prazo_producao
+quanto tempo leva para fazer?,prazo_producao
+qual é o prazo do pedido?,prazo_producao
+demora muito para ficar pronto?,prazo_producao
+em quantos dias fica pronto?,prazo_producao
+quanto tempo preciso esperar?,prazo_producao
+qual o tempo de fabricação?,prazo_producao
+quando meu pedido estará pronto?,prazo_producao
+vocês têm prazo normal de produção?,prazo_producao
+quanto tempo leva para produzir uma peça?,prazo_producao
+qual o prazo para uma encomenda?,prazo_producao
+quando consigo retirar meu pedido?,prazo_producao
+vocês entregam?,entrega
+fazem entrega em outra cidade?,entrega
+tem frete?,entrega
+vocês enviam pelos correios?,entrega
+posso receber em casa?,entrega
+vocês fazem envio?,entrega
+quanto fica o frete?,entrega
+tem entrega para outra cidade?,entrega
+como funciona a entrega?,entrega
+vocês mandam por transportadora?,entrega
+posso retirar pessoalmente?,entrega
+onde faço a retirada?,entrega
+tem opção de buscar no local?,entrega
+vocês enviam para todo o Brasil?,entrega
+como recebo meu pedido?,entrega
+posso pedir para entregar?,entrega
+vocês trabalham com envio?,entrega
+tem retirada no local?,entrega
+qual a forma de entrega?,entrega
+vocês fazem frete?,entrega
+quais formas de pagamento vocês aceitam?,pagamento
+aceitam pix?,pagamento
+posso pagar no cartão?,pagamento
+parcelam no cartão?,pagamento
+dá para pagar parcelado?,pagamento
+aceitam dinheiro?,pagamento
+posso pagar por pix?,pagamento
+quais meios de pagamento?,pagamento
+como posso pagar?,pagamento
+tem pagamento no crédito?,pagamento
+aceitam débito?,pagamento
+posso parcelar?,pagamento
+quando faço o pagamento?,pagamento
+como funciona o pagamento?,pagamento
+quais cartões vocês aceitam?,pagamento
+tem opção de pagamento à vista?,pagamento
+aceita transferência?,pagamento
+posso pagar metade antes?,pagamento
+como é feito o pagamento do pedido?,pagamento
+quais são as formas de pagamento?,pagamento
+como está meu pedido?,status_pedido
+quero saber o status do pedido,status_pedido
+meu pedido já está pronto?,status_pedido
+tem como acompanhar meu pedido?,status_pedido
+como acompanho a produção?,status_pedido
+já terminaram minha peça?,status_pedido
+meu pedido está em produção?,status_pedido
+quando meu pedido fica pronto?,status_pedido
+posso consultar o andamento?,status_pedido
+qual a situação do meu pedido?,status_pedido
+meu pedido já foi feito?,status_pedido
+tem atualização do pedido?,status_pedido
+como saber se minha peça está pronta?,status_pedido
+quero acompanhar minha encomenda,status_pedido
+já posso buscar meu pedido?,status_pedido
+vocês conseguem verificar meu pedido?,status_pedido
+como vejo o andamento?,status_pedido
+meu pedido foi finalizado?,status_pedido
+já está pronto para retirada?,status_pedido
+tem como consultar o status?,status_pedido
+posso cancelar meu pedido?,alteracao_cancelamento
+quero cancelar uma encomenda,alteracao_cancelamento
+preciso alterar meu pedido,alteracao_cancelamento
+posso mudar as medidas depois de pedir?,alteracao_cancelamento
+quero trocar o arquivo do pedido,alteracao_cancelamento
+consigo corrigir meu projeto?,alteracao_cancelamento
+quero fazer uma alteração no pedido,alteracao_cancelamento
+posso cancelar antes de produzir?,alteracao_cancelamento
+como faço para cancelar?,alteracao_cancelamento
+quero modificar uma peça que já pedi,alteracao_cancelamento
+posso substituir o arquivo?,alteracao_cancelamento
+"errei as medidas, consigo alterar?",alteracao_cancelamento
+quero mudar a quantidade do pedido,alteracao_cancelamento
+dá para corrigir a arte?,alteracao_cancelamento
+posso adicionar mais peças ao pedido?,alteracao_cancelamento
+como altero um pedido já feito?,alteracao_cancelamento
+quero cancelar a encomenda,alteracao_cancelamento
+posso mudar o material?,alteracao_cancelamento
+preciso trocar o modelo enviado,alteracao_cancelamento
+tem como editar o pedido?,alteracao_cancelamento
+tem desconto para muitas peças?,desconto_quantidade
+vocês dão desconto em quantidade?,desconto_quantidade
+quanto mais peças fica mais barato?,desconto_quantidade
+tem preço especial para lote?,desconto_quantidade
+fazem desconto para pedidos grandes?,desconto_quantidade
+se eu pedir 50 peças tem desconto?,desconto_quantidade
+comprando várias unidades tem desconto?,desconto_quantidade
+existe desconto por volume?,desconto_quantidade
+tem valor diferenciado para quantidade?,desconto_quantidade
+"quanto maior a quantidade, menor o preço?",desconto_quantidade
+vocês trabalham com preço de atacado?,desconto_quantidade
+tem desconto para empresas?,desconto_quantidade
+posso negociar preço para muitas peças?,desconto_quantidade
+há desconto para pedidos em grande quantidade?,desconto_quantidade
+fazem desconto para várias unidades?,desconto_quantidade
+onde vocês ficam?,localizacao
+qual o endereço?,localizacao
+onde é a empresa?,localizacao
+qual a localização?,localizacao
+onde posso encontrar vocês?,localizacao
+em que cidade vocês estão?,localizacao
+onde fica a TetraPrint?,localizacao
+qual o local para retirada?,localizacao
+me passa o endereço de vocês,localizacao
+onde vocês atendem?,localizacao
+onde fica a loja?,localizacao
+qual é o endereço da TetraPrint?,localizacao
+qual o horário de funcionamento?,horario
+que horas vocês atendem?,horario
+vocês estão abertos?,horario
+qual o horário de atendimento?,horario
+que horas posso falar com vocês?,horario
+atendem aos sábados?,horario
+qual horário vocês trabalham?,horario
+quando vocês estão disponíveis?,horario
+qual o horário da empresa?,horario
+posso ir aí em qual horário?,horario
+que horas abre?,horario
+que horas fecha?,horario
+meu pedido atrasou,problema_pedido
+minha peça veio com problema,problema_pedido
+recebi a peça errada,problema_pedido
+o pedido veio diferente do combinado,problema_pedido
+estou insatisfeito com o resultado,problema_pedido
+minha peça ficou com defeito,problema_pedido
+o produto chegou danificado,problema_pedido
+deu problema na minha peça,problema_pedido
+o corte não ficou como esperado,problema_pedido
+a impressão saiu errada,problema_pedido
+minha encomenda veio errada,problema_pedido
+tem um problema com meu pedido,problema_pedido
+como resolvo um problema no pedido?,problema_pedido
+preciso reclamar de uma peça,problema_pedido
+a peça que recebi está diferente,problema_pedido
+minha impressão apresentou defeito,problema_pedido
+a gravação ficou errada,problema_pedido
