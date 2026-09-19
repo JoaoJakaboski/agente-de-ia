@@ -1,7 +1,7 @@
 require("dotenv/config");
 const express = require("express");
 const { receberMensagem } = require("./services/receberMensagem");
-const { extrairTextoDaMensagem, extrairTelefoneCliente } = require("./services/extrairMensagemEvolution");
+const { identificarMensagem, extrairTelefoneCliente } = require("./services/extrairMensagemEvolution");
 
 const app = express();
 app.use(express.json({ limit: "1mb" }));
@@ -31,16 +31,16 @@ app.post("/webhook/:token", async (req, res) => {
     const dados = body.data;
     if (!dados || (dados.key && dados.key.fromMe)) return;
 
-    const texto = extrairTextoDaMensagem(dados.message);
+    const { tipo, texto } = identificarMensagem(dados.message);
     const telefoneCliente = extrairTelefoneCliente(dados.key && dados.key.remoteJid);
     const instanciaEvolution = body.instance;
 
-    if (!texto || !telefoneCliente || !instanciaEvolution) {
-      console.log("mensagem ignorada (tipo não suportado ou dados incompletos)");
-      return;
-    }
+  if (!telefoneCliente || !instanciaEvolution || tipo === "desconhecido") {
+    console.log("mensagem ignorada (tipo não suportado ou dados incompletos)");
+    return;
+  }
 
-    await receberMensagem(instanciaEvolution, telefoneCliente, texto);
+  await receberMensagem(instanciaEvolution, telefoneCliente, tipo, texto);
   } catch (erro) {
     console.error("erro ao processar webhook:", erro);
   }

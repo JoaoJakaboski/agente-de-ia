@@ -1,21 +1,25 @@
-// extrai o texto de uma mensagem da Evolution API (só texto por enquanto,
-// áudio/imagem/figurinha ficam pra depois)
-function extrairTextoDaMensagem(mensagem) {
-  if (!mensagem) return null;
+function identificarMensagem(mensagem) {
+  if (!mensagem) return { tipo: "desconhecido", texto: null };
 
   if (typeof mensagem.conversation === "string") {
-    return mensagem.conversation;
+    return { tipo: "texto", texto: mensagem.conversation };
   }
 
   if (mensagem.extendedTextMessage && typeof mensagem.extendedTextMessage.text === "string") {
-    return mensagem.extendedTextMessage.text;
+    return { tipo: "texto", texto: mensagem.extendedTextMessage.text };
   }
 
   if (mensagem.ephemeralMessage && mensagem.ephemeralMessage.message) {
-    return extrairTextoDaMensagem(mensagem.ephemeralMessage.message);
+    return identificarMensagem(mensagem.ephemeralMessage.message);
   }
 
-  return null;
+  if (mensagem.imageMessage) return { tipo: "imagem", texto: mensagem.imageMessage.caption || null };
+  if (mensagem.documentMessage) return { tipo: "documento", texto: mensagem.documentMessage.caption || null };
+  if (mensagem.audioMessage) return { tipo: "audio", texto: null };
+  if (mensagem.stickerMessage) return { tipo: "sticker", texto: null };
+  if (mensagem.videoMessage) return { tipo: "video", texto: mensagem.videoMessage.caption || null };
+
+  return { tipo: "desconhecido", texto: null };
 }
 
 function extrairTelefoneCliente(remoteJid) {
@@ -23,4 +27,4 @@ function extrairTelefoneCliente(remoteJid) {
   return remoteJid.split("@")[0];
 }
 
-module.exports = { extrairTextoDaMensagem, extrairTelefoneCliente };
+module.exports = { identificarMensagem, extrairTelefoneCliente };

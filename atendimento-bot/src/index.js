@@ -1,39 +1,43 @@
 require("dotenv/config");
 const { iniciarWorkerDebounce } = require("./queue/debounceWorker");
+const { iniciarWorkerFechamento } = require("./queue/fechamentoWorker");
 const { classificarIntencao } = require("./services/classificadorService");
 const { respostaPorIntencao } = require("./services/regrasFaqService");
 const { enviarMensagemWhatsapp } = require("./services/evolutionService");
-const { abrirOuAtualizarChamado } = require("./services/chamadoService");
+const { atualizarStatusChamado } = require("./services/chamadoService");
+const { registrarMensagem } = require("./services/mensagensService");
 require("./webhookServer");
 
 const LIMIAR_CONFIANCA_PADRAO = Number(process.env.LIMIAR_CONFIANCA_DEFAULT || 0.6);
 
-// pipeline híbrido: classificador ML -> regras (por empresa) -> fallback LLM
-async function processarMensagemAgregada(empresaId, empresaSlug, instanciaEvolution, telefone, textoCombinado) {
+async function processarMensagemAgregada(empresaId, empresaSlug, instanciaEvolution, chamadoId, telefone, textoCombinado) {
   const resultado = await classificarIntencao(empresaSlug, textoCombinado);
-
+  
   if (resultado && resultado.confianca >= LIMIAR_CONFIANCA_PADRAO) {
     const regra = await respostaPorIntencao(empresaId, resultado.intencao);
+    
+    if (resultado.intencao === "saudacao") {
+      console.log(`[Saudação ignorada] (${resultado.confianca.toFixed(2)})`);
+      return;
+    }
+    
     if (regra) {
-      console.log(`[regra] ${resultado.intencao} (${resultado.confianca.toFixed(2)})`);
-      console.log("texto classificado: ", textoCombinado);
-      console.log("resposta:", regra.resposta);
-      // enviar resposta via Evolution API entra aqui
+      console.log(`[Regra] ${resultado.intencao} (${resultado.confianca.toFixed(2)})`);
       await enviarMensagemWhatsapp(instanciaEvolution, telefone, regra.resposta);
-
+      await registrarMensagem(chamadoId, empresaId, "bot", regra.resposta);
+      
       if (regra.escalarHumano) {
-        await abrirOuAtualizarChamado(empresaId, telefone, resultado.intencao);
-        console.log(`[chamado aberto] ${resultado.intencao}`)
+        await atualizarStatusChamado(chamadoId, "aguardando_humano", resultado.intencao);
+        console.log(`[Chamado escalado] ${resultado.intencao}`);
       }
       return;
     }
-  }
+  } 
 
-  // confiança baixa ou intenção sem regra cadastrada -> fallback LLM (Claude)
-  // nunca enviar telefone/IDs internos pro prompt da LLM, só o texto
-  console.log("[fallback LLM]", { empresaId, telefone, textoCombinado, resultado });
+  console.log("[Fallback LLM]", {empresaId, telefone, textoCombinado, resultado });
   // integração com a Claude entra aqui
 }
 
 iniciarWorkerDebounce(processarMensagemAgregada);
-console.log("worker de debounce rodando");
+iniciarWorkerFechamento();
+console.log("Workers rodando (debounce + fechamento automático)");

@@ -31,6 +31,8 @@ def classificar():
     empresa = body.get("empresa", "").strip()
     texto = body.get("texto", "").strip()
 
+    print(f"Classificador acionado: {texto}")
+
     if not empresa or not texto:
         return jsonify({"erro": "campos 'empresa' e 'texto' são obrigatórios"}), 400
 
