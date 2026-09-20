@@ -6,7 +6,7 @@ const HORAS_INATIVIDADE = Number(process.env.HORAS_INATIVIDADE_CHAMADO || 24);
 
 const filaFechamento = new Queue(NOME_FILA_FECHAMENTO, { connection: redis });
 
-async function reagendarFechamentoAutomatico(chamadoId) {
+async function reagendarFechamentoAutomatico(chamadoId, horas) {
     const jobExistente = await filaFechamento.getJob(chamadoId);
     
     if (jobExistente) {
@@ -16,12 +16,14 @@ async function reagendarFechamentoAutomatico(chamadoId) {
         }
     }
 
+    const horasFinal = horas || HORAS_INATIVIDADE_PADRAO;
+
     await filaFechamento.add(
         chamadoId,
         { chamadoId },
         {
             jobId: chamadoId,
-            delay: HORAS_INATIVIDADE * 60 * 60 * 1000, // Convertendo horas para milissegundos
+            delay: horasFinal * 60 * 60 * 1000, // Convertendo horas para milissegundos
             removeOnComplete: true,
             removeOnFail: true
         }

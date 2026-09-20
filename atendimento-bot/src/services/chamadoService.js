@@ -1,6 +1,5 @@
 const { supabase } = require('../db/client');
 const { enviarMensagemWhatsapp } = require("./evolutionService");
-const { registrarMensagem } = require("./mensagensService");
 
 async function garantirChamado(empresaId, telefoneCliente) {
     const { data: existente, error: erroConsulta } = await supabase
@@ -69,8 +68,48 @@ async function fecharChamadoPorInatividade(chamadoId) {
     if (instanciaEvolution) {
         const mensagem = "Esse atendimento foi encerrado por inatividade. Se precisar de algo, é só mandar uma nova mensagem! 🙂"
         await enviarMensagemWhatsapp(instanciaEvolution, chamado.telefone_cliente, mensagem);
-        await registrarMensagem(chamadoId, chamado.empresa_id, "bot", mensagem);
+
+        const { error: erroLog } = await supabase.from("mensagens").insert({
+            chamado_id: chamadoId,
+            empresa_id: chamado.empresa_id,
+            remetente: "bot",
+            conteudo: mensagem,
+        });
+
+        if (erroLog) console.error("Erro ao registrar mensagem do encerramento: ", erroLog);
     }
 }
 
-module.exports = { garantirChamado, atualizarStatusChamado, fecharChamadoPorInatividade };
+async function buscarContexto(chamadoId) {
+    const { data, error } = await supabase
+        .from("chamados")
+        .select("contexto")
+        .eq("id", chamadoId)
+        .maybeSingle();
+    
+    if (error) {
+        console.error("Erro ao buscar contexto do chamado: ", error);
+        return null;
+    }
+    return data ? data.contexto : null;
+}
+
+async function atualizarContexto(chamadoId, contexto) {
+    const { error } = await supabase
+        .from("chamados")
+        .update({ contexto, atualizado_em: new Date().toISOString() })
+        .eq("id", chamadoId);
+
+    if (error) console.error("Erro ao atualizar contexto do chamado: ", error);
+}
+
+async function atualizarNomeCliente(chamadoId, nomeCliente) {
+    const { error } = await supabase
+        .from("chamados")
+        .update({ nome_cliente: nomeCliente, atualizado_em: new Date().toISOString() })
+        .eq("id", chamadoId);
+
+    if (error) console.error("Erro ao atualizar nome do cliente: ", error);
+}
+
+module.exports = { garantirChamado, atualizarStatusChamado, fecharChamadoPorInatividade, buscarContexto, atualizarContexto, atualizarNomeCliente };

@@ -27,10 +27,15 @@ async function buscarEmpresaPorInstancia(instanciaEvolution) {
   return data;
 }
 
+function configuracaoAgenteDaEmpresa(empresa) {
+  const config = empresa && empresa.configuracoes_agente;
+  return Array.isArray(config) ? config[0] : config;
+}
+
 function segundosDebounceDaEmpresa(empresa) {
   const config = empresa && empresa.configuracoes_agente;
   const configuracao = Array.isArray(config) ? config[0] : config;
   return (configuracao && configuracao.segundos_debounce) || SEGUNDOS_DEBOUNCE_PADRAO;
 }
 
-module.exports = { buscarEmpresaPorInstancia, segundosDebounceDaEmpresa };
+module.exports = { buscarEmpresaPorInstancia, segundosDebounceDaEmpresa, configuracaoAgenteDaEmpresa };

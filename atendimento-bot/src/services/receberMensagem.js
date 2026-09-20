@@ -1,7 +1,6 @@
 const { buscarEmpresaPorInstancia, segundosDebounceDaEmpresa } = require("./empresaService");
 const { adicionarMensagemAoBuffer } = require("./bufferMensagens");
 const { reagendarProcessamento } = require("../queue/debounceQueue");
-const { reagendarFechamentoAutomatico } = require("../queue/fechamentoQueue");
 const { garantirChamado, atualizarStatusChamado } = require("./chamadoService");
 const { registrarMensagem } = require("./mensagensService");
 const { enviarMensagemWhatsapp } = require("./evolutionService");
@@ -27,7 +26,6 @@ async function receberMensagem(instanciaEvolution, telefoneCliente, tipoMensagem
 
   const conteudoRegistrado = texto || `[Mensagem do tipo ${tipoMensagem}]`;
   await registrarMensagem(chamado.id, empresa.id, "cliente", conteudoRegistrado);
-  await reagendarFechamentoAutomatico(chamado.id);
 
   if (chamado.isNovo) {
     const link = process.env.LINK_POLITICA_PRIVACIDADE || "em_breve";
