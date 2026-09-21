@@ -1,4 +1,4 @@
-const { supabase } = require("../db/cliente");
+const { supabase } = require("../db/client");
 
 const HORAS_INATIVIDADE_PADRAO = Number(process.env.HORAS_INATIVIDADE_CHAMADO || 24);
 const CACHE_TTL_MS = 60 * 1000;
