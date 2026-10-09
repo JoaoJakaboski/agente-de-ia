@@ -568,3 +568,62 @@ tem alguém aí?,saudacao
 "oi, alguém pode me ajudar?",saudacao
 "boa noite, pessoal",saudacao
 "oi, td bom por aí?",saudacao
+vocês conseguem fazer carrinho da hot wheels?,consulta_fabricacao
+vocês fazem carrinho da hotwheels?,consulta_fabricacao
+vocês fazem carrinho de brinquedo?,consulta_fabricacao
+conseguem fabricar um chaveiro personalizado?,consulta_fabricacao
+dá pra fazer um enfeite de bolo?,consulta_fabricacao
+vocês conseguem fazer uma miniatura de carro?,consulta_fabricacao
+fazem topo de bolo?,consulta_fabricacao
+conseguem fazer uma réplica de um brinquedo?,consulta_fabricacao
+vocês fazem placas decorativas?,consulta_fabricacao
+dá pra fazer um suporte de celular?,consulta_fabricacao
+conseguem fabricar uma peça de reposição?,consulta_fabricacao
+vocês fazem porta-retrato?,consulta_fabricacao
+tem como fazer uma luminária personalizada?,consulta_fabricacao
+conseguem fazer uma action figure?,consulta_fabricacao
+vocês fazem esse tipo de peça?,consulta_fabricacao
+dá pra fabricar um brinde para evento?,consulta_fabricacao
+conseguem fazer um troféu personalizado?,consulta_fabricacao
+dá pra fazer uma peça assim?,consulta_fabricacao
+conseguem fazer um puzzle 3d?,consulta_fabricacao
+vocês fabricam esse tipo de produto?,consulta_fabricacao
+dá pra fazer uma miniatura de personagem?,consulta_fabricacao
+conseguem fazer isso que eu vi na internet?,consulta_fabricacao
+vocês fazem esse item aqui?,consulta_fabricacao
+conseguem fazer um objeto de decoração?,consulta_fabricacao
+quanto custa o corte a laser dessa peça?,precos_laser
+qual o preço do corte a laser em mdf?,precos_laser
+quanto custa a gravação a laser?,precos_laser
+qual o valor do corte a laser em acrílico?,precos_laser
+quanto sai o corte a laser por peça?,precos_laser
+qual o preço da gravação a laser em madeira?,precos_laser
+quanto custa cortar essa placa no laser?,precos_laser
+qual o valor de gravar uma logo a laser?,precos_laser
+quanto fica o corte a laser desse material?,precos_laser
+qual o preço pra cortar a laser?,precos_laser
+quanto custa fazer o corte a laser?,precos_laser
+qual o valor do serviço de corte a laser?,precos_laser
+quanto custa uma gravação a laser em couro?,precos_laser
+qual o preço de cortar acrílico a laser?,precos_laser
+quanto sai gravar a laser numa placa?,precos_laser
+qual o valor de cortar mdf a laser?,precos_laser
+quanto custa o corte a laser de uma chapa?,precos_laser
+qual o preço do serviço de laser pra essa peça?,precos_laser
+quanto fica cortar a laser esse desenho?,precos_laser
+qual o valor pra gravar a laser meu logo?,precos_laser
+qual formato de arquivo vocês precisam pro corte a laser?,arquivos_aceitos
+tem que mandar em SVG ou aceita outro formato?,arquivos_aceitos
+o arquivo pro laser precisa ser vetor mesmo?,arquivos_aceitos
+posso mandar em CDR?,arquivos_aceitos
+vocês abrem arquivo do CorelDraw?,arquivos_aceitos
+qual extensão vocês usam pra impressão 3d?,arquivos_aceitos
+o modelo 3d tem que estar em STL ou aceita OBJ?,arquivos_aceitos
+posso enviar em formato AI?,arquivos_aceitos
+vocês conseguem abrir arquivo do Illustrator?,arquivos_aceitos
+"meu arquivo tá em JPG, serve pra gravação?",arquivos_aceitos
+qual o formato ideal pra vetor de corte?,arquivos_aceitos
+posso mandar em EPS?,arquivos_aceitos
+o arquivo precisa estar em alta resolução?,arquivos_aceitos
+vocês aceitam arquivo do Fusion 360?,arquivos_aceitos
+qual formato vocês recomendam pra gravação de foto?,arquivos_aceitos

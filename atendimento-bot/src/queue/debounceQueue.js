@@ -13,7 +13,7 @@ function jobId(empresaId, telefone) {
 
 // reagenda o processamento do cliente: se já tinha um job esperando,
 // cancela e cria outro com o tempo zerado de novo (debounce)
-async function reagendarProcessamento(empresaId, empresaSlug, instanciaEvolution, chamadoId, telefone, segundosDebounce) {
+async function reagendarProcessamento(empresaId, empresaSlug, instanciaEvolution, chamadoId, telefone, segundosDebounce, config, mensagemInicial) {
   const id = jobId(empresaId, telefone);
 
   const jobExistente = await filaDebounce.getJob(id);
@@ -26,7 +26,7 @@ async function reagendarProcessamento(empresaId, empresaSlug, instanciaEvolution
 
   await filaDebounce.add(
     id,
-    { empresaId, empresaSlug, instanciaEvolution, chamadoId, telefone },
+    { empresaId, empresaSlug, instanciaEvolution, chamadoId, telefone, config, mensagemInicial },
     {
       jobId: id,
       delay: segundosDebounce * 1000,

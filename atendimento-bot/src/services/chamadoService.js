@@ -50,7 +50,8 @@ async function fecharChamadoPorInatividade(chamadoId) {
         .eq("id", chamadoId)
         .maybeSingle();
 
-    if (erroConsulta || !chamado || chamado.status === "encerrado") return;
+    if (erroConsulta || !chamado) return;
+    if (!["bot", "agente"].includes(chamado.status)) return;
 
     const { error } = await supabase
         .from("chamados")
@@ -112,4 +113,27 @@ async function atualizarNomeCliente(chamadoId, nomeCliente) {
     if (error) console.error("Erro ao atualizar nome do cliente: ", error);
 }
 
-module.exports = { garantirChamado, atualizarStatusChamado, fecharChamadoPorInatividade, buscarContexto, atualizarContexto, atualizarNomeCliente };
+async function buscarEstadoChamado(chamadoId) {
+    const { data, error } = await supabase
+        .from("chamados")
+        .select("contexto, status")
+        .eq("id", chamadoId)
+        .single();
+        
+    if (error) {
+        console.error("Erro ao buscar estado do chamado: ", error.message);
+        return { contexto: null, status: "bot" };
+    }
+
+    return { contexto: data.contexto, status: data.status };
+}
+
+module.exports = { 
+    garantirChamado, 
+    atualizarStatusChamado, 
+    fecharChamadoPorInatividade, 
+    buscarContexto, 
+    atualizarContexto, 
+    atualizarNomeCliente, 
+    buscarEstadoChamado 
+};
