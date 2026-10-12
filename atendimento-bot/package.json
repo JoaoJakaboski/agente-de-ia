@@ -16,8 +16,11 @@
     "@anthropic-ai/sdk": "^0.127.0",
     "@supabase/supabase-js": "^2.45.4",
     "bullmq": "^5.13.2",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "express-rate-limit": "^8.7.1",
+    "helmet": "^8.3.0",
     "ioredis": "^5.4.1"
   },
   "devDependencies": {

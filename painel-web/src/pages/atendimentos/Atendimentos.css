@@ -1,0 +1,104 @@
+.atend {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr) 320px;
+  height: 100%;
+  min-height: 0;
+}
+.atend:not(.atend--com-chamado) { grid-template-columns: 340px minmax(0, 1fr); }
+
+/* Lista */
+.atend__lista {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+.atend__lista-topo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--line);
+}
+.atend__itens { flex: 1; min-height: 0; overflow-y: auto; }
+.atend__separador {
+  padding: var(--space-2) var(--space-4);
+  font: var(--text-label);
+  color: var(--ink-muted);
+  background: var(--surface-sunken);
+  border-bottom: 1px solid var(--line);
+}
+.atend__alerta-conexao { margin: var(--space-3) var(--space-4) 0; }
+
+/* Conversa */
+.atend__conversa {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: var(--surface-sunken);
+}
+.atend__conversa--vazia { justify-content: center; }
+.atend__thread-area { position: relative; flex: 1; min-height: 0; }
+.atend__thread-area .pa-thread { height: 100%; overflow-y: auto; }
+
+/* Detalhes */
+.atend__detalhes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-height: 0;
+  padding: var(--space-4);
+  overflow-y: auto;
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+}
+.atend__detalhes-topo { display: flex; align-items: center; justify-content: space-between; min-height: 32px; }
+.atend__titulo-secao {
+  margin: 0 0 var(--space-2);
+  font: var(--text-label);
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.atend__detalhes-topo .atend__titulo-secao { margin: 0; }
+.atend__inatividade { margin: 0 0 var(--space-2); }
+
+/* Botões que só existem em telas menores */
+.atend__voltar,
+.atend__abrir-detalhes,
+.atend__fechar-detalhes { display: none; }
+
+/* Tablet: detalhes viram painel lateral aberto pelo botão (i) */
+@media (max-width: 1099px) {
+  .atend,
+  .atend:not(.atend--com-chamado) { grid-template-columns: 300px minmax(0, 1fr); }
+
+  .atend__abrir-detalhes,
+  .atend__fechar-detalhes { display: inline-flex; }
+
+  .atend__detalhes {
+    position: fixed;
+    top: 56px;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    width: min(360px, 100%);
+    box-shadow: var(--shadow-pop);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform 0.15s;
+  }
+  .atend--detalhes-abertos .atend__detalhes { transform: none; visibility: visible; }
+}
+
+/* Celular: lista ou conversa, uma de cada vez */
+@media (max-width: 719px) {
+  .atend,
+  .atend:not(.atend--com-chamado) { grid-template-columns: minmax(0, 1fr); }
+  .atend--com-chamado .atend__lista { display: none; }
+  .atend:not(.atend--com-chamado) .atend__conversa { display: none; }
+  .atend__voltar { display: inline-flex; }
+  .pa-msg { max-width: 88%; }
+}

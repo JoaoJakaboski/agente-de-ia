@@ -2,12 +2,13 @@ const { supabase } = require("../db/client");
 const { reagendarFechamentoAutomatico } = require("../queue/fechamentoQueue");
 const { buscarConfiguracaoAgente, horasInatividadeDaConfiguracao } = require("./configuracaoAgenteService");
 
-async function registrarMensagem(chamadoId, empresaId, remetente, conteudo) {
+async function registrarMensagem(chamadoId, empresaId, remetente, conteudo, atendenteId = null) {
     const { error } = await supabase.from("mensagens").insert({
         chamado_id: chamadoId,
         empresa_id: empresaId,
         remetente,
         conteudo,
+        atendente_id: atendenteId,
     });
 
     if (error) {

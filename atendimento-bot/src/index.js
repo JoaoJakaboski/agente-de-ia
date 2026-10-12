@@ -18,6 +18,13 @@ async function processarMensagemAgregada(empresaId, empresaSlug, instanciaEvolut
   const systemPromptEmpresa = config && config.system_prompt;
 
   const { contexto: contextoAtual, status: statusAtual } = await buscarEstadoChamado(chamadoId);
+
+  // a equipe assumiu enquanto as mensagens esperavam no debounce: o bot não responde mais
+  if (["aguardando_humano", "em_atendimento_humano", "encerrado"].includes(statusAtual)) {
+    console.log(`[Funil] chamado ${chamadoId} não está mais com o bot (${statusAtual}); resposta cancelada`);
+    return;
+  }
+  
   const pularClassificacao = contemMidia || statusAtual === "agente";
 
   // camada 1: ML classificador
@@ -114,9 +121,14 @@ async function processarMensagemAgregada(empresaId, empresaSlug, instanciaEvolut
   console.log(`[Camada 3] ${resposta.encaminhamento ? `encaminhou (${resposta.encaminhamento.motivo})` : "continua coletando informações"}`);
 
   if (resposta.encaminhamento) {
+    // nome coletado pelo agente: o atendente passa a ver o nome em vez do telefone
+    const nome = (resposta.encaminhamento.nomeCliente || "").trim();
+    if (nome && nome.toLowerCase() !== "não informado") {
+      await atualizarNomeCliente(chamadoId, nome.slice(0, 120));
+    }
     await atualizarStatusChamado(chamadoId, "aguardando_humano", resposta.encaminhamento.motivo);
   } else if (statusAtual !== "agente") {
-      await atualizarStatusChamado(chamadoId, "agente");
+    await atualizarStatusChamado(chamadoId, "agente");
   }
 }
 

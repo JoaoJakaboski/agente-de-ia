@@ -1,0 +1,42 @@
+.barra {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  height: 56px;
+  padding: 0 var(--space-4);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.barra__nav { display: flex; gap: var(--space-1); flex: 1; }
+
+.barra__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--ink-muted);
+  font: var(--text-body-strong);
+  text-decoration: none;
+}
+
+.barra__direita { display: flex; align-items: center; gap: var(--space-4); }
+.barra__link:hover { background: var(--surface-hover); color: var(--ink); }
+.barra__link.active { background: var(--surface-selected); color: var(--primary); }
+
+.barra__usuario {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+.barra__usuario:hover { background: var(--surface-hover); }
+.barra__usuario-textos { display: flex; flex-direction: column; }
+.barra__usuario-nome { font: var(--text-body-strong); }
+.barra__usuario-papel { font: var(--text-small); color: var(--ink-muted); }
