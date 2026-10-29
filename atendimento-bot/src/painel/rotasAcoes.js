@@ -5,23 +5,15 @@ const { enviarMensagemWhatsapp } = require("../services/evolutionService");
 const { registrarMensagem } = require("../services/mensagensService");
 const { buscarConfiguracaoAgente, horasInatividadeDaConfiguracao } = require("../services/configuracaoAgenteService");
 const { reagendarFechamentoAutomatico } = require("../queue/fechamentoQueue");
+const { UUID, agora, primeiroNome, limparNome, instanciaDaEmpresa } = require("./comum");
 
 const router = express.Router();
 router.use(exigirSessao);
 
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const LIMITE_TEXTO = 4000;
 const LIMITE_OBSERVACAO = 500;
 const MOTIVOS_DO_PAINEL = ["resolvido_humano", "abandonado", "fora_do_escopo", "outro"];
 const MENSAGEM_ENCERRAMENTO = "Seu atendimento foi encerrado. Se precisar de algo, é só mandar uma nova mensagem! 🙂";
-
-function agora() {
-  return new Date().toISOString();
-}
-
-function primeiroNome(nome) {
-  return String(nome || "").trim().split(/\s+/)[0] || "Atendente";
-}
 
 // as gravações usam a service_role (que ignora o RLS), então antes de tudo
 // o chamado é lido com o cliente do usuário: se o RLS não devolver, não é da empresa dele
@@ -44,27 +36,6 @@ async function carregarChamado(req, res) {
     return null;
   }
   return data;
-}
-
-async function instanciaDaEmpresa(empresaId) {
-  const { data, error } = await supabase.from("empresas").select("instancia_evolution").eq("id", empresaId).single();
-  if (error) throw error;
-  return data.instancia_evolution;
-}
-
-// tira caracteres de controle e espaços repetidos; vazio vira null (sem nome)
-function limparNome(valor) {
-  if (typeof valor !== "string") return undefined;
-  const nome = valor.replace(/\p{C}/gu, "").replace(/\s+/g, " ").trim();
-  if (nome.length > 80) return undefined;
-  return nome || null;
-}
-
-// a consulta com o token do atendente só encontra o chamado se a RLS deixar ele ver
-async function chamadoVisivel(db, id) {
-  const { data, error } = await db.from("chamados").select("id").eq("id", id).maybeSingle();
-  if (error) throw error;
-  return Boolean(data);
 }
 
 router.post("/:id/nome", async (req, res, next) => {

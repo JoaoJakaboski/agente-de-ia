@@ -26,7 +26,7 @@ async function garantirCliente(empresaId, telefone) {
     return data.id;
 }
 
-async function garantirChamado(empresaId, telefoneCliente) {
+async function garantirChamado(empresaId, telefoneCliente, tentativa=0) {
     const { data: existente, error: erroConsulta } = await supabase
         .from("chamados")
         .select("id, status")
@@ -56,6 +56,10 @@ async function garantirChamado(empresaId, telefoneCliente) {
         .single();
 
     if (erroCriaco) {
+        // outra mensagem do mesmo número criou o chamado no mesmo instante: usa o dele
+        if (erroCriaco.code === "23505" && tentativa === 0) {
+            return garantirChamado(empresaId, telefoneCliente, 1);
+        }
         console.error("Erro ao criar chamado: ", erroCriaco);
         return null;
     }
@@ -148,7 +152,8 @@ async function atualizarNomeCliente(chamadoId, nomeCliente) {
     const { error } = await supabase
         .from("clientes")
         .update({ nome: nomeCliente, atualizado_em: new Date().toISOString() })
-        .eq("id", chamado.cliente_id);
+        .eq("id", chamado.cliente_id)
+        .is("nome", null);
 
     if (error) console.error("Erro ao atualizar nome do cliente: ", error);
 }

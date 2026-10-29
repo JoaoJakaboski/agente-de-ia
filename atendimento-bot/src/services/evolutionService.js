@@ -49,4 +49,28 @@ async function enviarMensagemWhatsapp(instancia, telefoneCliente, texto) {
   }
 }
 
-module.exports = { enviarMensagemWhatsapp, foiEnviadaPeloSistema };
+// confere se o número tem WhatsApp e devolve o número como o WhatsApp o identifica (o JID),
+// que é o mesmo formato que chega pelo webhook
+async function numeroNoWhatsapp(instancia, numero) {
+  try {
+    const resposta = await fetch(`${EVOLUTION_API_URL}/chat/whatsappNumbers/${instancia}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", apikey: EVOLUTION_API_KEY },
+      body: JSON.stringify({ numbers: [numero] }),
+    });
+
+    if (!resposta.ok) {
+      console.error("Falha ao verificar número no WhatsApp:", resposta.status, await resposta.text());
+      return { erro: true };
+    }
+
+    const [resultado] = await resposta.json();
+    if (!resultado || !resultado.exists || !resultado.jid) return { existe: false };
+    return { existe: true, telefone: resultado.jid.split("@")[0] };
+  } catch (erro) {
+    console.error("Erro ao verificar número no WhatsApp:", erro.message);
+    return { erro: true };
+  }
+}
+
+module.exports = { enviarMensagemWhatsapp, foiEnviadaPeloSistema, numeroNoWhatsapp };

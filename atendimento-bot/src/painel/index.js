@@ -7,6 +7,7 @@ const { exigirSessao } = require("./sessao");
 const { iniciarEscutaBanco, rotaEventos } = require("./tempoReal");
 const rotasAcoes = require("./rotasAcoes");
 const rotasAdmin = require("./rotasAdmin");
+const rotasClientes = require("./rotasClientes");
 
 const ORIGENS_PERMITIDAS = (process.env.PAINEL_ORIGEM || "")
   .split(",")
@@ -44,6 +45,7 @@ router.use("/chamados", rotasAcoes);
 router.use("/chamados", rotasChamados);
 router.use("/admin", rotasAdmin);
 router.get("/eventos", exigirSessao, rotaEventos);
+router.use("/clientes", rotasClientes);
 
 router.use((req, res) => {
   res.status(404).json({ erro: "nao_encontrado" });

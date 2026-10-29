@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { api } from "../../lib/api";
 import { useRecurso } from "../../lib/useRecurso";
 import { useEventos } from "../../lib/tempoReal";
@@ -12,7 +12,8 @@ import { useListaChamados } from "../../lib/useListaChamados";
 export default function Atendimentos() {
   const { chamadoId } = useParams();
   const navegar = useNavigate();
-  const [fila, setFila] = useState("aguardando");
+  const local = useLocation();
+  const [fila, setFila] = useState((local.state && local.state.fila) || "aguardando");
   const [busca, setBusca] = useState("");
   const [buscaAplicada, setBuscaAplicada] = useState("");
   const [detalhesAbertos, setDetalhesAbertos] = useState(false);

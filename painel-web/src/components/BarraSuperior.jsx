@@ -35,6 +35,10 @@ export default function BarraSuperior() {
             </span>
           )}
         </NavLink>
+        <NavLink to="/clientes" className="barra__link">
+          <Icone nome="pessoa" />
+          Clientes
+        </NavLink>
         {usuario.papel === "admin" && (
           <>
             <NavLink to="/regras" className="barra__link">

@@ -1,0 +1,6 @@
+.clientes__nome { display: inline-flex; align-items: center; gap: 6px; }
+.clientes__acao { text-align: right; white-space: nowrap; }
+.clientes__mais { display: flex; justify-content: center; padding: var(--space-3); }
+.clientes__form { display: flex; flex-direction: column; gap: var(--space-4); }
+.clientes__excluir { color: var(--ink-faint); }
+.clientes__excluir:hover { color: var(--danger); }

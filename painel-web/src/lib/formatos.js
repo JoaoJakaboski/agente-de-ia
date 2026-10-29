@@ -22,6 +22,7 @@ const ASSUNTOS = {
   consulta_fabricacao: "Consulta de fabricação",
   criacao_arte: "Criação de arte",
   bot_desligado: "Bot desligado",
+  iniciado_pelo_painel: "Iniciado pela equipe",
 };
 
 const MOTIVOS_ENCERRAMENTO = {

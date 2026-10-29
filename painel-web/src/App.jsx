@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Atendimentos from "./pages/atendimentos/Atendimentos";
 import RegrasFaq from "./pages/admin/RegrasFaq";
 import Agente from "./pages/admin/Agente";
+import Clientes from "./pages/clientes/Clientes";
 
 function LayoutPainel() {
   const { carregando, usuario } = useSessao();
@@ -40,6 +41,7 @@ export default function App() {
             <Route element={<LayoutPainel />}>
               <Route path="/" element={<Navigate to="/atendimentos" replace />} />
               <Route path="/atendimentos/:chamadoId?" element={<Atendimentos />} />
+              <Route path="/clientes" element={<Clientes />} />
               <Route element={<SomenteAdmin />}>
                 <Route path="/regras" element={<RegrasFaq />} />
                 <Route path="/agente" element={<Agente />} />
