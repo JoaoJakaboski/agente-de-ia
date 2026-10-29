@@ -5,6 +5,7 @@ const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const NOME_TOOL_CLASSIFICAR = "classificar_e_atualizar_contexto";
 const NOME_TOOL_ENCAMINHAR = "encaminhar_atendimento_humano";
 const NOME_TOOL_CONTEXTO = "atualizar_contexto";
+const NOME_TOOL_ENCERRAR = "encerrar_atendimento";
 
 function montarMensagens(historico) {
     const turnos = [];
@@ -22,6 +23,14 @@ function montarMensagens(historico) {
 
     while (turnos.length && turnos[0].role !== "user") {
         turnos.shift();
+    }
+
+    // a API exige que a conversa termine com o cliente; mensagens do bot depois da última fala dele ficam de fora
+    if (turnos.length && turnos[turnos.length - 1].role !== "user") {
+        console.warn("[LLM] histórico terminava com o bot:", historico.map((msg) => msg.remetente).join(" > "));
+        while (turnos.length && turnos[turnos.length - 1].role !== "user") {
+            turnos.pop();
+        }
     }
 
     return turnos;
@@ -93,7 +102,8 @@ async function responderComoAgente({ modelo, empresaId, chamadoId, systemPromptE
     const systemPrompt = [
         systemPromptEmpresa,
         contextoAtual ? `\nResumo do atendimento até agora: ${contextoAtual}` : null,
-        "\nIMPORTANTE: a cada resposta, chame também a tool 'atualizar_contexto' com um resumo curto (até 2 frases) do atendimento até agora, incluindo esta mensagem.",
+        "\nIMPORTANTE: sempre escreva a mensagem para o cliente em texto. Além dela, chame a tool 'atualizar_contexto' com um resumo curto (até 2 frases) do atendimento até agora, incluindo esta mensagem.",
+        "\nQuando a conversa terminar (o cliente se despediu, agradeceu sem fazer novo pedido ou disse que não precisa de mais nada), responda com uma despedida curta e chame a tool 'encerrar_atendimento'.",
     ].filter(Boolean).join("\n");
 
     const tools = [
@@ -124,41 +134,92 @@ async function responderComoAgente({ modelo, empresaId, chamadoId, systemPromptE
                 required: ["resumo_contexto"],
             },
         },
+        {
+            name: NOME_TOOL_ENCERRAR,
+            description: "Encerra o atendimento quando a conversa terminou. Use sempre junto com uma mensagem de despedida. Não use se houver orçamento em coleta, dúvida sem resposta ou reclamação, nem na mesma resposta em que encaminhar para atendente humano. Na dúvida se o cliente terminou, não encerre: pergunte se pode ajudar em algo mais.",
+            input_schema: {
+                type: "object",
+                properties: {
+                    motivo: {
+                        type: "string",
+                        enum: ["resolvido", "fora_do_escopo"],
+                        description: "resolvido: o pedido ou a dúvida do cliente foi atendido. fora_do_escopo: o cliente só pediu coisas que a empresa não atende.",
+                    },
+                },
+                required: ["motivo"],
+            },
+        },
     ];
 
     try {
-        const resposta = await client.messages.create({
-            model: modelo,
-            max_tokens: 500,
-            system: systemPrompt,
-            messages: mensagens,
-            tools,
-            tool_choice: { type: "auto" },
-        });
+            let conversa = mensagens;
+    let texto = "";
+    let encaminhamento = null;
+    let encerramento = null;
+    let contexto = null;
 
-        await registrarUsoLlm(empresaId, chamadoId, "agente", modelo, resposta.usage);
+    try {
+        // no máximo duas rodadas: se o modelo só chamou ferramentas, devolve o resultado e pede a mensagem
+        for (let rodada = 0; rodada < 2; rodada++) {
+            const resposta = await client.messages.create({
+                model: modelo,
+                max_tokens: 1024,
+                system: systemPrompt,
+                messages: conversa,
+                tools,
+                tool_choice: { type: "auto" },
+            });
 
-        let texto = "";
-        let encaminhamento = null;
-        let contexto = null;
+            await registrarUsoLlm(empresaId, chamadoId, "agente", modelo, resposta.usage);
 
-        for (const bloco of resposta.content) {
-            if (bloco.type === "text") {
-                texto += bloco.text;
-            } else if (bloco.type === "tool_use" && bloco.name === NOME_TOOL_ENCAMINHAR) {
-                encaminhamento = {
-                    nomeCliente: bloco.input.nome_cliente,
-                    motivo: bloco.input.motivo,
-                    informacoes: bloco.input.informacoes,
-                };
-            } else if (bloco.type === "tool_use" && bloco.name === NOME_TOOL_CONTEXTO) {
-                contexto = bloco.input.resumo_contexto;
+            for (const bloco of resposta.content) {
+                if (bloco.type === "text") {
+                    texto += bloco.text;
+                } else if (bloco.type === "tool_use" && bloco.name === NOME_TOOL_ENCAMINHAR) {
+                    encaminhamento = {
+                        nomeCliente: bloco.input.nome_cliente,
+                        motivo: bloco.input.motivo,
+                        informacoes: bloco.input.informacoes,
+                    };
+                } else if (bloco.type === "tool_use" && bloco.name === NOME_TOOL_ENCERRAR) {
+                    encerramento = { motivo: bloco.input.motivo };
+                } else if (bloco.type === "tool_use" && bloco.name === NOME_TOOL_CONTEXTO) {
+                    contexto = bloco.input.resumo_contexto;
+                }
             }
+
+            if (resposta.stop_reason === "max_tokens") {
+                console.warn("[Agente] resposta cortada pelo limite de tokens");
+            }
+
+            const soFerramentas = !texto.trim() && !encaminhamento && !encerramento && resposta.stop_reason === "tool_use";
+            if (!soFerramentas) break;
+
+            console.warn("[Agente] o modelo só chamou ferramentas; pedindo a mensagem para o cliente");
+            conversa = [
+                ...conversa,
+                { role: "assistant", content: resposta.content },
+                {
+                    role: "user",
+                    content: resposta.content
+                        .filter((bloco) => bloco.type === "tool_use")
+                        .map((bloco) => ({ type: "tool_result", tool_use_id: bloco.id, content: "ok" })),
+                },
+            ];
         }
 
-        if (!texto && !encaminhamento) return null;
+        if (encaminhamento) encerramento = null; // encaminhar sempre ganha
 
-        return { texto: texto.trim(), encaminhamento, contexto };
+        if (!texto.trim() && !encaminhamento && !encerramento) {
+            console.warn("[Agente] resposta sem texto e sem ação");
+            return null;
+        }
+
+        return { texto: texto.trim(), encaminhamento, encerramento, contexto };
+    } catch (erro) {
+        console.error("Erro ao chamar a LLM como agente: ", erro.status || "", erro.message);
+        return null;
+    }
     } catch (erro) {
         console.error("Erro ao chamar a LLM como agente: ", erro.message);
         return null;

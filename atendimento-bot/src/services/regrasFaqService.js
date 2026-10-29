@@ -48,4 +48,8 @@ async function listarIntencoesClassificaveis(empresaId) {
     .map(([intencao, dados]) => ({ intencao, descricao: dados.descricao || "" }));
 }
 
-module.exports = { respostaPorIntencao, listarIntencoesClassificaveis };
+function limparCacheRegras(empresaId) {
+  cacheRegras.delete(empresaId);
+}
+
+module.exports = { respostaPorIntencao, listarIntencoesClassificaveis, limparCacheRegras, INTENCOES_INTERNAS };

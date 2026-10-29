@@ -1,6 +1,31 @@
 const { supabase } = require('../db/client');
 const { enviarMensagemWhatsapp } = require("./evolutionService");
 
+// um cliente por telefone em cada empresa; cria na primeira mensagem
+async function garantirCliente(empresaId, telefone) {
+    const { error: erroCriacao } = await supabase
+        .from("clientes")
+        .upsert({ empresa_id: empresaId, telefone }, { onConflict: "empresa_id,telefone", ignoreDuplicates: true });
+
+    if (erroCriacao) {
+        console.error("Erro ao garantir cliente: ", erroCriacao);
+        return null;
+    }
+
+    const { data, error } = await supabase
+        .from("clientes")
+        .select("id")
+        .eq("empresa_id", empresaId)
+        .eq("telefone", telefone)
+        .single();
+
+    if (error) {
+        console.error("Erro ao buscar cliente: ", error);
+        return null;
+    }
+    return data.id;
+}
+
 async function garantirChamado(empresaId, telefoneCliente) {
     const { data: existente, error: erroConsulta } = await supabase
         .from("chamados")
@@ -21,9 +46,12 @@ async function garantirChamado(empresaId, telefoneCliente) {
         return { id: existente.id, status: existente.status, isNovo: false };
     }
 
+    const clienteId = await garantirCliente(empresaId, telefoneCliente);
+    if (!clienteId) return null;
+
     const { data: novo, error: erroCriaco } = await supabase
         .from("chamados")
-        .insert({ empresa_id: empresaId, telefone_cliente: telefoneCliente, status: "bot" })
+        .insert({ empresa_id: empresaId, cliente_id: clienteId, telefone_cliente: telefoneCliente, status: "bot" })
         .select("id, status")
         .single();
 
@@ -104,11 +132,23 @@ async function atualizarContexto(chamadoId, contexto) {
     if (error) console.error("Erro ao atualizar contexto do chamado: ", error);
 }
 
+// o nome mora no cliente; o chamado só diz qual cliente é
 async function atualizarNomeCliente(chamadoId, nomeCliente) {
-    const { error } = await supabase
+    const { data: chamado, error: erroConsulta } = await supabase
         .from("chamados")
-        .update({ nome_cliente: nomeCliente, atualizado_em: new Date().toISOString() })
-        .eq("id", chamadoId);
+        .select("cliente_id")
+        .eq("id", chamadoId)
+        .maybeSingle();
+
+    if (erroConsulta || !chamado) {
+        console.error("Erro ao buscar cliente do chamado: ", erroConsulta);
+        return;
+    }
+
+    const { error } = await supabase
+        .from("clientes")
+        .update({ nome: nomeCliente, atualizado_em: new Date().toISOString() })
+        .eq("id", chamado.cliente_id);
 
     if (error) console.error("Erro ao atualizar nome do cliente: ", error);
 }
@@ -128,6 +168,23 @@ async function buscarEstadoChamado(chamadoId) {
     return { contexto: data.contexto, status: data.status };
 }
 
+// encerra só se o chamado ainda está com o bot; se alguém assumiu no meio do caminho, não mexe
+async function encerrarChamadoPeloBot(chamadoId, motivo) {
+    const agora = new Date().toISOString();
+    const { data, error } = await supabase
+        .from("chamados")
+        .update({ status: "encerrado", motivo_encerramento: motivo, encerrado_em: agora, atualizado_em: agora })
+        .eq("id", chamadoId)
+        .in("status", ["bot", "agente"])
+        .select("id");
+
+    if (error) {
+        console.error("Erro ao encerrar chamado pelo bot: ", error);
+        return false;
+    }
+    return data.length > 0;
+}
+
 module.exports = { 
     garantirChamado, 
     atualizarStatusChamado, 
@@ -135,5 +192,6 @@ module.exports = {
     buscarContexto, 
     atualizarContexto, 
     atualizarNomeCliente, 
-    buscarEstadoChamado 
+    buscarEstadoChamado,
+    encerrarChamadoPeloBot
 };

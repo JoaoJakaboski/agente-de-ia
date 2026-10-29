@@ -5,6 +5,8 @@ import { TempoRealProvider } from "./lib/tempoReal";
 import BarraSuperior from "./components/BarraSuperior";
 import Login from "./pages/Login";
 import Atendimentos from "./pages/atendimentos/Atendimentos";
+import RegrasFaq from "./pages/admin/RegrasFaq";
+import Agente from "./pages/admin/Agente";
 
 function LayoutPainel() {
   const { carregando, usuario } = useSessao();
@@ -23,6 +25,11 @@ function LayoutPainel() {
   );
 }
 
+function SomenteAdmin() {
+  const { usuario } = useSessao();
+  return usuario.papel === "admin" ? <Outlet /> : <Navigate to="/atendimentos" replace />;
+}
+
 export default function App() {
   return (
     <TemaProvider>
@@ -33,6 +40,10 @@ export default function App() {
             <Route element={<LayoutPainel />}>
               <Route path="/" element={<Navigate to="/atendimentos" replace />} />
               <Route path="/atendimentos/:chamadoId?" element={<Atendimentos />} />
+              <Route element={<SomenteAdmin />}>
+                <Route path="/regras" element={<RegrasFaq />} />
+                <Route path="/agente" element={<Agente />} />
+              </Route>
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

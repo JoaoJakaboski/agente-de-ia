@@ -36,6 +36,15 @@ async function receberMensagem(instanciaEvolution, telefoneCliente, tipoMensagem
     return;
   }
 
+  // bot desligado no painel: a mensagem fica registrada e vai direto para a equipe
+  const config = configuracaoAgenteDaEmpresa(empresa);
+  if (config && config.ativo === false) {
+    if (chamado.status === "bot" || chamado.status === "agente") {
+      await atualizarStatusChamado(chamado.id, "aguardando_humano", "bot_desligado");
+    }
+    return;
+  }
+
   if (tipoMensagem === "audio" || tipoMensagem === "sticker") {
     const resposta = RESPOSTAS_PADRAO[tipoMensagem];
     await enviarMensagemWhatsapp(instanciaEvolution, telefoneCliente, resposta);
@@ -45,7 +54,6 @@ async function receberMensagem(instanciaEvolution, telefoneCliente, tipoMensagem
   
   await adicionarMensagemAoBuffer(empresa.id, telefoneCliente, conteudoRegistrado);
   const segundos = segundosDebounceDaEmpresa(empresa);
-  const config = configuracaoAgenteDaEmpresa(empresa);
   await reagendarProcessamento(empresa.id, empresa.slug, instanciaEvolution, chamado.id, telefoneCliente, segundos, config, chamado.isNovo);
 }
 

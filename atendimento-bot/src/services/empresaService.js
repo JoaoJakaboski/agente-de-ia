@@ -38,4 +38,8 @@ function segundosDebounceDaEmpresa(empresa) {
   return (configuracao && configuracao.segundos_debounce) || SEGUNDOS_DEBOUNCE_PADRAO;
 }
 
-module.exports = { buscarEmpresaPorInstancia, segundosDebounceDaEmpresa, configuracaoAgenteDaEmpresa };
+function limparCacheEmpresas() {
+  cacheEmpresas.clear();
+}
+
+module.exports = { buscarEmpresaPorInstancia, segundosDebounceDaEmpresa, configuracaoAgenteDaEmpresa, limparCacheEmpresas };

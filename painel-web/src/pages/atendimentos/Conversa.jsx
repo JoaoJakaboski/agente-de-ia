@@ -10,11 +10,19 @@ import { LinhaSistema, Mensagem } from "./Mensagem";
 import Modal from "../../components/Modal";
 import CaixaResposta from "./CaixaResposta";
 import ModalEncerrar from "./ModalEncerrar";
+import { api } from "../../lib/api";
 
 const DISTANCIA_FIM_PX = 80;
 
-function montarLinhaDoTempo({ mensagens, eventos }, agora) {
-  const primeiraDoBot = mensagens.find((mensagem) => mensagem.remetente === "bot");
+// junta listas sem repetir e em ordem de tempo; a versão mais nova de cada item prevalece
+function mesclar(atuais, novos) {
+  const porId = new Map(atuais.map((item) => [item.id, item]));
+  novos.forEach((item) => porId.set(item.id, item));
+  return [...porId.values()].sort((a, b) => (a.criado_em < b.criado_em ? -1 : a.criado_em > b.criado_em ? 1 : 0));
+}
+
+function montarLinhaDoTempo({ mensagens, eventos }, agora, temInicio) {
+  const primeiraDoBot = temInicio ? mensagens.find((mensagem) => mensagem.remetente === "bot") : null;
 
   const itens = [
     ...mensagens.map((mensagem) => ({
@@ -28,7 +36,6 @@ function montarLinhaDoTempo({ mensagens, eventos }, agora) {
       .filter((item) => item.sistema),
   ].sort((a, b) => Date.parse(a.em) - Date.parse(b.em));
 
-  // separador de dia sempre que a data muda
   const comDias = [];
   let diaAnterior = null;
   for (const item of itens) {
@@ -40,6 +47,125 @@ function montarLinhaDoTempo({ mensagens, eventos }, agora) {
     comDias.push(item);
   }
   return comDias;
+}
+
+const HISTORICO_VAZIO = { mensagens: [], eventos: [], temMaisAntigas: false, iniciado: false };
+
+function LinhaDoTempo({ chamadoId, conversa }) {
+  const area = useRef(null);
+  const pertoDoFim = useRef(true);
+  const ultimaVista = useRef(null);
+  const ajusteTopo = useRef(null);
+  const [historico, setHistorico] = useState(HISTORICO_VAZIO);
+  const [carregandoAntigas, setCarregandoAntigas] = useState(false);
+  const [novas, setNovas] = useState(0);
+  const agora = useAgora(60000);
+
+  // cada atualização traz a página mais recente: soma ao que já foi carregado
+  useEffect(() => {
+    if (!conversa.dados) return;
+    setHistorico((anterior) => ({
+      mensagens: mesclar(anterior.mensagens, conversa.dados.mensagens),
+      eventos: mesclar(anterior.eventos, conversa.dados.eventos),
+      temMaisAntigas: anterior.iniciado ? anterior.temMaisAntigas : conversa.dados.temMais,
+      iniciado: true,
+    }));
+  }, [conversa.dados]);
+
+  const itens = useMemo(
+    () => (historico.iniciado ? montarLinhaDoTempo(historico, agora, !historico.temMaisAntigas) : []),
+    [historico, agora]
+  );
+
+  useLayoutEffect(() => {
+    if (!historico.iniciado) return;
+    const elemento = area.current;
+
+    // mensagens antigas entraram no topo: mantém no lugar o que o atendente estava lendo
+    if (ajusteTopo.current) {
+      const { altura, topo } = ajusteTopo.current;
+      elemento.scrollTop = elemento.scrollHeight - altura + topo;
+      ajusteTopo.current = null;
+      return;
+    }
+
+    const { mensagens } = historico;
+    const maisNova = mensagens.length ? mensagens[mensagens.length - 1].criado_em : "";
+
+    if (ultimaVista.current === null || pertoDoFim.current) {
+      elemento.scrollTop = elemento.scrollHeight;
+    } else if (maisNova > ultimaVista.current) {
+      const chegaram = mensagens.filter((mensagem) => mensagem.criado_em > ultimaVista.current).length;
+      setNovas((quantidade) => quantidade + chegaram);
+    }
+    ultimaVista.current = maisNova;
+  }, [historico]);
+
+  async function carregarAntigas() {
+    if (carregandoAntigas || !historico.temMaisAntigas || historico.mensagens.length === 0) return;
+    setCarregandoAntigas(true);
+    try {
+      const maisAntiga = historico.mensagens[0].criado_em;
+      const pagina = await api(`/chamados/${chamadoId}/mensagens?antes=${encodeURIComponent(maisAntiga)}`);
+      ajusteTopo.current = { altura: area.current.scrollHeight, topo: area.current.scrollTop };
+      setHistorico((anterior) => ({
+        ...anterior,
+        mensagens: mesclar(anterior.mensagens, pagina.mensagens),
+        eventos: mesclar(anterior.eventos, pagina.eventos),
+        temMaisAntigas: pagina.temMais,
+      }));
+    } catch {
+      // falhou: tenta de novo na próxima rolagem até o topo
+    } finally {
+      setCarregandoAntigas(false);
+    }
+  }
+
+  function aoRolar() {
+    const elemento = area.current;
+    pertoDoFim.current = elemento.scrollHeight - elemento.scrollTop - elemento.clientHeight < DISTANCIA_FIM_PX;
+    if (pertoDoFim.current) setNovas(0);
+    if (elemento.scrollTop < 120) carregarAntigas();
+  }
+
+  function irParaFim() {
+    area.current.scrollTop = area.current.scrollHeight;
+    setNovas(0);
+  }
+
+  return (
+    <div className="atend__thread-area">
+      <div className="pa-thread" ref={area} onScroll={aoRolar} role="log" aria-label="Mensagens">
+        {!historico.iniciado && conversa.status === "carregando" && <Esqueleto linhas={4} />}
+        {!historico.iniciado && conversa.status === "erro" && (
+          <EstadoErro titulo="Não foi possível carregar as mensagens" aoTentar={conversa.recarregar} />
+        )}
+
+        {historico.temMaisAntigas && (
+          <div className="atend__anteriores">
+            {carregandoAntigas ? (
+              <Esqueleto linhas={1} />
+            ) : (
+              <Botao variante="fantasma" onClick={carregarAntigas}>Carregar mensagens anteriores</Botao>
+            )}
+          </div>
+        )}
+
+        {itens.map((item) => {
+          if (item.dia) return <div key={item.chave} className="pa-day">{item.dia}</div>;
+          if (item.sistema) return <LinhaSistema key={item.chave} texto={item.sistema} em={item.em} />;
+          return <Mensagem key={item.chave} mensagem={item.mensagem} avisoPrivacidade={item.avisoPrivacidade} />;
+        })}
+      </div>
+
+      {novas > 0 && (
+        <button type="button" className="pa-newpill" onClick={irParaFim}>
+          <Icone nome="setaParaBaixo" />
+          {novas === 1 ? "1 nova mensagem" : `${novas} novas mensagens`}
+        </button>
+      )}
+    </div>
+  );
 }
 
 function motivoBloqueio(chamado, usuario) {
@@ -55,74 +181,6 @@ function motivoBloqueio(chamado, usuario) {
     default:
       return "O bot está atendendo este cliente";
   }
-}
-
-function LinhaDoTempo({ chamadoId, conversa }) {
-  const area = useRef(null);
-  const pertoDoFim = useRef(true);
-  const totalAnterior = useRef(0);
-  const [novas, setNovas] = useState(0);
-  const agora = useAgora(60000);
-
-  const itens = useMemo(
-    () => (conversa.dados ? montarLinhaDoTempo(conversa.dados, agora) : []),
-    [conversa.dados, agora]
-  );
-  const totalMensagens = conversa.dados ? conversa.dados.mensagens.length : 0;
-
-  useEffect(() => {
-    totalAnterior.current = 0;
-    pertoDoFim.current = true;
-    setNovas(0);
-  }, [chamadoId]);
-
-  useLayoutEffect(() => {
-    if (!conversa.dados) return;
-    const elemento = area.current;
-    const chegaram = totalMensagens - totalAnterior.current;
-
-    if (totalAnterior.current === 0 || pertoDoFim.current) {
-      elemento.scrollTop = elemento.scrollHeight;
-    } else if (chegaram > 0) {
-      setNovas((quantidade) => quantidade + chegaram);
-    }
-    totalAnterior.current = totalMensagens;
-  }, [conversa.dados, totalMensagens]);
-
-  function aoRolar() {
-    const elemento = area.current;
-    pertoDoFim.current = elemento.scrollHeight - elemento.scrollTop - elemento.clientHeight < DISTANCIA_FIM_PX;
-    if (pertoDoFim.current) setNovas(0);
-  }
-
-  function irParaFim() {
-    area.current.scrollTop = area.current.scrollHeight;
-    setNovas(0);
-  }
-
-  return (
-    <div className="atend__thread-area">
-      <div className="pa-thread" ref={area} onScroll={aoRolar} role="log" aria-label="Mensagens">
-        {conversa.status === "carregando" && <Esqueleto linhas={4} />}
-        {conversa.status === "erro" && (
-          <EstadoErro titulo="Não foi possível carregar as mensagens" aoTentar={conversa.recarregar} />
-        )}
-        {conversa.status === "ok" &&
-          itens.map((item) => {
-            if (item.dia) return <div key={item.chave} className="pa-day">{item.dia}</div>;
-            if (item.sistema) return <LinhaSistema key={item.chave} texto={item.sistema} em={item.em} />;
-            return <Mensagem key={item.chave} mensagem={item.mensagem} avisoPrivacidade={item.avisoPrivacidade} />;
-          })}
-      </div>
-
-      {novas > 0 && (
-        <button type="button" className="pa-newpill" onClick={irParaFim}>
-          <Icone nome="setaParaBaixo" />
-          {novas === 1 ? "1 nova mensagem" : `${novas} novas mensagens`}
-        </button>
-      )}
-    </div>
-  );
 }
 
 const ERROS_ACAO = {
@@ -198,8 +256,8 @@ export default function Conversa({ chamadoId, detalhe, conversa, aoVoltar, aoAbr
           aoAbrirDetalhes={aoAbrirDetalhes}
           aoAssumir={() => rodar("assumir", {}, aoAssumir)}
           aoConfirmarAssumir={() => setModal("assumir")}
-          aoDevolver={() => rodar("devolver", {})}
           aoEncerrar={() => setModal("encerrar")}
+          aoRenomear={(nome) => rodar("nome", { nome })}
         />
       ) : (
         <div className="pa-convhd"><Esqueleto linhas={1} /></div>

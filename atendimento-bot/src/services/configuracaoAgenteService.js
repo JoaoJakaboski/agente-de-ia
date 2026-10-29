@@ -19,7 +19,7 @@ async function buscarConfiguracaoAgente(empresaId) {
         return null;
     }
 
-    cacheConfiguracoes.set(empresaId, { configuracao: data, exipraEm: Date.now() + CACHE_TTL_MS});
+    cacheConfiguracoes.set(empresaId, { configuracao: data, expiraEm: Date.now() + CACHE_TTL_MS});
     return data;
 }
 
@@ -27,4 +27,8 @@ function horasInatividadeDaConfiguracao(configuracao) {
     return (configuracao && configuracao.horas_inatividade_chamado) || HORAS_INATIVIDADE_PADRAO;
 }
 
-module.exports = { buscarConfiguracaoAgente, horasInatividadeDaConfiguracao };
+function limparCacheConfiguracao(empresaId) {
+    cacheConfiguracoes.delete(empresaId);
+}
+
+module.exports = { buscarConfiguracaoAgente, horasInatividadeDaConfiguracao, limparCacheConfiguracao };

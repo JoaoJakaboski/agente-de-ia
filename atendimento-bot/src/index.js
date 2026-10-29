@@ -4,13 +4,14 @@ const { iniciarWorkerFechamento } = require("./queue/fechamentoWorker");
 const { classificarIntencao } = require("./services/classificadorService");
 const { respostaPorIntencao, listarIntencoesClassificaveis } = require("./services/regrasFaqService");
 const { enviarMensagemWhatsapp } = require("./services/evolutionService");
-const { atualizarStatusChamado, buscarContexto, atualizarContexto, atualizarNomeCliente, buscarEstadoChamado } = require("./services/chamadoService");
+const { atualizarStatusChamado, buscarContexto, atualizarContexto, atualizarNomeCliente, buscarEstadoChamado, encerrarChamadoPeloBot } = require("./services/chamadoService");
 const { registrarMensagem, buscarUltimasMensagens } = require("./services/mensagensService");
 const { classificarComLLM, responderComoAgente } = require("./services/llmService")
 require("./webhookServer");
 
 const LIMIAR_CONFIANCA_PADRAO = Number(process.env.LIMIAR_CONFIANCA_DEFAULT || 0.8);
 const MODELO_PADRAO = "claude-haiku-4-5-20251001";
+const MOTIVOS_ENCERRAMENTO = { resolvido: "resolvido_bot", fora_do_escopo: "fora_do_escopo" };
 
 async function processarMensagemAgregada(empresaId, empresaSlug, instanciaEvolution, chamadoId, telefone, textoCombinado, config, mensagemInicial, contemMidia) {
   const limiar = (config && config.limiar_faq) || LIMIAR_CONFIANCA_PADRAO;
@@ -114,7 +115,10 @@ async function processarMensagemAgregada(empresaId, empresaSlug, instanciaEvolut
 
   if (resposta.contexto) await atualizarContexto(chamadoId, resposta.contexto);
 
-  const textoResposta = resposta.texto || "Perfeito! Já registrei suas informações ✅. Nossa equipe vai te retornar em breve.";
+  const textoPadrao = resposta.encerramento
+    ? "Combinado! Se precisar de algo, é só mandar uma mensagem. 👋"
+    : "Perfeito! Já registrei suas informações ✅. Nossa equipe vai te retornar em breve.";
+  const textoResposta = resposta.texto || textoPadrao;
   await enviarMensagemWhatsapp(instanciaEvolution, telefone, textoResposta);
   await registrarMensagem(chamadoId, empresaId, "bot", textoResposta);
 
@@ -122,11 +126,15 @@ async function processarMensagemAgregada(empresaId, empresaSlug, instanciaEvolut
 
   if (resposta.encaminhamento) {
     // nome coletado pelo agente: o atendente passa a ver o nome em vez do telefone
-    const nome = (resposta.encaminhamento.nomeCliente || "").trim();
-    if (nome && nome.toLowerCase() !== "não informado") {
-      await atualizarNomeCliente(chamadoId, nome.slice(0, 120));
+    const nome = resposta.encaminhamento.nomeCliente;
+    if (nome && nome.trim() && nome !== "Não informado") {
+      await atualizarNomeCliente(chamadoId, nome.trim());
     }
     await atualizarStatusChamado(chamadoId, "aguardando_humano", resposta.encaminhamento.motivo);
+  } else if (resposta.encerramento) {
+    const motivo = MOTIVOS_ENCERRAMENTO[resposta.encerramento.motivo] || "resolvido_bot";
+    const encerrou = await encerrarChamadoPeloBot(chamadoId, motivo);
+    console.log(`[Camada 3] encerrou o chamado (${motivo})${encerrou ? "" : " - ignorado, chamado não está mais com o bot"}`);
   } else if (statusAtual !== "agente") {
     await atualizarStatusChamado(chamadoId, "agente");
   }

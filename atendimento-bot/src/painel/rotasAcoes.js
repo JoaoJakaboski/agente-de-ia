@@ -52,6 +52,55 @@ async function instanciaDaEmpresa(empresaId) {
   return data.instancia_evolution;
 }
 
+// tira caracteres de controle e espaços repetidos; vazio vira null (sem nome)
+function limparNome(valor) {
+  if (typeof valor !== "string") return undefined;
+  const nome = valor.replace(/\p{C}/gu, "").replace(/\s+/g, " ").trim();
+  if (nome.length > 80) return undefined;
+  return nome || null;
+}
+
+// a consulta com o token do atendente só encontra o chamado se a RLS deixar ele ver
+async function chamadoVisivel(db, id) {
+  const { data, error } = await db.from("chamados").select("id").eq("id", id).maybeSingle();
+  if (error) throw error;
+  return Boolean(data);
+}
+
+router.post("/:id/nome", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!UUID.test(id)) return res.status(404).json({ erro: "nao_encontrado" });
+
+    // com o token do atendente: só encontra se a RLS deixar ver o chamado
+    const { data: chamado, error: erroConsulta } = await req.db
+      .from("chamados").select("cliente_id").eq("id", id).maybeSingle();
+    if (erroConsulta) throw erroConsulta;
+    if (!chamado) return res.status(404).json({ erro: "nao_encontrado" });
+
+    const nome = limparNome(req.body && req.body.nome);
+    if (nome === undefined) return res.status(400).json({ erro: "dados_invalidos" });
+
+    const agora = new Date().toISOString();
+    const { error } = await supabase
+      .from("clientes")
+      .update({ nome, atualizado_em: agora })
+      .eq("id", chamado.cliente_id);
+    if (error) throw error;
+
+    // o tempo real escuta "chamados": tocar os chamados abertos desse cliente avisa os outros painéis
+    await supabase
+      .from("chamados")
+      .update({ atualizado_em: agora })
+      .eq("cliente_id", chamado.cliente_id)
+      .neq("status", "encerrado");
+
+    res.json({ ok: true });
+  } catch (erro) {
+    next(erro);
+  }
+});
+
 router.post("/:id/assumir", async (req, res, next) => {
   try {
     const chamado = await carregarChamado(req, res);
@@ -98,33 +147,6 @@ router.post("/:id/mensagens", async (req, res, next) => {
 
     await registrarMensagem(chamado.id, chamado.empresa_id, "humano", texto, req.usuario.id);
     res.status(201).json({ ok: true });
-  } catch (erro) {
-    next(erro);
-  }
-});
-
-router.post("/:id/devolver", async (req, res, next) => {
-  try {
-    const chamado = await carregarChamado(req, res);
-    if (!chamado) return;
-
-    const { data, error } = await supabase
-      .from("chamados")
-      .update({ status: "bot", atendente_id: null, atualizado_em: agora() })
-      .eq("id", chamado.id)
-      .eq("empresa_id", req.usuario.empresaId)
-      .eq("status", "em_atendimento_humano")
-      .eq("atendente_id", req.usuario.id)
-      .select("id");
-
-    if (error) throw error;
-    if (data.length === 0) return res.status(409).json({ erro: "nao_e_seu" });
-
-    // de volta ao bot: o encerramento automático por inatividade volta a valer
-    const configuracao = await buscarConfiguracaoAgente(chamado.empresa_id);
-    await reagendarFechamentoAutomatico(chamado.id, horasInatividadeDaConfiguracao(configuracao));
-
-    res.json({ ok: true });
   } catch (erro) {
     next(erro);
   }

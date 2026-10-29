@@ -21,6 +21,7 @@ const ASSUNTOS = {
   processo_orcamento: "Orçamento",
   consulta_fabricacao: "Consulta de fabricação",
   criacao_arte: "Criação de arte",
+  bot_desligado: "Bot desligado",
 };
 
 const MOTIVOS_ENCERRAMENTO = {

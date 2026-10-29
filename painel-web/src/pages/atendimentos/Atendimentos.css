@@ -102,3 +102,8 @@
   .atend__voltar { display: inline-flex; }
   .pa-msg { max-width: 88%; }
 }
+
+.atend__mais { padding: var(--space-3) var(--space-4); text-align: center; }
+.atend__anteriores { align-self: center; }
+.atend__nome, .atend__nome-form { display: inline-flex; align-items: center; gap: 6px; }
+.atend__nome-form .pa-input { width: 220px; }

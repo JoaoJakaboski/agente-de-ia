@@ -3,8 +3,55 @@ import Icone from "../../components/Icone";
 import Botao from "../../components/Botao";
 import StatusBadge from "../../components/StatusBadge";
 import { formatarTelefone, iniciais, rotuloMotivoEncerramento } from "../../lib/formatos";
+import { useState } from "react";
 
-function Acoes({ chamado, usuario, ocupado, aoAssumir, aoConfirmarAssumir, aoDevolver, aoEncerrar }) {
+function NomeCliente({ nome, titulo, ocupado, aoSalvar }) {
+  const [editando, setEditando] = useState(false);
+  const [valor, setValor] = useState("");
+
+  if (!editando) {
+    return (
+      <span className="atend__nome">
+        <span>{titulo}</span>
+        <button
+          type="button"
+          className="pa-iconbtn"
+          aria-label={nome ? "Editar nome do cliente" : "Adicionar nome do cliente"}
+          onClick={() => { setValor(nome || ""); setEditando(true); }}
+        >
+          <Icone nome="editar" />
+        </button>
+      </span>
+    );
+  }
+
+  async function salvar(evento) {
+    evento.preventDefault();
+    if (ocupado) return;
+    const novo = valor.trim();
+    if (novo !== (nome || "")) await aoSalvar(novo);
+    setEditando(false);
+  }
+
+  return (
+    <form className="atend__nome-form" onSubmit={salvar}>
+      <input
+        className="pa-input"
+        value={valor}
+        onChange={(evento) => setValor(evento.target.value)}
+        onKeyDown={(evento) => { if (evento.key === "Escape") setEditando(false); }}
+        maxLength={80}
+        placeholder="Nome do cliente"
+        autoFocus
+        aria-label="Nome do cliente"
+      />
+      <Botao type="button" variante="primario" disabled={ocupado} onClick={salvar}>Salvar</Botao>
+      <Botao type="button" onClick={() => setEditando(false)}>Cancelar</Botao>
+    </form>
+  );
+}
+
+function Acoes({ chamado, usuario, ocupado, aoAssumir, aoConfirmarAssumir, aoEncerrar }) {
   if (chamado.status === "aguardando_humano") {
     return (
       <Botao variante="primario" tamanho="lg" icone={<Icone nome="headset" />} disabled={ocupado} onClick={aoAssumir}>
@@ -17,7 +64,6 @@ function Acoes({ chamado, usuario, ocupado, aoAssumir, aoConfirmarAssumir, aoDev
   if (meu) {
     return (
       <>
-        <Botao icone={<Icone nome="devolver" />} disabled={ocupado} onClick={aoDevolver}>Devolver ao bot</Botao>
         <Botao variante="perigo" icone={<Icone nome="encerrar" />} disabled={ocupado} onClick={aoEncerrar}>
           Encerrar atendimento
         </Botao>
@@ -44,7 +90,7 @@ function Acoes({ chamado, usuario, ocupado, aoAssumir, aoConfirmarAssumir, aoDev
   );
 }
 
-export default function CabecalhoConversa({ chamado, ocupado, aoVoltar, aoAbrirDetalhes, ...acoes }) {
+export default function CabecalhoConversa({ chamado, ocupado, aoVoltar, aoAbrirDetalhes, aoRenomear, ...acoes }) {
   const { usuario } = useSessao();
   const nome = chamado.nome_cliente;
   const telefone = formatarTelefone(chamado.telefone_cliente);
@@ -69,7 +115,9 @@ export default function CabecalhoConversa({ chamado, ocupado, aoVoltar, aoAbrirD
       </span>
 
       <div className="pa-convhd__who">
-        <div className="pa-convhd__name">{nome || telefone}</div>
+        <div className="pa-convhd__name">
+          <NomeCliente nome={nome} titulo={nome || telefone} ocupado={ocupado} aoSalvar={aoRenomear} />
+        </div>
         <div className="pa-convhd__sub">
           <StatusBadge status={chamado.status} />
           {subtitulo.map((texto) => <span key={texto}>{texto}</span>)}

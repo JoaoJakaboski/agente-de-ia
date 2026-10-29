@@ -5,8 +5,14 @@ const router = express.Router();
 router.use(exigirSessao);
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const LIMITE_LISTA = 100;
-const LIMITE_MENSAGENS = 500;
+const TAMANHO_PAGINA = 30;
+const LIMITE_MAXIMO = 200;
+const MENSAGENS_POR_PAGINA = 50;
+
+function inteiroEntre(valor, padrao, minimo, maximo) {
+  const numero = Number.parseInt(valor, 10);
+  return Number.isFinite(numero) ? Math.min(Math.max(numero, minimo), maximo) : padrao;
+}
 
 const CAMPOS_LISTA = [
   "id", "nome_cliente", "telefone_cliente", "status", "assunto",
@@ -33,14 +39,16 @@ function aplicarFila(consulta, fila) {
 }
 
 // o texto da busca entra num filtro do PostgREST: só letras, números e espaço,
-// para que vírgulas e parênteses não alterem o filtro
+// para que vírgulas e parênteses não alterem o filtro.
+// O NFD separa o acento da letra ("ã" vira "a" + "~"), e o replace descarta o acento;
+// a coluna "busca" da view já vem sem acento e em minúsculas
 function filtroBusca(textoBruto) {
   const texto = String(textoBruto || "").slice(0, 60);
-  const termo = texto.replace(/[^\p{L}\p{N} ]/gu, "").trim();
+  const termo = texto.normalize("NFD").replace(/[^\p{L}\p{N} ]/gu, "").trim().toLowerCase();
   const digitos = texto.replace(/\D/g, "");
 
   const partes = [];
-  if (termo) partes.push(`nome_cliente.ilike.%${termo}%`);
+  if (termo) partes.push(`busca.ilike.%${termo}%`);
   if (digitos.length >= 3) partes.push(`telefone_cliente.ilike.%${digitos}%`);
   return partes.join(",");
 }
@@ -63,8 +71,16 @@ router.get("/", async (req, res, next) => {
     const filtro = filtroBusca(req.query.busca);
     if (filtro) consulta = consulta.or(filtro);
 
-    const chamados = verificar(await consulta.limit(LIMITE_LISTA));
-    res.json({ chamados });
+    const limite = inteiroEntre(req.query.limite, TAMANHO_PAGINA, 1, LIMITE_MAXIMO);
+    const deslocamento = inteiroEntre(req.query.deslocamento, 0, 0, 100000);
+
+    // desempate pelo id: a mesma ordem em todas as páginas
+    // e um item a mais, só para saber se existe próxima página
+    const linhas = verificar(
+      await consulta.order("id", { ascending: true }).range(deslocamento, deslocamento + limite)
+    );
+
+    res.json({ chamados: linhas.slice(0, limite), temMais: linhas.length > limite });
   } catch (erro) {
     next(erro);
   }
@@ -78,14 +94,13 @@ router.get("/contagens", async (req, res, next) => {
       return count || 0;
     };
 
-    const [aguardando, meus, bot, encerrados] = await Promise.all([
+    const [aguardando, meus, bot] = await Promise.all([
       contar((q) => q.eq("status", "aguardando_humano")),
       contar((q) => q.eq("status", "em_atendimento_humano").eq("atendente_id", req.usuario.id)),
       contar((q) => q.in("status", ["bot", "agente"])),
-      contar((q) => q.eq("status", "encerrado")),
     ]);
 
-    res.json({ aguardando, meus, bot, encerrados });
+    res.json({ aguardando, meus, bot });
   } catch (erro) {
     next(erro);
   }
@@ -138,30 +153,42 @@ router.get("/:id/mensagens", async (req, res, next) => {
       return res.status(404).json({ erro: "nao_encontrado" });
     }
 
-    const [mensagens, eventos] = await Promise.all([
-      req.db.from("mensagens")
-        .select("id, remetente, conteudo, atendente_id, criado_em")
-        .eq("chamado_id", id)
-        .order("criado_em", { ascending: true })
-        .limit(LIMITE_MENSAGENS)
-        .then(verificar),
-      req.db.from("eventos_chamado")
-        .select("id, status_anterior, status_novo, atendente_id, motivo, criado_em")
-        .eq("chamado_id", id)
-        .order("criado_em", { ascending: true })
-        .then(verificar),
-    ]);
+    // ?antes=<data>: página anterior à mensagem mais antiga que o painel já tem
+    const antes = req.query.antes && !Number.isNaN(Date.parse(req.query.antes))
+      ? new Date(req.query.antes).toISOString()
+      : null;
 
-    // nomes dos atendentes citados nas mensagens e nos eventos
+    let consultaMensagens = req.db
+      .from("mensagens")
+      .select("id, remetente, conteudo, atendente_id, criado_em")
+      .eq("chamado_id", id)
+      .order("criado_em", { ascending: false })
+      .order("id", { ascending: false })
+      .limit(MENSAGENS_POR_PAGINA + 1);
+    if (antes) consultaMensagens = consultaMensagens.lt("criado_em", antes);
+
+    const linhas = verificar(await consultaMensagens);
+    const temMais = linhas.length > MENSAGENS_POR_PAGINA;
+    const mensagens = linhas.slice(0, MENSAGENS_POR_PAGINA).reverse();
+
+    // eventos do mesmo intervalo de tempo da página
+    let consultaEventos = req.db
+      .from("eventos_chamado")
+      .select("id, status_anterior, status_novo, atendente_id, motivo, criado_em")
+      .eq("chamado_id", id)
+      .order("criado_em", { ascending: true });
+    if (temMais && mensagens.length) consultaEventos = consultaEventos.gte("criado_em", mensagens[0].criado_em);
+    if (antes) consultaEventos = consultaEventos.lt("criado_em", antes);
+    const eventos = verificar(await consultaEventos);
+
     const ids = [...new Set([...mensagens, ...eventos].map((item) => item.atendente_id).filter(Boolean))];
-    const pessoas = ids.length
-      ? verificar(await req.db.from("usuarios").select("id, nome").in("id", ids))
-      : [];
-    const nomePorId = Object.fromEntries(pessoas.map((p) => [p.id, p.nome]));
+    const pessoas = ids.length ? verificar(await req.db.from("usuarios").select("id, nome").in("id", ids)) : [];
+    const nomePorId = Object.fromEntries(pessoas.map((pessoa) => [pessoa.id, pessoa.nome]));
 
     res.json({
       mensagens: mensagens.map((m) => ({ ...m, atendente_nome: nomePorId[m.atendente_id] || null })),
       eventos: eventos.map((e) => ({ ...e, atendente_nome: nomePorId[e.atendente_id] || null })),
+      temMais,
     });
   } catch (erro) {
     next(erro);

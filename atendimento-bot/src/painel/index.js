@@ -6,6 +6,7 @@ const rotasChamados = require("./rotasChamados");
 const { exigirSessao } = require("./sessao");
 const { iniciarEscutaBanco, rotaEventos } = require("./tempoReal");
 const rotasAcoes = require("./rotasAcoes");
+const rotasAdmin = require("./rotasAdmin");
 
 const ORIGENS_PERMITIDAS = (process.env.PAINEL_ORIGEM || "")
   .split(",")
@@ -41,6 +42,7 @@ router.use((req, res, next) => {
 router.use("/auth", rotasAuth);
 router.use("/chamados", rotasAcoes);
 router.use("/chamados", rotasChamados);
+router.use("/admin", rotasAdmin);
 router.get("/eventos", exigirSessao, rotaEventos);
 
 router.use((req, res) => {

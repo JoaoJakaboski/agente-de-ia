@@ -4,6 +4,8 @@ import { useAgora } from "../../lib/useAgora";
 import Icone from "../../components/Icone";
 import { EstadoErro, EstadoVazio, Esqueleto } from "../../components/Estados";
 import ItemChamado from "./ItemChamado";
+import { useEffect, useRef } from "react";
+import Botao from "../../components/Botao";
 
 const ABAS = [
   { id: "aguardando", curto: "Aguardando", completo: "Aguardando atendente" },
@@ -26,6 +28,21 @@ export default function ListaChamados({ fila, aoTrocarFila, busca, aoBuscar, lis
   const { contagens, offlineDesde } = useTempoReal();
   const agora = useAgora();
   const semConexaoHaTempo = offlineDesde && agora - offlineDesde > SEM_CONEXAO_MS;
+
+  const areaItens = useRef(null);
+  const fimDaLista = useRef(null);
+  const { temMais, carregarMais } = lista;
+
+  // perto do fim da lista: carrega a próxima página
+  useEffect(() => {
+    if (!temMais || !fimDaLista.current) return;
+    const observador = new IntersectionObserver(
+      (entradas) => entradas[0].isIntersecting && carregarMais(),
+      { root: areaItens.current, rootMargin: "200px" }
+    );
+    observador.observe(fimDaLista.current);
+    return () => observador.disconnect();
+  }, [temMais, carregarMais, lista.dados.length]);
 
   function item(chamado) {
     return (
@@ -59,7 +76,17 @@ export default function ListaChamados({ fila, aoTrocarFila, busca, aoBuscar, lis
         : <EstadoVazio {...VAZIOS[fila]} />;
     }
 
-    if (fila !== "meus") return chamados.map(item);
+    const rodape = lista.temMais && (
+      <div ref={fimDaLista} className="atend__mais">
+        {lista.carregandoMais ? (
+          <Esqueleto linhas={1} />
+        ) : (
+          <Botao variante="fantasma" onClick={lista.carregarMais}>Carregar mais</Botao>
+        )}
+      </div>
+    );
+
+    if (fila !== "meus") return <>{chamados.map(item)}{rodape}</>;
 
     // em "Meus", os chamados de outros atendentes ficam abaixo de um separador, só para leitura
     const meus = chamados.filter((chamado) => chamado.atendente_id === usuario.id);
@@ -71,6 +98,7 @@ export default function ListaChamados({ fila, aoTrocarFila, busca, aoBuscar, lis
         {meus.map(item)}
         {deOutros.length > 0 && <div className="atend__separador">Com outros atendentes · somente leitura</div>}
         {deOutros.map(item)}
+        {rodape}
       </>
     );
   }
@@ -123,7 +151,7 @@ export default function ListaChamados({ fila, aoTrocarFila, busca, aoBuscar, lis
         </p>
       )}
 
-      <div id="lista-chamados" className="atend__itens" role="tabpanel">
+      <div id="lista-chamados" ref={areaItens} className="atend__itens" role="tabpanel">
         {conteudo()}
       </div>
     </section>

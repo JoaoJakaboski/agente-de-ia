@@ -7,6 +7,7 @@ import ListaChamados from "./ListaChamados";
 import Conversa from "./Conversa";
 import DetalhesChamado from "./DetalhesChamado";
 import "./Atendimentos.css";
+import { useListaChamados } from "../../lib/useListaChamados";
 
 export default function Atendimentos() {
   const { chamadoId } = useParams();
@@ -23,11 +24,7 @@ export default function Atendimentos() {
     return () => clearTimeout(timer);
   }, [busca]);
 
-  const lista = useRecurso(() => {
-    const parametros = new URLSearchParams({ fila });
-    if (buscaAplicada) parametros.set("busca", buscaAplicada);
-    return api(`/chamados?${parametros}`).then((dados) => dados.chamados);
-  }, [fila, buscaAplicada]);
+  const lista = useListaChamados(fila, buscaAplicada);
 
   const detalhe = useRecurso(
     () => (chamadoId ? api(`/chamados/${chamadoId}`).then((dados) => dados.chamado) : Promise.resolve(null)),
@@ -35,9 +32,20 @@ export default function Atendimentos() {
   );
 
   const conversa = useRecurso(
-    () => (chamadoId ? api(`/chamados/${chamadoId}/mensagens`) : Promise.resolve(null)),
+    () => (chamadoId
+      ? api(`/chamados/${chamadoId}/mensagens`).then((dados) => ({ ...dados, chamadoId }))
+      : Promise.resolve(null)),
     [chamadoId]
   );
+
+  // enquanto a busca do chamado novo não volta, o useRecurso ainda guarda a resposta do anterior
+  const ehDeOutroChamado = (id) => String(id) !== String(chamadoId);
+  const detalheAtual = detalhe.dados && ehDeOutroChamado(detalhe.dados.id)
+    ? { ...detalhe, dados: null, status: "carregando" }
+    : detalhe;
+  const conversaAtual = conversa.dados && ehDeOutroChamado(conversa.dados.chamadoId)
+    ? { ...conversa, dados: null, status: "carregando" }
+    : conversa;
 
   function agendar(chave, acao) {
     clearTimeout(timers.current[chave]);
@@ -88,14 +96,14 @@ export default function Atendimentos() {
       <Conversa
         key={chamadoId || "nenhum"}
         chamadoId={chamadoId}
-        detalhe={detalhe}
-        conversa={conversa}
+        detalhe={detalheAtual}
+        conversa={conversaAtual}
         aoVoltar={() => navegar("/atendimentos")}
         aoAbrirDetalhes={() => setDetalhesAbertos(true)}
         executarAcao={executarAcao}
         aoAssumir={() => setFila("meus")}
       />
-      {chamadoId && <DetalhesChamado detalhe={detalhe} aoFechar={() => setDetalhesAbertos(false)} />}
+      {chamadoId && <DetalhesChamado detalhe={detalheAtual} aoFechar={() => setDetalhesAbertos(false)} />}
     </div>
   );
 }
