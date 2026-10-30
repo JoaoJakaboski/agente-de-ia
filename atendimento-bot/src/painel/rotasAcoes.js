@@ -77,14 +77,21 @@ router.post("/:id/assumir", async (req, res, next) => {
     const chamado = await carregarChamado(req, res);
     if (!chamado) return;
 
-    // um único UPDATE condicional: se dois atendentes clicarem juntos, só um consegue
-    const { data, error } = await supabase
+    // atendente: assume da fila, do bot ou da equipe pelo celular.
+    // Administrador (supervisor): também assume de outro atendente
+    let consulta = supabase
       .from("chamados")
       .update({ status: "em_atendimento_humano", atendente_id: req.usuario.id, atualizado_em: agora() })
       .eq("id", chamado.id)
-      .eq("empresa_id", req.usuario.empresaId)
-      .or("status.in.(aguardando_humano,bot,agente),and(status.eq.em_atendimento_humano,atendente_id.is.null)")
-      .select("id");
+      .eq("empresa_id", req.usuario.empresaId);
+
+    consulta = req.usuario.papel === "admin"
+      ? consulta
+          .in("status", ["aguardando_humano", "bot", "agente", "em_atendimento_humano"])
+          .or(`atendente_id.is.null,atendente_id.neq.${req.usuario.id}`)
+      : consulta.or("status.in.(aguardando_humano,bot,agente),and(status.eq.em_atendimento_humano,atendente_id.is.null)");
+
+    const { data, error } = await consulta.select("id");
 
     if (error) throw error;
     if (data.length === 0) return res.status(409).json({ erro: "ja_assumido" });

@@ -34,13 +34,13 @@ async function processarMensagemAgregada(empresaId, empresaSlug, instanciaEvolut
     console.log("[Classificador] ", resultado);
     
     if (resultado && resultado.confianca >= limiar) {
-      if (await tratarSaudacao(resultado.intencao, { chamadoId, empresaId, instanciaEvolution, telefone, mensagemInicial })) return;
+      if (await tratarSaudacao(resultado.intencao, { chamadoId, empresaId, instanciaEvolution, telefone, mensagemInicial, camada: "ml" })) return;
   
       const regra = await respostaPorIntencao(empresaId, resultado.intencao);
       if (regra) {
         console.log(`[Regra] ${resultado.intencao} (${resultado.confianca.toFixed(2)})`);
         await enviarMensagemWhatsapp(instanciaEvolution, telefone, regra.resposta);
-        await registrarMensagem(chamadoId, empresaId, "bot", regra.resposta);
+        await registrarMensagem(chamadoId, empresaId, "bot", regra.resposta, null, { camada: "ml", intencao: resultado.intencao });
   
         if (regra.escalarHumano) {
           await atualizarStatusChamado(chamadoId, "aguardando_humano", resultado.intencao);
@@ -73,14 +73,14 @@ async function processarMensagemAgregada(empresaId, empresaSlug, instanciaEvolut
     if (resultadoLLM) {
       await atualizarContexto(chamadoId, resultadoLLM.contexto);
       
-      if (await tratarSaudacao(resultadoLLM.intencao, { chamadoId, empresaId, instanciaEvolution, telefone, mensagemInicial })) return;
+      if (await tratarSaudacao(resultadoLLM.intencao, { chamadoId, empresaId, instanciaEvolution, telefone, mensagemInicial, camada: "llm" })) return;
   
       if (resultadoLLM.intencao !== "nenhuma") {
         const regra = await respostaPorIntencao(empresaId, resultadoLLM.intencao);
         if (regra) {
           console.log(`[Camada 2] ${resultadoLLM.intencao}`);
           await enviarMensagemWhatsapp(instanciaEvolution, telefone, regra.resposta);
-          await registrarMensagem(chamadoId, empresaId, "bot", regra.resposta);
+          await registrarMensagem(chamadoId, empresaId, "bot", regra.resposta, null, { camada: "llm", intencao: resultadoLLM.intencao });
   
           if (regra.escalarHumano) {
             await atualizarStatusChamado(chamadoId, "aguardando_humano", resultadoLLM.intencao);
@@ -108,7 +108,7 @@ async function processarMensagemAgregada(empresaId, empresaSlug, instanciaEvolut
   if (!resposta) {
     const mensagemErro = "Desculpa, tive um problema aqui agora - já vou te encaminhar para alguém da nossa equipe. 🙏";
     await enviarMensagemWhatsapp(instanciaEvolution, telefone, mensagemErro);
-    await registrarMensagem(chamadoId, empresaId, "bot", mensagemErro);
+    await registrarMensagem(chamadoId, empresaId, "bot", mensagemErro, null, { camada: "agente_falha" });
     await atualizarStatusChamado(chamadoId, "aguardando_humano", "erro_llm");
     return;
   }
@@ -120,7 +120,7 @@ async function processarMensagemAgregada(empresaId, empresaSlug, instanciaEvolut
     : "Perfeito! Já registrei suas informações ✅. Nossa equipe vai te retornar em breve.";
   const textoResposta = resposta.texto || textoPadrao;
   await enviarMensagemWhatsapp(instanciaEvolution, telefone, textoResposta);
-  await registrarMensagem(chamadoId, empresaId, "bot", textoResposta);
+  await registrarMensagem(chamadoId, empresaId, "bot", textoResposta, null, { camada: "agente" });
 
   console.log(`[Camada 3] ${resposta.encaminhamento ? `encaminhou (${resposta.encaminhamento.motivo})` : "continua coletando informações"}`);
 
@@ -140,14 +140,15 @@ async function processarMensagemAgregada(empresaId, empresaSlug, instanciaEvolut
   }
 }
 
-async function tratarSaudacao(intencao, { chamadoId, empresaId, instanciaEvolution, telefone, mensagemInicial }) {
+async function tratarSaudacao(intencao, { chamadoId, empresaId, instanciaEvolution, telefone, mensagemInicial, camada }) {
   if (intencao !== "saudacao") return false;
 
-  const regra = await respostaPorIntencao(empresaId, mensagemInicial ? "saudacao" : "saudacao_continuidade");
+  const intencaoRegra = mensagemInicial ? "saudacao" : "saudacao_continuidade";
+  const regra = await respostaPorIntencao(empresaId, intencaoRegra);
 
   if (regra) {
     await enviarMensagemWhatsapp(instanciaEvolution, telefone, regra.resposta);
-    await registrarMensagem(chamadoId, empresaId, "bot", regra.resposta);
+    await registrarMensagem(chamadoId, empresaId, "bot", regra.resposta, null, { camada, intencao: intencaoRegra });
   }
   return true;
 }

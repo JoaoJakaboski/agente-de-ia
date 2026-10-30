@@ -1,13 +1,14 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
-const rotasAuth = require("./rotasAuth");
-const rotasChamados = require("./rotasChamados");
 const { exigirSessao } = require("./sessao");
 const { iniciarEscutaBanco, rotaEventos } = require("./tempoReal");
+const rotasAuth = require("./rotasAuth");
+const rotasChamados = require("./rotasChamados");
 const rotasAcoes = require("./rotasAcoes");
 const rotasAdmin = require("./rotasAdmin");
 const rotasClientes = require("./rotasClientes");
+const rotasUsuarios = require("./rotasUsuarios");
 
 const ORIGENS_PERMITIDAS = (process.env.PAINEL_ORIGEM || "")
   .split(",")
@@ -43,6 +44,7 @@ router.use((req, res, next) => {
 router.use("/auth", rotasAuth);
 router.use("/chamados", rotasAcoes);
 router.use("/chamados", rotasChamados);
+router.use("/admin/usuarios", rotasUsuarios);
 router.use("/admin", rotasAdmin);
 router.get("/eventos", exigirSessao, rotaEventos);
 router.use("/clientes", rotasClientes);

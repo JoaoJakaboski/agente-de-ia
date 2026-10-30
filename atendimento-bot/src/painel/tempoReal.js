@@ -54,7 +54,7 @@ function rotaEventos(req, res) {
   });
   res.flushHeaders();
 
-  const cliente = { empresaId: req.usuario.empresaId, res };
+  const cliente = { empresaId: req.usuario.empresaId, usuarioId: req.usuario.id, res };
   clientes.add(cliente);
 
   res.write("retry: 3000\n\n");
@@ -76,4 +76,14 @@ function encerrarConexoes() {
   clientes.clear();
 }
 
-module.exports = { iniciarEscutaBanco, rotaEventos, encerrarConexoes };
+// usuário desativado: a conexão de tempo real cai na hora, sem esperar os 15 minutos
+function encerrarConexoesDoUsuario(usuarioId) {
+  for (const cliente of clientes) {
+    if (cliente.usuarioId === usuarioId) {
+      cliente.res.end();
+      clientes.delete(cliente);
+    }
+  }
+}
+
+module.exports = { iniciarEscutaBanco, rotaEventos, encerrarConexoes, encerrarConexoesDoUsuario };

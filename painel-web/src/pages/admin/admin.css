@@ -106,3 +106,12 @@
   .pa-page { padding: var(--space-4); }
   .admin-agente { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Atendentes */
+.atendentes__form { display: flex; flex-direction: column; gap: var(--space-4); }
+.atendentes__voce { margin: 0 0 0 6px; }
+.atendentes__acoes { text-align: right; }
+.atendentes__situacao { font-weight: 600; font-size: 12px; }
+.atendentes__situacao--ativo { color: var(--ink); }
+.atendentes__situacao--pendente { color: var(--status-aguardando); }
+.atendentes__situacao--desativado { color: var(--ink-faint); }

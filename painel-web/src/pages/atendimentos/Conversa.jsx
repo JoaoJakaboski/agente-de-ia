@@ -190,6 +190,10 @@ const ERROS_ACAO = {
 };
 
 function textoConfirmarAssumir(chamado) {
+  if (chamado.status === "em_atendimento_humano" && chamado.atendente_id) {
+    const quem = chamado.atendente_nome ? chamado.atendente_nome.trim().split(/\s+/)[0] : "O atendente atual";
+    return `${quem} está atendendo este cliente. Ao assumir, a conversa passa para você e ${quem} passa a só acompanhar.`;
+  }
   if (chamado.status === "em_atendimento_humano") {
     return "Alguém da equipe está respondendo pelo WhatsApp da empresa. Ao assumir, a conversa passa para você no painel.";
   }

@@ -71,11 +71,18 @@ function Acoes({ chamado, usuario, ocupado, aoAssumir, aoConfirmarAssumir, aoEnc
     );
   }
 
-  // com o bot, ou com a equipe pelo celular: dá para assumir, com confirmação
+  // administrador supervisiona: pode assumir de outro atendente
+  const deOutroAtendente =
+    usuario.papel === "admin" &&
+    chamado.status === "em_atendimento_humano" &&
+    chamado.atendente_id &&
+    chamado.atendente_id !== usuario.id;
+
   const podeAssumir =
     chamado.status === "bot" ||
     chamado.status === "agente" ||
-    (chamado.status === "em_atendimento_humano" && !chamado.atendente_id);
+    (chamado.status === "em_atendimento_humano" && !chamado.atendente_id) ||
+    deOutroAtendente;
 
   return (
     <>
@@ -84,7 +91,9 @@ function Acoes({ chamado, usuario, ocupado, aoAssumir, aoConfirmarAssumir, aoEnc
         Somente leitura
       </span>
       {podeAssumir && (
-        <Botao variante="fantasma" disabled={ocupado} onClick={aoConfirmarAssumir}>Assumir mesmo assim</Botao>
+        <Botao variante="fantasma" disabled={ocupado} onClick={aoConfirmarAssumir}>
+          {deOutroAtendente ? "Assumir atendimento" : "Assumir mesmo assim"}
+        </Botao>
       )}
     </>
   );
