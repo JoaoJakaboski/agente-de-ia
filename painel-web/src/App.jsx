@@ -8,6 +8,8 @@ import Atendimentos from "./pages/atendimentos/Atendimentos";
 import RegrasFaq from "./pages/admin/RegrasFaq";
 import Agente from "./pages/admin/Agente";
 import Clientes from "./pages/clientes/Clientes";
+import EsqueciSenha from "./pages/EsqueciSenha";
+import DefinirSenha from "./pages/DefinirSenha";
 
 function LayoutPainel() {
   const { carregando, usuario } = useSessao();
@@ -37,7 +39,9 @@ export default function App() {
       <SessaoProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login />} />            
+            <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+            <Route path="/definir-senha" element={<DefinirSenha />} />
             <Route element={<LayoutPainel />}>
               <Route path="/" element={<Navigate to="/atendimentos" replace />} />
               <Route path="/atendimentos/:chamadoId?" element={<Atendimentos />} />

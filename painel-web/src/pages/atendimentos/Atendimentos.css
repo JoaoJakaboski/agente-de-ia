@@ -1,11 +1,40 @@
 .atend {
+  position: relative;
   display: grid;
-  grid-template-columns: 340px minmax(0, 1fr) 320px;
+  grid-template-columns: min(var(--largura-lista, 460px), 40%) minmax(0, 1fr) 320px;
   height: 100%;
   min-height: 0;
 }
-.atend:not(.atend--com-chamado) { grid-template-columns: 340px minmax(0, 1fr); }
+.atend:not(.atend--com-chamado) { grid-template-columns: min(var(--largura-lista, 460px), 40%) minmax(0, 1fr); }
 
+/* Alça para ajustar a largura da lista */
+.atend__alca {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(min(var(--largura-lista, 460px), 40%) - 3px);
+  z-index: 5;
+  width: 6px;
+  cursor: col-resize;
+  touch-action: none;
+}
+.atend__alca::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 2px;
+  width: 2px;
+  background: transparent;
+  transition: background 0.15s;
+}
+.atend__alca:hover::after,
+.atend__alca:focus-visible::after,
+.pa-redimensionando .atend__alca::after { background: var(--primary); }
+.atend__alca:focus-visible { outline: none; }
+
+/* durante o arraste: o cursor não pisca e o texto não fica selecionado */
+.pa-redimensionando { cursor: col-resize; user-select: none; }
 /* Lista */
 .atend__lista {
   display: flex;
@@ -73,7 +102,8 @@
 /* Tablet: detalhes viram painel lateral aberto pelo botão (i) */
 @media (max-width: 1099px) {
   .atend,
-  .atend:not(.atend--com-chamado) { grid-template-columns: 300px minmax(0, 1fr); }
+  .atend:not(.atend--com-chamado) { grid-template-columns: min(var(--largura-lista, 300px), 40%) minmax(0, 1fr); }
+  .atend__alca { left: calc(min(var(--largura-lista, 300px), 40%) - 3px); }
 
   .atend__abrir-detalhes,
   .atend__fechar-detalhes { display: inline-flex; }
@@ -97,6 +127,7 @@
 @media (max-width: 719px) {
   .atend,
   .atend:not(.atend--com-chamado) { grid-template-columns: minmax(0, 1fr); }
+  .atend__alca { display: none; }
   .atend--com-chamado .atend__lista { display: none; }
   .atend:not(.atend--com-chamado) .atend__conversa { display: none; }
   .atend__voltar { display: inline-flex; }

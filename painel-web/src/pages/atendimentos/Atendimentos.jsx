@@ -9,6 +9,95 @@ import DetalhesChamado from "./DetalhesChamado";
 import "./Atendimentos.css";
 import { useListaChamados } from "../../lib/useListaChamados";
 
+const CHAVE_LARGURA = "pa:largura-lista";
+const LARGURA_MIN = 260;
+const LARGURA_MAX = 560;
+const PASSO_TECLADO = 16;
+
+function limitarLargura(valor) {
+  return Math.round(Math.min(Math.max(valor, LARGURA_MIN), LARGURA_MAX));
+}
+
+// preferência deste navegador; sem ela (ou sem acesso ao armazenamento) vale o padrão do CSS
+function lerLargura() {
+  try {
+    const valor = Number(localStorage.getItem(CHAVE_LARGURA));
+    return valor >= LARGURA_MIN && valor <= LARGURA_MAX ? valor : null;
+  } catch {
+    return null;
+  }
+}
+
+function gravarLargura(valor) {
+  try {
+    if (valor) localStorage.setItem(CHAVE_LARGURA, String(valor));
+    else localStorage.removeItem(CHAVE_LARGURA);
+  } catch {
+    // sem armazenamento: a largura vale só até recarregar a página
+  }
+}
+
+function AlcaLargura({ raiz, largura, aoMudar }) {
+  function iniciarArraste(evento) {
+    if (evento.button !== 0) return;
+    evento.preventDefault();
+
+    const alca = evento.currentTarget;
+    const inicio = raiz.current.getBoundingClientRect().left;
+    let atual = largura || raiz.current.querySelector(".atend__lista").getBoundingClientRect().width;
+
+    alca.setPointerCapture(evento.pointerId);
+    document.body.classList.add("pa-redimensionando");
+
+    // durante o arraste mexe só na variável CSS, sem renderizar a página a cada pixel
+    function mover(movimento) {
+      atual = limitarLargura(movimento.clientX - inicio);
+      raiz.current.style.setProperty("--largura-lista", `${atual}px`);
+    }
+
+    function soltar() {
+      alca.removeEventListener("pointermove", mover);
+      alca.removeEventListener("pointerup", soltar);
+      alca.removeEventListener("pointercancel", soltar);
+      document.body.classList.remove("pa-redimensionando");
+      aoMudar(atual);
+    }
+
+    alca.addEventListener("pointermove", mover);
+    alca.addEventListener("pointerup", soltar);
+    alca.addEventListener("pointercancel", soltar);
+  }
+
+  function aoTeclar(evento) {
+    const base = largura || raiz.current.querySelector(".atend__lista").getBoundingClientRect().width;
+    const proxima = {
+      ArrowLeft: base - PASSO_TECLADO,
+      ArrowRight: base + PASSO_TECLADO,
+      Home: LARGURA_MIN,
+      End: LARGURA_MAX,
+    }[evento.key];
+    if (proxima === undefined) return;
+    evento.preventDefault();
+    aoMudar(limitarLargura(proxima));
+  }
+
+  return (
+    <div
+      className="atend__alca"
+      role="separator"
+      aria-orientation="vertical"
+      aria-label="Largura da lista de chamados (duplo clique volta ao padrão)"
+      aria-valuemin={LARGURA_MIN}
+      aria-valuemax={LARGURA_MAX}
+      aria-valuenow={largura || undefined}
+      tabIndex={0}
+      onPointerDown={iniciarArraste}
+      onKeyDown={aoTeclar}
+      onDoubleClick={() => aoMudar(null)}
+    />
+  );
+}
+
 export default function Atendimentos() {
   const { chamadoId } = useParams();
   const navegar = useNavigate();
@@ -18,6 +107,13 @@ export default function Atendimentos() {
   const [buscaAplicada, setBuscaAplicada] = useState("");
   const [detalhesAbertos, setDetalhesAbertos] = useState(false);
   const timers = useRef({});
+  const raiz = useRef(null);
+  const [larguraLista, setLarguraLista] = useState(lerLargura);
+
+  function mudarLargura(valor) {
+    setLarguraLista(valor);
+    gravarLargura(valor);
+  }
 
   // espera o atendente parar de digitar antes de buscar
   useEffect(() => {
@@ -81,7 +177,11 @@ export default function Atendimentos() {
   ].filter(Boolean).join(" ");
 
   return (
-    <div className={classes}>
+    <div 
+      ref={raiz}
+      className={classes}
+      style={larguraLista ? { "--largura-lista": `${larguraLista}px` } : undefined}>
+      <AlcaLargura raiz={raiz} largura={larguraLista} aoMudar={mudarLargura} />
       <ListaChamados
         fila={fila}
         aoTrocarFila={setFila}

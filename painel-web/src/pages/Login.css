@@ -42,3 +42,9 @@
   .login { grid-template-columns: 1fr; }
   .login__faixa { display: none; }
 }
+
+.login--simples { grid-template-columns: 1fr; }
+.login__texto { color: var(--ink-muted); }
+.login__link { align-self: center; color: var(--primary); font-weight: 500; text-decoration: none; }
+.login__link:hover { text-decoration: underline; }
+.pa-alerta--ok { background: var(--surface-sunken); color: var(--ink); border: 1px solid var(--line); }

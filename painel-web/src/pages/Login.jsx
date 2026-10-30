@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useSessao } from "../lib/sessao";
 import Botao from "../components/Botao";
 import Campo from "../components/Campo";
@@ -78,6 +78,7 @@ export default function Login() {
           <Botao type="submit" variante="primario" tamanho="lg" disabled={enviando || !email || !senha}>
             {enviando ? "Entrando…" : "Entrar"}
           </Botao>
+          <Link to="/esqueci-senha" className="login__link">Esqueci minha senha</Link>
         </form>
       </main>
     </div>

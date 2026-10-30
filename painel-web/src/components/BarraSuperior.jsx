@@ -7,10 +7,13 @@ import IndicadorConexao from "./IndicadorConexao";
 import Marca from "./Marca";
 import Icone from "./Icone";
 import "./BarraSuperior.css";
+import { useState } from "react";
+import ModalAlterarSenha from "./ModalAlterarSenha";
 
 const PAPEIS = { admin: "Administrador", atendente: "Atendente" };
 
 export default function BarraSuperior() {
+  const [alterandoSenha, setAlterandoSenha] = useState(false);
   const { usuario, sair } = useSessao();
   const { contagens } = useTempoReal();
   const navegar = useNavigate();
@@ -69,9 +72,11 @@ export default function BarraSuperior() {
         >
           <OpcoesTema />
           <SeparadorMenu />
+          <ItemMenu icone={<Icone nome="cadeado" />} onSelect={() => setAlterandoSenha(true)}>Alterar senha</ItemMenu>
           <ItemMenu icone={<Icone nome="sair" />} perigo onSelect={aoSair}>Sair</ItemMenu>
         </Menu>
       </div>
+      {alterandoSenha && <ModalAlterarSenha aoFechar={() => setAlterandoSenha(false)} />}
     </header>
   );
 }
