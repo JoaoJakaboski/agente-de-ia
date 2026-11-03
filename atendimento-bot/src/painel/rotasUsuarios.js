@@ -4,6 +4,8 @@ const { exigirSessao } = require("./sessao");
 const { UUID, agora, limparNome } = require("./comum");
 const { enviarLinkSenha } = require("./senhas");
 const { encerrarConexoesDoUsuario } = require("./tempoReal");
+const { instanciaDaEmpresa } = require("./comum");
+const { AVISOS, avisarCliente } = require("../services/avisosCliente")
 
 const router = express.Router();
 router.use(exigirSessao);
@@ -154,11 +156,19 @@ router.post("/:id/desativar", async (req, res, next) => {
         .eq("empresa_id", req.usuario.empresaId)
         .eq("atendente_id", alvo.id)
         .eq("status", "em_atendimento_humano")
-        .select("id")
+        .select("id, telefone_cliente")
     );
 
     // a sessão já é barrada na próxima requisição (usuário inativo); o tempo real cai agora
     encerrarConexoesDoUsuario(alvo.id);
+    
+    // cada cliente que estava com essa pessoa fica sabendo que outra pessoa vai continuar
+    if (devolvidos.length > 0) {
+      const instancia = await instanciaDaEmpresa(req.usuario.empresaId);
+      for (const chamado of devolvidos) {
+        await avisarCliente(instancia, chamado.telefone_cliente, chamado.id, req.usuario.empresaId, AVISOS.transferido);
+      }
+    }
 
     res.json({ ok: true, devolvidos: devolvidos.length });
   } catch (erro) {

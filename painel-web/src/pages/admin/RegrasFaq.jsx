@@ -14,7 +14,7 @@ const COLUNAS = { ativo: "ativo", escalarHumano: "escalar_humano", iniciaAgente:
 
 const DICAS = {
   descricao: "A IA da camada 2 usa a descrição para reconhecer a intenção quando o classificador não tem certeza.",
-  escalar: "Depois de enviar a resposta, o chamado vai para a fila “Aguardando atendente”.",
+  escalar: "Depois de enviar a resposta, o chamado vai para a fila “Aguardando atendente”. Escreva a resposta avisando que a conversa vai seguir com a equipe.",
   agente: "A resposta pede dados ao cliente; a conversa continua com o agente de IA. Não tem efeito quando a regra escala para humano.",
 };
 

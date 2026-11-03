@@ -76,24 +76,21 @@ async function atualizarStatusChamado(chamadoId, status, assunto) {
 }
 
 async function fecharChamadoPorInatividade(chamadoId) {
-    const { data: chamado, error: erroConsulta } = await supabase
+    // a condição de status vai no próprio UPDATE: se alguém assumiu agora, nada muda e nada é enviado
+    const momento = new Date().toISOString();
+    const { data: encerrado, error } = await supabase
         .from("chamados")
-        .select("status, telefone_cliente, empresa_id, empresas(instancia_evolution)")
+        .update({ status: "encerrado", motivo_encerramento: "inatividade", encerrado_em: momento, atualizado_em: momento })
         .eq("id", chamadoId)
-        .maybeSingle();
+        .in("status", ["bot", "agente"])
+        .select("id");
 
-    if (erroConsulta || !chamado) return;
-    if (!["bot", "agente"].includes(chamado.status)) return;
-
-    const { error } = await supabase
-        .from("chamados")
-        .update({ status: "encerrado", motivo_encerramento: "inatividade", encerrado_em: new Date().toISOString() })
-        .eq("id", chamadoId);
-    
-    if (error) { 
+    if (error) {
         console.error("Erro ao encerrar chamado por inatividade: ", error);
         return;
     }
+    
+    if (encerrado.length === 0) return;
 
     console.log(`[Chamado encerrado por inatividade] ${chamadoId}`);
 

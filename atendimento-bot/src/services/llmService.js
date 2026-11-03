@@ -109,7 +109,7 @@ async function responderComoAgente({ modelo, empresaId, chamadoId, systemPromptE
     const tools = [
         {
             name: NOME_TOOL_ENCAMINHAR,
-            description: "Encaminha o atendimento para um atendente humano quando o orçamento está completo, há dúvida que vocÇe não sabe responder, ou uma reclamação/situação sensível.",
+            description: "Encaminha o atendimento para um atendente humano quando o orçamento está completo, há dúvida que você não sabe responder, ou uma reclamação/situação sensível. Na mesma resposta, avise o cliente em texto que a conversa vai seguir com a equipe.",
             input_schema: {
                 type: "object",
                 properties: {

@@ -5,6 +5,7 @@ const { garantirChamado, atualizarStatusChamado } = require("./chamadoService");
 const { registrarMensagem } = require("./mensagensService");
 const { enviarMensagemWhatsapp } = require("./evolutionService");
 const { respostaPorIntencao } = require("./regrasFaqService");
+const { AVISOS, avisarCliente } = require("./avisosCliente");
 
 const RESPOSTAS_PADRAO = {
   audio: "No momento não conseguimos processar áudios — pode escrever sua mensagem em texto? 🙏",
@@ -36,11 +37,12 @@ async function receberMensagem(instanciaEvolution, telefoneCliente, tipoMensagem
     return;
   }
 
-  // bot desligado no painel: a mensagem fica registrada e vai direto para a equipe
+  // bot desligado no painel: a mensagem vai direto para a equipe, e o cliente fica sabendo
   const config = configuracaoAgenteDaEmpresa(empresa);
   if (config && config.ativo === false) {
     if (chamado.status === "bot" || chamado.status === "agente") {
       await atualizarStatusChamado(chamado.id, "aguardando_humano", "bot_desligado");
+      await avisarCliente(instanciaEvolution, telefoneCliente, chamado.id, empresa.id, AVISOS.encaminhado);
     }
     return;
   }
