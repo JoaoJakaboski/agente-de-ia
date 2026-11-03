@@ -1,0 +1,41 @@
+.vg { display: flex; flex-direction: column; gap: var(--space-5); }
+
+.vg-periodo { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-bottom: var(--space-5); }
+.vg-periodo .pa-tabs { width: auto; }
+.vg-periodo .pa-tab { flex: none; padding: 0 12px; }
+.vg-data { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--ink-muted); font-size: 13px; }
+.vg-data .pa-input { width: auto; height: 34px; }
+
+.vg-bloco { display: flex; flex-direction: column; gap: var(--space-5); padding: var(--space-5); }
+.vg-bloco__hd { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: var(--space-3); }
+.vg-bloco__titulo { font: var(--text-title); }
+.vg-bloco__sub { margin-top: 2px; color: var(--ink-muted); }
+.vg-bloco__acoes { display: flex; gap: var(--space-2); }
+
+.vg-cartoes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: var(--space-3); }
+.vg-cartao { padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface-sunken); }
+.vg-cartao__rotulo { font-size: 12px; font-weight: 600; color: var(--ink-muted); }
+.vg-cartao__valor { margin-top: 4px; font: var(--text-display); font-variant-numeric: tabular-nums; }
+.vg-cartao__detalhe { margin-top: 2px; font-size: 12px; color: var(--ink-muted); }
+
+.vg-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-5); }
+.vg-subtitulo { margin-bottom: var(--space-3); font: var(--text-body-strong); }
+.vg-vazio { font-size: 13px; color: var(--ink-faint); }
+
+/* colunas por dia: cor única, ponta arredondada, base fixa */
+.vg-dias { display: flex; align-items: flex-end; gap: 2px; height: 140px; border-bottom: 1px solid var(--line); }
+.vg-dias__coluna { display: flex; flex: 1 1 0; align-items: flex-end; min-width: 0; height: 100%; }
+.vg-dias__barra { width: 100%; background: var(--primary); border-radius: 4px 4px 0 0; }
+.vg-dias__coluna:hover .vg-dias__barra { filter: brightness(1.15); }
+.vg-dias__eixo { display: flex; justify-content: space-between; margin-top: 4px; font-size: 11px; color: var(--ink-muted); }
+
+/* ranking horizontal: rótulo, trilho e valor escrito */
+.vg-barras { display: flex; flex-direction: column; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.vg-barras li { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) auto; align-items: center; gap: var(--space-2); font-size: 13px; }
+.vg-barras__rotulo { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.vg-barras__trilho { height: 8px; overflow: hidden; border-radius: 4px; background: var(--surface-sunken); }
+.vg-barras__barra { display: block; height: 100%; border-radius: 4px; background: var(--primary); }
+.vg-barras__valor { font-variant-numeric: tabular-nums; }
+
+.vg-link { padding: 0; border: 0; background: none; color: var(--primary); font: inherit; font-weight: 600; cursor: pointer; text-decoration: underline; }
+.vg-precos .pa-input { height: 34px; }

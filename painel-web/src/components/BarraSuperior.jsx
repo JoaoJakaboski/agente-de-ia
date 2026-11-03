@@ -44,6 +44,10 @@ export default function BarraSuperior() {
         </NavLink>
         {usuario.papel === "admin" && (
           <>
+            <NavLink to="/visao-geral" className="barra__link">
+              <Icone nome="grafico" />
+              Visão geral
+            </NavLink>
             <NavLink to="/atendentes" className="barra__link">
               <Icone nome="headset" />
               Atendentes

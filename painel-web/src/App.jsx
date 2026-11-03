@@ -10,7 +10,8 @@ import Agente from "./pages/admin/Agente";
 import Clientes from "./pages/clientes/Clientes";
 import EsqueciSenha from "./pages/EsqueciSenha";
 import DefinirSenha from "./pages/DefinirSenha";
-import Atendentes from "./pages/admin/Atendentes"
+import Atendentes from "./pages/admin/Atendentes";
+import VisaoGeral from "./pages/admin/VisaoGeral";
 
 function LayoutPainel() {
   const { carregando, usuario } = useSessao();
@@ -48,6 +49,7 @@ export default function App() {
               <Route path="/atendimentos/:chamadoId?" element={<Atendimentos />} />
               <Route path="/clientes" element={<Clientes />} />
               <Route element={<SomenteAdmin />}>
+                <Route path="/visao-geral" element={<VisaoGeral />} />
                 <Route path="/atendentes" element={<Atendentes />} />
                 <Route path="/regras" element={<RegrasFaq />} />
                 <Route path="/agente" element={<Agente />} />

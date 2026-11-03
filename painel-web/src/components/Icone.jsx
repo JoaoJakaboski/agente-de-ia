@@ -165,12 +165,13 @@ const CAMINHOS = {
   mais: <path d="M12 5v14M5 12h14" />,
   lixeira: <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" />,
   opcoes: (
-  <>
-    <circle cx="6" cy="12" r="1" />
-    <circle cx="12" cy="12" r="1" />
-    <circle cx="18" cy="12" r="1" />
-  </>
-),
+    <>
+      <circle cx="6" cy="12" r="1" />
+      <circle cx="12" cy="12" r="1" />
+      <circle cx="18" cy="12" r="1" />
+    </>
+  ),
+  grafico: <path d="M4 20V11M10 20V5M16 20v-6M3 20h18" />,
 };
 
 export default function Icone({ nome, tamanho = 16 }) {
