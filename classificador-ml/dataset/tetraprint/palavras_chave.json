@@ -1,0 +1,245 @@
+{
+  "_sobre": "Baseline de palavras-chave. Sem acento e em minúsculas; termos de várias palavras pesam mais. Ganha a intenção com maior pontuação; sem nenhum termo, a frase fica sem resposta.",
+  "saudacao": [
+    "oi",
+    "oii",
+    "ola",
+    "bom dia",
+    "boa tarde",
+    "boa noite",
+    "tudo bem",
+    "e ai",
+    "opa",
+    "alguem pode me ajudar"
+  ],
+  "materiais_laser": [
+    "mdf",
+    "acrilico",
+    "madeira",
+    "couro",
+    "compensado",
+    "papelao",
+    "corta",
+    "cortam",
+    "grava em",
+    "gravam em"
+  ],
+  "materiais_3d": [
+    "filamento",
+    "pla",
+    "petg",
+    "abs",
+    "tpu",
+    "resina",
+    "material da impressao",
+    "imprimem em",
+    "imprime em"
+  ],
+  "limites_laser": [
+    "potencia",
+    "espessura",
+    "milimetros",
+    "mm",
+    "area de trabalho",
+    "co2",
+    "diodo",
+    "chapa grossa"
+  ],
+  "limites_3d": [
+    "tamanho maximo",
+    "altura maxima",
+    "volume de impressao",
+    "cabe na impressora",
+    "imprimir inteira",
+    "cm de largura",
+    "dividida"
+  ],
+  "precos_laser": [
+    "preco do corte",
+    "valor do corte",
+    "custa o corte",
+    "custa cortar",
+    "preco da gravacao",
+    "custa gravar",
+    "custa uma gravacao",
+    "valor do laser",
+    "cobram pelo laser"
+  ],
+  "precos_3d": [
+    "preco da impressao",
+    "custa uma impressao",
+    "custa imprimir",
+    "preco para imprimir",
+    "valor de uma peca 3d",
+    "cobram por impressao",
+    "por grama"
+  ],
+  "precos_geral": [
+    "quanto custa",
+    "qual o preco",
+    "qual o valor",
+    "quanto fica",
+    "quanto sai",
+    "quanto vai",
+    "valor final",
+    "custo total",
+    "estimativa",
+    "preco"
+  ],
+  "orcamento_laser": [
+    "orcamento de corte",
+    "orcamento do laser",
+    "orcamento para corte",
+    "orcamento de gravacao",
+    "cotar um corte",
+    "cotar uma gravacao",
+    "cotacao de laser",
+    "orcar uma placa",
+    "orcar uma peca de acrilico"
+  ],
+  "orcamento_3d": [
+    "orcamento de impressao",
+    "orcamento para impressao",
+    "cotar uma impressao",
+    "cotar um modelo",
+    "stl para orcamento",
+    "orcar uma peca em 3d",
+    "encomendar uma impressao",
+    "imprimir uma peca"
+  ],
+  "orcamento_geral": [
+    "como peco",
+    "como faco para pedir",
+    "fazer um pedido",
+    "fechar um pedido",
+    "pedir um orcamento",
+    "solicitar uma cotacao",
+    "o que preciso enviar",
+    "o que preciso informar",
+    "quais dados",
+    "quais informacoes",
+    "como funciona o orcamento",
+    "encomendar"
+  ],
+  "arquivos_aceitos": [
+    "formato",
+    "arquivo",
+    "svg",
+    "dxf",
+    "pdf",
+    "stl",
+    "obj",
+    "cdr",
+    "eps",
+    "png",
+    "jpg",
+    "vetor",
+    "vetorial",
+    "illustrator"
+  ],
+  "criacao_arte": [
+    "voces criam",
+    "voces fazem a arte",
+    "voces fazem o desenho",
+    "nao tenho o desenho",
+    "nao tenho arquivo",
+    "nao tenho o arquivo",
+    "criar o design",
+    "fazem modelagem",
+    "modelam",
+    "servico de design",
+    "do zero"
+  ],
+  "consulta_fabricacao": [
+    "conseguem fazer",
+    "voces fazem",
+    "da pra fazer",
+    "fabricar",
+    "miniatura",
+    "replica",
+    "chaveiro",
+    "topo de bolo",
+    "brinquedo",
+    "trofeu"
+  ],
+  "desconto_quantidade": [
+    "desconto",
+    "quantidade",
+    "lote",
+    "atacado",
+    "muitas pecas",
+    "varias unidades",
+    "revenda",
+    "pedido grande"
+  ],
+  "entrega": [
+    "entrega",
+    "entregam",
+    "frete",
+    "correios",
+    "enviam",
+    "buscar pessoalmente",
+    "retirar",
+    "receber em casa"
+  ],
+  "horario": [
+    "horario",
+    "que horas",
+    "abertos",
+    "abre",
+    "funcionamento"
+  ],
+  "localizacao": [
+    "endereco",
+    "onde voces ficam",
+    "onde fica",
+    "localizacao",
+    "cidade"
+  ],
+  "pagamento": [
+    "pix",
+    "cartao",
+    "parcelado",
+    "parcelam",
+    "dinheiro",
+    "transferencia",
+    "formas de pagamento",
+    "pagar"
+  ],
+  "prazo_producao": [
+    "quanto tempo",
+    "prazo",
+    "demora",
+    "fica pronto"
+  ],
+  "status_pedido": [
+    "status",
+    "andamento",
+    "acompanhar",
+    "acompanho",
+    "ja ficou pronto",
+    "ja esta pronto",
+    "meu pedido ja",
+    "situacao do meu pedido",
+    "atualizacao do pedido"
+  ],
+  "problema_pedido": [
+    "atrasou",
+    "defeito",
+    "errada",
+    "insatisfeito",
+    "problema",
+    "veio diferente"
+  ],
+  "alteracao_cancelamento": [
+    "cancelar",
+    "alterar",
+    "alteracao",
+    "mudar",
+    "modificar",
+    "trocar",
+    "corrigir",
+    "substituir",
+    "editar o pedido"
+  ]
+}

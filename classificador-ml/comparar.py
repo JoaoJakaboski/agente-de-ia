@@ -41,6 +41,10 @@ def main(slug, antes, depois):
     if resumo_a["dataset"]["hash"] == resumo_d["dataset"]["hash"]:
         print("(atenção: as duas avaliações usaram exatamente o mesmo dataset)")
 
+    if resumo_a["limiar"] != resumo_d["limiar"]:
+        print(f"(atenção: limiares diferentes, {resumo_a['limiar']} no '{antes}' e {resumo_d['limiar']} no '{depois}'; "
+              f"rode os dois com o mesmo --limiar para comparar a cobertura)")
+
     # visão geral
     cv_a = resumo_a["validacao_cruzada"][resumo_a["modelo_escolhido"]]
     cv_d = resumo_d["validacao_cruzada"][resumo_d["modelo_escolhido"]]

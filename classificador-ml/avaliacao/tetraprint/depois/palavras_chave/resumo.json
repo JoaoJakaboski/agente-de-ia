@@ -1,0 +1,17 @@
+{
+  "dataset": {
+    "frases": 680,
+    "f1_macro": 0.6792359273270377,
+    "acuracia": 0.5941176470588235,
+    "cobertura": 0.7544117647058823,
+    "acerto_nas_respondidas": 0.7875243664717348
+  },
+  "teste_fixo": {
+    "frases": 69,
+    "f1_macro": 0.40821256038647347,
+    "acuracia": 0.3333333333333333,
+    "cobertura": 0.5072463768115942,
+    "acerto_nas_respondidas": 0.6571428571428571
+  },
+  "termos": 196
+}

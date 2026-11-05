@@ -1,0 +1,277 @@
+﻿texto,intencao,prevista
+quais materiais vocês trabalham no corte a laser,materiais_laser,(sem resposta)
+tem como cortar isopor?,materiais_laser,(sem resposta)
+dá pra gravar em vidro?,materiais_laser,(sem resposta)
+qual material fica melhor pra placa de identificação,materiais_laser,(sem resposta)
+até quantos cm vocês imprimem em 3d,limites_3d,materiais_3d
+imprime peça de 30cm de altura?,limites_3d,(sem resposta)
+tem limite de tamanho pra peça em 3d?,limites_3d,(sem resposta)
+qual material usam na impressão 3d,materiais_3d,(sem resposta)
+o laser de 10w corta metal?,limites_laser,materiais_laser
+o que eu preciso mandar pra vocês fazerem o orçamento,orcamento_geral,(sem resposta)
+"não tenho o design pronto, vocês fazem?",criacao_arte,consulta_fabricacao
+como faço pra encomendar uma peça em 3d,orcamento_3d,orcamento_geral
+preciso informar quantidade pro orçamento?,orcamento_geral,desconto_quantidade
+qual o preço da impressão 3d,precos_3d,precos_geral
+vocês fazem entrega?,entrega,consulta_fabricacao
+dá pra cortar EVA?,materiais_laser,(sem resposta)
+o corte funciona em fórmica?,materiais_laser,(sem resposta)
+dá pra fazer em mdf cru ou só laminado?,materiais_laser,consulta_fabricacao
+o volume máximo é em cm ou mm?,limites_3d,limites_laser
+dá pra unir peças impressas separadamente?,limites_3d,(sem resposta)
+qual é o limite de altura da impressora 3d,limites_3d,(sem resposta)
+até quantos milímetros de mdf o laser aguenta,limites_laser,materiais_laser
+"minha peça tem 22x22, ainda cabe?",limites_3d,(sem resposta)
+posso pedir várias peças no mesmo orçamento?,orcamento_geral,(sem resposta)
+preciso informar as dimensões em cm?,orcamento_geral,(sem resposta)
+como faço pra pedir uma gravação personalizada,orcamento_laser,(sem resposta)
+vocês avaliam o arquivo antes de confirmar o orçamento?,orcamento_geral,arquivos_aceitos
+já pode confirmar o prazo de entrega?,prazo_producao,entrega
+o que vocês conseguem cortar no laser,materiais_laser,(sem resposta)
+que materiais posso usar no corte a laser,materiais_laser,(sem resposta)
+vocês fazem gravação em madeira maciça?,materiais_laser,consulta_fabricacao
+posso levar meu próprio material para cortar?,materiais_laser,(sem resposta)
+vocês fazem corte em couro?,materiais_laser,consulta_fabricacao
+o laser serve para gravação também?,materiais_laser,(sem resposta)
+vocês fazem corte e gravação na mesma peça?,materiais_laser,consulta_fabricacao
+quais materiais não podem ir no laser?,materiais_laser,(sem resposta)
+o laser é de quantos watts,limites_laser,(sem resposta)
+até quantos mm vocês cortam?,limites_laser,materiais_laser
+qual a espessura máxima no MDF?,limites_laser,materiais_laser
+o laser de 10w corta material grosso?,limites_laser,materiais_laser
+qual o tamanho máximo do corte?,limites_laser,limites_3d
+qual a área útil do laser?,limites_laser,(sem resposta)
+até que tamanho vocês conseguem cortar uma chapa?,limites_laser,(sem resposta)
+o laser de vocês é 10w?,limites_laser,(sem resposta)
+esse laser consegue cortar metal?,limites_laser,(sem resposta)
+10w corta aço?,limites_laser,materiais_laser
+o laser consegue cortar uma peça de 1 cm?,limites_laser,(sem resposta)
+qual o maior tamanho que cabe no laser?,limites_laser,(sem resposta)
+posso cortar uma chapa grande?,limites_laser,(sem resposta)
+até quantos centímetros de material vocês cortam?,limites_laser,materiais_laser
+o laser corta materiais muito espessos?,limites_laser,materiais_laser
+que material vocês usam na impressão 3d,materiais_3d,(sem resposta)
+qual plástico vocês usam?,materiais_3d,(sem resposta)
+qual material é usado na Ender 3?,materiais_3d,(sem resposta)
+quais filamentos vocês têm?,materiais_3d,(sem resposta)
+qual material fica melhor para minha peça?,materiais_3d,(sem resposta)
+vocês fazem impressão em resina?,materiais_3d,consulta_fabricacao
+que tipos de material estão disponíveis para 3d?,materiais_3d,(sem resposta)
+posso escolher entre diferentes materiais?,materiais_3d,(sem resposta)
+qual material vocês recomendam para uma peça de uso?,materiais_3d,(sem resposta)
+até que tamanho vocês imprimem?,limites_3d,(sem resposta)
+qual o volume máximo da impressora 3d?,limites_3d,(sem resposta)
+qual a largura máxima da peça?,limites_3d,(sem resposta)
+uma peça de 25 cm cabe?,limites_3d,(sem resposta)
+consigo imprimir uma peça de 30 cm?,limites_3d,orcamento_3d
+"minha peça é maior que a impressora, e agora?",limites_3d,(sem resposta)
+qual o limite de tamanho da Ender 3 V3 SE?,limites_3d,(sem resposta)
+até quantos centímetros vocês conseguem imprimir?,limites_3d,(sem resposta)
+a impressora suporta peças grandes?,limites_3d,(sem resposta)
+posso imprimir uma peça de 20 cm?,limites_3d,orcamento_3d
+uma peça com 22 cm cabe?,limites_3d,(sem resposta)
+e se minha peça passar do tamanho da impressora?,limites_3d,(sem resposta)
+vocês conseguem dividir um modelo grande?,limites_3d,(sem resposta)
+dá para imprimir em partes?,limites_3d,(sem resposta)
+qual o limite de altura da impressão?,limites_3d,(sem resposta)
+qual o limite de largura da impressão?,limites_3d,(sem resposta)
+qual o limite de profundidade da impressão?,limites_3d,(sem resposta)
+uma peça grande pode ser separada em várias partes?,limites_3d,(sem resposta)
+como faço orçamento de uma peça a laser,orcamento_laser,(sem resposta)
+preciso de orçamento para gravação a laser,orcamento_laser,(sem resposta)
+quanto preciso informar para orçar um corte,orcamento_laser,(sem resposta)
+como orçamento uma placa personalizada,orcamento_laser,(sem resposta)
+como faço para pedir um orçamento de corte,orcamento_laser,orcamento_geral
+como vocês fazem o orçamento do corte?,orcamento_laser,consulta_fabricacao
+quero saber como enviar um projeto para orçamento,orcamento_laser,(sem resposta)
+"tenho um desenho para cortar, como peço orçamento?",orcamento_laser,orcamento_geral
+posso mandar meu arquivo para vocês calcularem o corte?,orcamento_laser,arquivos_aceitos
+quero cotar corte e gravação juntos,orcamento_laser,(sem resposta)
+quero orçamento para várias peças cortadas,orcamento_laser,(sem resposta)
+como solicitar orçamento para laser,orcamento_laser,(sem resposta)
+quero encomendar uma peça cortada a laser,orcamento_laser,orcamento_geral
+tenho uma arte e quero saber o valor do corte,orcamento_laser,precos_laser
+quero fazer uma cotação de gravação,orcamento_laser,(sem resposta)
+como faço orçamento de uma peça 3d,orcamento_3d,(sem resposta)
+tenho um arquivo 3d para imprimir,orcamento_3d,arquivos_aceitos
+como envio uma peça 3d para orçamento?,orcamento_3d,(sem resposta)
+quanto preciso informar para orçar uma impressão?,orcamento_3d,(sem resposta)
+quero fazer uma cotação de impressão,orcamento_3d,(sem resposta)
+como calculam o orçamento de uma peça 3d?,orcamento_3d,(sem resposta)
+tenho um modelo e quero saber como pedir orçamento,orcamento_3d,(sem resposta)
+"quero imprimir várias unidades, como faço o orçamento?",orcamento_3d,desconto_quantidade
+como solicito orçamento para uma impressão?,orcamento_3d,(sem resposta)
+quero cotar uma peça personalizada em 3d,orcamento_3d,(sem resposta)
+posso mandar o modelo para vocês avaliarem?,orcamento_3d,(sem resposta)
+"tenho um STL, quero fazer orçamento",orcamento_3d,arquivos_aceitos
+como faço para encomendar uma peça impressa?,orcamento_3d,orcamento_geral
+quero orçamento de uma peça que encontrei na internet,orcamento_3d,(sem resposta)
+como mandar o arquivo para cotar impressão 3d?,orcamento_3d,arquivos_aceitos
+quero cotar uma peça para impressão,orcamento_3d,(sem resposta)
+o que vocês precisam saber para calcular o orçamento?,orcamento_geral,(sem resposta)
+preciso mandar quantidade?,orcamento_geral,desconto_quantidade
+tenho que informar as medidas?,orcamento_geral,(sem resposta)
+preciso informar o prazo?,orcamento_geral,prazo_producao
+como começo um pedido?,orcamento_geral,(sem resposta)
+posso mandar foto junto com o pedido?,orcamento_geral,(sem resposta)
+o que preciso passar para vocês?,orcamento_geral,(sem resposta)
+como envio os detalhes do meu pedido?,orcamento_geral,(sem resposta)
+quero saber como funciona a contratação,orcamento_geral,(sem resposta)
+posso mandar uma imagem para vocês avaliarem?,arquivos_aceitos,(sem resposta)
+qual extensão devo usar?,arquivos_aceitos,(sem resposta)
+vocês desenvolvem a peça?,criacao_arte,(sem resposta)
+podem fazer o desenho para mim?,criacao_arte,(sem resposta)
+vocês fazem projeto personalizado?,criacao_arte,consulta_fabricacao
+"só tenho uma foto, vocês conseguem fazer?",criacao_arte,consulta_fabricacao
+posso pedir ajuda para criar o desenho?,criacao_arte,(sem resposta)
+"não tenho STL, vocês podem criar?",criacao_arte,arquivos_aceitos
+vocês conseguem preparar o arquivo para o laser?,criacao_arte,arquivos_aceitos
+vocês fazem desenho para corte?,criacao_arte,consulta_fabricacao
+posso mandar uma referência para vocês criarem?,criacao_arte,(sem resposta)
+vocês transformam uma imagem em arquivo de corte?,criacao_arte,arquivos_aceitos
+quem não tem arquivo pronto pode pedir orçamento?,criacao_arte,arquivos_aceitos
+vocês fazem modelos personalizados?,criacao_arte,consulta_fabricacao
+podem ajustar meu desenho para corte?,criacao_arte,(sem resposta)
+vocês conseguem adaptar um arquivo?,criacao_arte,arquivos_aceitos
+qual o preço do corte a laser?,precos_laser,precos_geral
+quanto sai uma gravação a laser?,precos_laser,precos_geral
+qual o valor de uma peça cortada?,precos_laser,precos_geral
+qual o preço da gravação?,precos_laser,precos_geral
+quanto fica uma placa cortada a laser?,precos_laser,precos_geral
+qual o valor para cortar MDF?,precos_laser,precos_geral
+o corte a laser é cobrado como?,precos_laser,(sem resposta)
+qual o valor do serviço de laser?,precos_laser,precos_geral
+quanto fica cortar uma peça?,precos_laser,precos_geral
+quanto custa uma placa personalizada no laser?,precos_laser,precos_geral
+qual o preço de um corte em acrílico?,precos_laser,precos_geral
+quanto fica uma gravação em MDF?,precos_laser,precos_geral
+vocês cobram por peça ou por corte?,precos_laser,(sem resposta)
+quanto eu vou pagar pelo corte?,precos_laser,pagamento
+tem preço fixo para corte a laser?,precos_laser,precos_geral
+quanto sai o serviço de gravação?,precos_laser,precos_geral
+quanto fica para cortar essa arte?,precos_laser,precos_geral
+qual o custo de uma gravação?,precos_laser,(sem resposta)
+qual o preço da impressão?,precos_3d,precos_geral
+quanto fica para imprimir uma peça?,precos_3d,orcamento_3d
+qual o preço para imprimir meu STL?,precos_3d,precos_geral
+quanto custa fazer uma peça em 3d?,precos_3d,precos_geral
+qual o valor de uma impressão personalizada?,precos_3d,precos_geral
+quanto sai uma impressão pequena?,precos_3d,precos_geral
+quanto fica imprimir várias peças?,precos_3d,precos_geral
+qual o custo da impressão 3d?,precos_3d,(sem resposta)
+quanto vocês cobram para imprimir?,precos_3d,(sem resposta)
+quanto fica uma peça impressa?,precos_3d,precos_geral
+qual o valor para imprimir esse modelo?,precos_3d,precos_geral
+quanto custa uma peça personalizada?,precos_3d,precos_geral
+quanto sai para imprimir um STL?,precos_3d,precos_geral
+qual o custo para fazer uma peça 3d?,precos_3d,(sem resposta)
+quanto vou pagar para imprimir?,precos_3d,pagamento
+qual o valor de uma impressão?,precos_3d,precos_geral
+quanto fica essa peça na impressora 3d?,precos_3d,precos_geral
+quanto eu vou gastar?,precos_geral,(sem resposta)
+qual seria o valor?,precos_geral,(sem resposta)
+me passa um valor,precos_geral,(sem resposta)
+quanto vou pagar pelo pedido?,precos_geral,pagamento
+em quanto tempo vocês fazem?,prazo_producao,consulta_fabricacao
+qual o tempo para produzir?,prazo_producao,(sem resposta)
+vocês conseguem entregar até uma data específica?,prazo_producao,(sem resposta)
+qual o tempo de fabricação?,prazo_producao,(sem resposta)
+quando meu pedido estará pronto?,prazo_producao,(sem resposta)
+quando consigo retirar meu pedido?,prazo_producao,entrega
+vocês fazem envio?,entrega,consulta_fabricacao
+quanto fica o frete?,entrega,precos_geral
+vocês mandam por transportadora?,entrega,(sem resposta)
+onde faço a retirada?,entrega,(sem resposta)
+tem opção de buscar no local?,entrega,(sem resposta)
+como recebo meu pedido?,entrega,(sem resposta)
+posso pedir para entregar?,entrega,(sem resposta)
+vocês trabalham com envio?,entrega,(sem resposta)
+tem retirada no local?,entrega,(sem resposta)
+vocês fazem frete?,entrega,consulta_fabricacao
+quais meios de pagamento?,pagamento,(sem resposta)
+tem pagamento no crédito?,pagamento,(sem resposta)
+aceitam débito?,pagamento,(sem resposta)
+posso parcelar?,pagamento,(sem resposta)
+quando faço o pagamento?,pagamento,(sem resposta)
+como funciona o pagamento?,pagamento,(sem resposta)
+quais cartões vocês aceitam?,pagamento,(sem resposta)
+tem opção de pagamento à vista?,pagamento,(sem resposta)
+como é feito o pagamento do pedido?,pagamento,(sem resposta)
+como está meu pedido?,status_pedido,(sem resposta)
+já terminaram minha peça?,status_pedido,(sem resposta)
+meu pedido está em produção?,status_pedido,(sem resposta)
+quando meu pedido fica pronto?,status_pedido,prazo_producao
+como saber se minha peça está pronta?,status_pedido,(sem resposta)
+já posso buscar meu pedido?,status_pedido,(sem resposta)
+vocês conseguem verificar meu pedido?,status_pedido,(sem resposta)
+meu pedido foi finalizado?,status_pedido,(sem resposta)
+quero trocar o arquivo do pedido,alteracao_cancelamento,arquivos_aceitos
+posso substituir o arquivo?,alteracao_cancelamento,arquivos_aceitos
+quero mudar a quantidade do pedido,alteracao_cancelamento,desconto_quantidade
+posso adicionar mais peças ao pedido?,alteracao_cancelamento,(sem resposta)
+como altero um pedido já feito?,alteracao_cancelamento,(sem resposta)
+quanto mais peças fica mais barato?,desconto_quantidade,(sem resposta)
+tem preço especial para lote?,desconto_quantidade,precos_geral
+"quanto maior a quantidade, menor o preço?",desconto_quantidade,precos_geral
+vocês trabalham com preço de atacado?,desconto_quantidade,precos_geral
+onde é a empresa?,localizacao,(sem resposta)
+onde posso encontrar vocês?,localizacao,(sem resposta)
+qual o local para retirada?,localizacao,(sem resposta)
+onde vocês atendem?,localizacao,(sem resposta)
+atendem aos sábados?,horario,(sem resposta)
+quando vocês estão disponíveis?,horario,(sem resposta)
+o produto chegou danificado,problema_pedido,(sem resposta)
+o corte não ficou como esperado,problema_pedido,(sem resposta)
+preciso reclamar de uma peça,problema_pedido,(sem resposta)
+a peça que recebi está diferente,problema_pedido,(sem resposta)
+oiii,saudacao,(sem resposta)
+eae,saudacao,(sem resposta)
+fala,saudacao,(sem resposta)
+tudo bom?,saudacao,(sem resposta)
+oiie,saudacao,(sem resposta)
+alguém aí?,saudacao,(sem resposta)
+tem alguém aí?,saudacao,(sem resposta)
+tem como fazer uma luminária personalizada?,consulta_fabricacao,(sem resposta)
+vocês fabricam esse tipo de produto?,consulta_fabricacao,(sem resposta)
+qual o preço do corte a laser em mdf?,precos_laser,precos_geral
+quanto custa a gravação a laser?,precos_laser,precos_geral
+quanto sai o corte a laser por peça?,precos_laser,precos_geral
+qual o preço da gravação a laser em madeira?,precos_laser,precos_geral
+qual o valor de gravar uma logo a laser?,precos_laser,precos_geral
+quanto fica o corte a laser desse material?,precos_laser,precos_geral
+qual o preço pra cortar a laser?,precos_laser,precos_geral
+quanto custa fazer o corte a laser?,precos_laser,precos_geral
+qual o valor do serviço de corte a laser?,precos_laser,precos_geral
+qual o preço de cortar acrílico a laser?,precos_laser,precos_geral
+quanto sai gravar a laser numa placa?,precos_laser,precos_geral
+qual o valor de cortar mdf a laser?,precos_laser,precos_geral
+qual o preço do serviço de laser pra essa peça?,precos_laser,precos_geral
+quanto fica cortar a laser esse desenho?,precos_laser,precos_geral
+qual o valor pra gravar a laser meu logo?,precos_laser,precos_geral
+qual extensão vocês usam pra impressão 3d?,arquivos_aceitos,(sem resposta)
+quanto vocês cobram?,precos_geral,(sem resposta)
+me passa o valor,precos_geral,(sem resposta)
+quanto mais ou menos fica?,precos_geral,(sem resposta)
+qual valor vocês cobram em média?,precos_geral,(sem resposta)
+tem tabela de preços?,precos_geral,(sem resposta)
+como faço para comprar com vocês?,orcamento_geral,(sem resposta)
+quais são as etapas do pedido?,orcamento_geral,(sem resposta)
+quero fazer um orçamento,orcamento_geral,(sem resposta)
+pode me fazer um orçamento?,orcamento_geral,(sem resposta)
+como funciona a encomenda com vocês?,orcamento_geral,(sem resposta)
+quero comprar uma peça personalizada,orcamento_geral,(sem resposta)
+quero anular minha encomenda,alteracao_cancelamento,(sem resposta)
+não quero mais o pedido que fiz,alteracao_cancelamento,(sem resposta)
+quero refazer o pedido com outro material,alteracao_cancelamento,(sem resposta)
+quero aumentar a quantidade do meu pedido,alteracao_cancelamento,desconto_quantidade
+posso diminuir a quantidade que encomendei?,alteracao_cancelamento,desconto_quantidade
+quero desfazer o pedido,alteracao_cancelamento,(sem resposta)
+não tenho nada pronto vocês desenham?,criacao_arte,(sem resposta)
+vocês fazem o projeto a partir de uma descrição?,criacao_arte,consulta_fabricacao
+vocês transformam meu rascunho em projeto?,criacao_arte,(sem resposta)
+alguém aí faz a modelagem da peça?,criacao_arte,(sem resposta)
+ja começaram meu pedido?,status_pedido,(sem resposta)
+me atualiza sobre a minha encomenda?,status_pedido,(sem resposta)
+minha peça já foi despachada?,status_pedido,(sem resposta)
+o preço muda se eu pedir mais unidades?,desconto_quantidade,precos_geral
+qual o preço para revenda?,desconto_quantidade,precos_geral

@@ -5,7 +5,7 @@
    matriz de confusão e cobertura x acerto por limiar de confiança.
 3. Treina o modelo escolhido com todas as frases e salva para o servidor.
 
-Uso: python treinar.py <slug-da-empresa> [--rotulo antes] [--limiar 0.8]
+Uso: python treinar.py <slug-da-empresa> [--rotulo antes] [--limiar 0.7]
 Espera encontrar dataset/<slug>/mensagens_treino.csv
 Opcional: dataset/<slug>/teste_fixo.csv (mesmo formato), com frases que NUNCA
 entram no treino; serve para comparar versões do dataset com a mesma régua.
@@ -225,7 +225,7 @@ if __name__ == "__main__":
     argumentos = argparse.ArgumentParser(description="Treina e avalia o classificador de intenções de uma empresa.")
     argumentos.add_argument("slug", help="slug da empresa (pasta em dataset/)")
     argumentos.add_argument("--rotulo", help="nome desta avaliação, ex.: antes, depois (padrão: data e hora)")
-    argumentos.add_argument("--limiar", type=float, default=0.8, help="limiar de confiança usado no bot (padrão: 0.8)")
+    argumentos.add_argument("--limiar", type=float, default=0.7, help="limiar de confiança usado no bot (padrão: 0.7)")
     opcoes = argumentos.parse_args()
 
     rotulo = opcoes.rotulo or datetime.now().strftime("%Y-%m-%d_%H%M")

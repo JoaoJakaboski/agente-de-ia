@@ -136,7 +136,7 @@ def cobertura_por_limiar(tabela, limiar_atual, caminho_sem_extensao):
     _salvar(figura, caminho_sem_extensao)
 
 
-def comparacao_f1(tabela, rotulo_antes, rotulo_depois, caminho_sem_extensao):
+def comparacao_f1(tabela, rotulo_antes, rotulo_depois, caminho_sem_extensao, eixo_x="F1 por intenção (validação cruzada)"):
     """F1 por intenção antes e depois, ligados por um traço; ordenado pelo depois."""
     if _sem_matplotlib():
         return
@@ -158,7 +158,7 @@ def comparacao_f1(tabela, rotulo_antes, rotulo_depois, caminho_sem_extensao):
 
     eixo.set_yticks(y, labels=tabela["intencao"], fontsize=8)
     eixo.set_xlim(0, 1.08)
-    eixo.set_xlabel("F1 por intenção (validação cruzada)")
+    eixo.set_xlabel(eixo_x)
     eixo.grid(axis="x", color="#e3e6e2", linewidth=0.6)
     _eixos_limpos(eixo)
     eixo.legend(loc="lower right", frameon=False, fontsize=8)

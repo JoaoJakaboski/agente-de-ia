@@ -1,6 +1,6 @@
 {
   "rotulo": "antes",
-  "executado_em": "2026-11-05T11:25:41",
+  "executado_em": "2026-11-05T12:25:15",
   "dataset": {
     "frases": 628,
     "intencoes": 23,
@@ -19,14 +19,14 @@
       "acuracia": 0.5477707006369427
     }
   },
-  "limiar": 0.8,
-  "cobertura_no_limiar": 0.20382165605095542,
-  "acerto_no_limiar": 0.9765625,
+  "limiar": 0.7,
+  "cobertura_no_limiar": 0.33121019108280253,
+  "acerto_no_limiar": 0.9663461538461539,
   "teste_fixo": {
     "frases": 69,
     "acuracia": 0.7246376811594203,
     "f1_macro": 0.7239820565907524,
-    "cobertura_no_limiar": 0.08695652173913043,
-    "acerto_no_limiar": 1.0
+    "cobertura_no_limiar": 0.2463768115942029,
+    "acerto_no_limiar": 0.9411764705882353
   }
 }
