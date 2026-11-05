@@ -233,7 +233,7 @@ intenção). Os números da avaliação oficial estão em `avaliacao/tetraprint/
 | | Palavras-chave | Naive Bayes | SVM |
 |---|---|---|---|
 | F1 macro (validação cruzada) | 0,679¹ | 0,494 | **0,774** |
-| F1 macro (teste fixo) | 0,408 | — | **0,724** |
+| F1 macro (teste fixo) | 0,408 | — | **0,723** |
 | Frases respondidas na camada 1 (teste fixo, limiar 0,7) | 50,7% | — | 27,5% |
 | Acerto nessas respostas (teste fixo) | 65,7% | — | **100%** |
 
