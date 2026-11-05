@@ -1,0 +1,147 @@
+﻿texto,intencao,prevista
+qual a espessura máxima de mdf que corta,materiais_laser,limites_laser
+qual material fica melhor pra placa de identificação,materiais_laser,materiais_3d
+preciso ter o arquivo pronto pra pedir orçamento?,arquivos_aceitos,orcamento_geral
+vocês criam o design ou eu preciso mandar pronto,criacao_arte,arquivos_aceitos
+"oi, vocês estão disponíveis?",saudacao,materiais_3d
+dá pra unir peças impressas separadamente?,limites_3d,materiais_laser
+posso pedir várias peças no mesmo orçamento?,orcamento_geral,orcamento_laser
+vocês avaliam o arquivo antes de confirmar o orçamento?,orcamento_geral,arquivos_aceitos
+já pode confirmar o prazo de entrega?,prazo_producao,entrega
+aceitam acrílico para corte?,materiais_laser,arquivos_aceitos
+posso levar meu próprio material para cortar?,materiais_laser,materiais_3d
+o laser serve para gravação também?,materiais_laser,arquivos_aceitos
+vocês fazem corte e gravação na mesma peça?,materiais_laser,criacao_arte
+até quantos mm vocês cortam?,limites_laser,limites_3d
+qual a espessura máxima no MDF?,limites_laser,materiais_laser
+qual o tamanho máximo do corte?,limites_laser,limites_3d
+qual o maior tamanho que cabe no laser?,limites_laser,limites_3d
+posso cortar uma chapa grande?,limites_laser,materiais_laser
+até quantos centímetros de material vocês cortam?,limites_laser,limites_3d
+o laser corta materiais muito espessos?,limites_laser,materiais_laser
+vocês trabalham com PETG?,materiais_3d,materiais_laser
+tem opção de outro filamento?,materiais_3d,entrega
+quais filamentos vocês têm?,materiais_3d,orcamento_geral
+qual material fica melhor para minha peça?,materiais_3d,materiais_laser
+posso escolher entre diferentes materiais?,materiais_3d,materiais_laser
+até quantos centímetros vocês conseguem imprimir?,limites_3d,limites_laser
+vocês conseguem dividir um modelo grande?,limites_3d,consulta_fabricacao
+dá para imprimir em partes?,limites_3d,materiais_3d
+posso montar depois uma peça que foi dividida?,limites_3d,alteracao_cancelamento
+como faço orçamento de uma peça a laser,orcamento_laser,orcamento_3d
+quanto preciso informar para orçar um corte,orcamento_laser,orcamento_geral
+preciso orçar uma peça de acrílico,orcamento_laser,orcamento_3d
+como vocês fazem o orçamento do corte?,orcamento_laser,orcamento_geral
+quero saber como enviar um projeto para orçamento,orcamento_laser,orcamento_geral
+posso mandar meu arquivo para vocês calcularem o corte?,orcamento_laser,arquivos_aceitos
+quero orçamento para várias peças cortadas,orcamento_laser,orcamento_geral
+como solicitar orçamento para laser,orcamento_laser,orcamento_geral
+quero encomendar uma peça cortada a laser,orcamento_laser,orcamento_3d
+como mando os dados para orçamento do laser?,orcamento_laser,orcamento_geral
+posso mandar meu STL para orçamento?,orcamento_3d,arquivos_aceitos
+tenho um arquivo 3d para imprimir,orcamento_3d,precos_3d
+quanto preciso informar para orçar uma impressão?,orcamento_3d,orcamento_laser
+"quero imprimir várias unidades, como faço o orçamento?",orcamento_3d,orcamento_laser
+posso mandar o modelo para vocês avaliarem?,orcamento_3d,arquivos_aceitos
+como faço para encomendar uma peça impressa?,orcamento_3d,orcamento_geral
+quero orçamento de uma peça que encontrei na internet,orcamento_3d,orcamento_laser
+como peço um orçamento?,orcamento_geral,orcamento_laser
+preciso mandar quantidade?,orcamento_geral,arquivos_aceitos
+preciso informar o prazo?,orcamento_geral,prazo_producao
+como faço para solicitar uma cotação?,orcamento_geral,orcamento_laser
+como faço para encomendar?,orcamento_geral,orcamento_3d
+posso mandar foto junto com o pedido?,orcamento_geral,arquivos_aceitos
+como envio os detalhes do meu pedido?,orcamento_geral,status_pedido
+quero saber como funciona a contratação,orcamento_geral,orcamento_laser
+como faço para pedir uma peça personalizada?,orcamento_geral,orcamento_laser
+vocês aceitam DXF?,arquivos_aceitos,pagamento
+PDF serve para o corte?,arquivos_aceitos,materiais_laser
+posso mandar uma imagem para vocês avaliarem?,arquivos_aceitos,criacao_arte
+preciso converter minha arte para vetor?,arquivos_aceitos,alteracao_cancelamento
+vocês conseguem abrir STL?,arquivos_aceitos,consulta_fabricacao
+"só tenho uma foto, vocês conseguem fazer?",criacao_arte,consulta_fabricacao
+vocês modelam peças 3d?,criacao_arte,limites_3d
+vocês fazem modelagem para impressão 3d?,criacao_arte,orcamento_3d
+vocês conseguem preparar o arquivo para o laser?,criacao_arte,arquivos_aceitos
+posso mandar uma referência para vocês criarem?,criacao_arte,arquivos_aceitos
+vocês transformam uma imagem em arquivo de corte?,criacao_arte,arquivos_aceitos
+quem não tem arquivo pronto pode pedir orçamento?,criacao_arte,arquivos_aceitos
+vocês conseguem adaptar um arquivo?,criacao_arte,arquivos_aceitos
+qual o valor de uma peça cortada?,precos_laser,precos_3d
+o corte a laser é cobrado como?,precos_laser,orcamento_laser
+vocês cobram por peça ou por corte?,precos_laser,precos_3d
+quanto eu vou pagar pelo corte?,precos_laser,precos_geral
+me passa o preço do corte,precos_laser,precos_geral
+quanto custa fazer uma peça em 3d?,precos_3d,precos_laser
+quanto fica uma peça impressa?,precos_3d,precos_laser
+qual o custo para fazer uma peça 3d?,precos_3d,orcamento_3d
+quanto vai ficar meu pedido?,precos_geral,status_pedido
+qual o preço do serviço?,precos_geral,precos_laser
+quanto eu vou gastar?,precos_geral,precos_laser
+quanto custa?,precos_geral,precos_laser
+tem como saber o preço antes?,precos_geral,orcamento_geral
+me passa um valor,precos_geral,precos_3d
+quanto fica mais ou menos?,precos_geral,desconto_quantidade
+qual o custo total?,precos_geral,precos_3d
+quanto vou pagar pelo pedido?,precos_geral,precos_laser
+tem uma estimativa de preço?,precos_geral,desconto_quantidade
+quanto sai tudo?,precos_geral,precos_laser
+em quanto tempo vocês fazem?,prazo_producao,criacao_arte
+quanto demora a impressão 3d?,prazo_producao,precos_3d
+vocês conseguem entregar até uma data específica?,prazo_producao,limites_3d
+em quantos dias fica pronto?,prazo_producao,materiais_laser
+quando meu pedido estará pronto?,prazo_producao,status_pedido
+quando consigo retirar meu pedido?,prazo_producao,status_pedido
+vocês entregam?,entrega,criacao_arte
+posso receber em casa?,entrega,arquivos_aceitos
+como funciona a entrega?,entrega,orcamento_geral
+vocês mandam por transportadora?,entrega,criacao_arte
+onde faço a retirada?,entrega,localizacao
+como recebo meu pedido?,entrega,status_pedido
+posso pedir para entregar?,entrega,arquivos_aceitos
+vocês trabalham com envio?,entrega,materiais_laser
+parcelam no cartão?,pagamento,materiais_laser
+aceitam dinheiro?,pagamento,arquivos_aceitos
+posso parcelar?,pagamento,alteracao_cancelamento
+quais cartões vocês aceitam?,pagamento,arquivos_aceitos
+aceita transferência?,pagamento,arquivos_aceitos
+quero saber o status do pedido,status_pedido,alteracao_cancelamento
+como acompanho a produção?,status_pedido,orcamento_geral
+já terminaram minha peça?,status_pedido,limites_3d
+quando meu pedido fica pronto?,status_pedido,prazo_producao
+tem atualização do pedido?,status_pedido,alteracao_cancelamento
+quero acompanhar minha encomenda,status_pedido,alteracao_cancelamento
+vocês conseguem verificar meu pedido?,status_pedido,criacao_arte
+posso mudar as medidas depois de pedir?,alteracao_cancelamento,orcamento_geral
+consigo corrigir meu projeto?,alteracao_cancelamento,arquivos_aceitos
+quero fazer uma alteração no pedido,alteracao_cancelamento,orcamento_geral
+como faço para cancelar?,alteracao_cancelamento,orcamento_geral
+quero modificar uma peça que já pedi,alteracao_cancelamento,orcamento_3d
+posso substituir o arquivo?,alteracao_cancelamento,arquivos_aceitos
+"errei as medidas, consigo alterar?",alteracao_cancelamento,orcamento_geral
+posso adicionar mais peças ao pedido?,alteracao_cancelamento,orcamento_geral
+como altero um pedido já feito?,alteracao_cancelamento,status_pedido
+posso mudar o material?,alteracao_cancelamento,materiais_3d
+preciso trocar o modelo enviado,alteracao_cancelamento,arquivos_aceitos
+tem como editar o pedido?,alteracao_cancelamento,status_pedido
+quanto mais peças fica mais barato?,desconto_quantidade,precos_geral
+"quanto maior a quantidade, menor o preço?",desconto_quantidade,precos_geral
+vocês trabalham com preço de atacado?,desconto_quantidade,materiais_laser
+qual a localização?,localizacao,precos_laser
+em que cidade vocês estão?,localizacao,materiais_laser
+qual o local para retirada?,localizacao,entrega
+vocês estão abertos?,horario,materiais_3d
+atendem aos sábados?,horario,saudacao
+quando vocês estão disponíveis?,horario,saudacao
+meu pedido atrasou,problema_pedido,status_pedido
+o pedido veio diferente do combinado,problema_pedido,alteracao_cancelamento
+o produto chegou danificado,problema_pedido,consulta_fabricacao
+o corte não ficou como esperado,problema_pedido,materiais_laser
+como resolvo um problema no pedido?,problema_pedido,orcamento_geral
+preciso reclamar de uma peça,problema_pedido,orcamento_3d
+opa,saudacao,materiais_laser
+eae,saudacao,materiais_laser
+vocês fazem placas decorativas?,consulta_fabricacao,criacao_arte
+vocês fazem porta-retrato?,consulta_fabricacao,criacao_arte
+tem como fazer uma luminária personalizada?,consulta_fabricacao,orcamento_laser
+qual extensão vocês usam pra impressão 3d?,arquivos_aceitos,materiais_3d

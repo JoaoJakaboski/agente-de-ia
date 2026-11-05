@@ -1,0 +1,70 @@
+﻿texto,intencao
+boa tarde! tudo certo por aí?,saudacao
+opaa bom diaa,saudacao
+e aí pessoal,saudacao
+vcs trabalham com chapa de pinus?,materiais_laser
+o laser grava em vidro?,materiais_laser
+dá pra cortar EVA de vcs?,materiais_laser
+imprimem em ABS ou só PLA?,materiais_3d
+o filamento de vcs é resistente ao calor?,materiais_3d
+tem nylon pra impressão?,materiais_3d
+qual a maior chapa que cabe na máquina de corte?,limites_laser
+corta mdf de 15mm?,limites_laser
+qual área de trabalho do laser?,limites_laser
+uma peça de 40 cm cabe na impressora?,limites_3d
+qual altura máxima que vcs imprimem?,limites_3d
+peça muito pequena tipo 1cm sai boa na impressão?,limites_3d
+quanto fica pra cortar 10 letras em mdf?,precos_laser
+gravação num copo de madeira custa quanto?,precos_laser
+o corte de acrílico é cobrado por metro?,precos_laser
+imprimir um suporte de celular sai por quanto?,precos_3d
+cobram por grama de filamento?,precos_3d
+qual o valor por hora de impressão?,precos_3d
+me fala quanto vai dar,precos_geral
+tem ideia de valor?,precos_geral
+custa caro?,precos_geral
+queria um orçamento de umas plaquinhas gravadas,orcamento_laser
+preciso de umas letras cortadas em acrílico pra loja,orcamento_laser
+consegue me passar orçamento de gravação em 20 chaveiros de mdf?,orcamento_laser
+queria orçar a impressão de umas peças de reposição,orcamento_3d
+tenho um arquivo .stl de um vaso e queria imprimir,orcamento_3d
+dá pra me fazer um orçamento de miniaturas impressas?,orcamento_3d
+como é o passo a passo pra fazer um pedido com vcs?,orcamento_geral
+o que vcs precisam de mim pra começar?,orcamento_geral
+pra pedir é só mandar mensagem aqui?,orcamento_geral
+aceita OBJ?,arquivos_aceitos
+meu desenho tá em word serve?,arquivos_aceitos
+o arquivo pode ser em JPEG?,arquivos_aceitos
+não sei desenhar vcs fazem pra mim?,criacao_arte
+tenho só a ideia na cabeça vcs desenham?,criacao_arte
+vcs cobram pra criar o desenho?,criacao_arte
+vcs fazem peça de reposição de eletrodoméstico?,consulta_fabricacao
+vcs fazem medalha personalizada?,consulta_fabricacao
+fazem caixa de mdf com tampa?,consulta_fabricacao
+pra 100 unidades o preço baixa?,desconto_quantidade
+atacado tem preço diferente?,desconto_quantidade
+se eu fechar 30 chaveiros faz um preço melhor?,desconto_quantidade
+mandam pra porto alegre?,entrega
+qual o valor do frete pra sp?,entrega
+dá pra retirar no local?,entrega
+abre domingo?,horario
+até que horas vcs ficam hoje?,horario
+funcionam no feriado?,horario
+vcs são de qual bairro?,localizacao
+me manda a localização,localizacao
+tem loja física?,localizacao
+pode ser no boleto?,pagamento
+precisa pagar adiantado?,pagamento
+dá pra pagar por transferência bancária?,pagamento
+demora muito pra fazer?,prazo_producao
+em uma semana fica pronto?,prazo_producao
+consegue me entregar até sexta?,prazo_producao
+"já fiz o pagamento, quando começa a produção do meu pedido?",status_pedido
+alguma novidade do meu pedido?,status_pedido
+meu pedido saiu já?,status_pedido
+a peça chegou quebrada,problema_pedido
+a gravação saiu torta,problema_pedido
+veio faltando peça no meu pedido,problema_pedido
+desisti do pedido dá pra cancelar?,alteracao_cancelamento
+mudei de ideia sobre a cor da peça que pedi,alteracao_cancelamento
+preciso aumentar o tamanho da peça que encomendei,alteracao_cancelamento

@@ -1,0 +1,3 @@
+﻿modelo,f1_macro,f1_desvio,acuracia
+svm,0.774,0.041,0.785
+naive_bayes,0.494,0.046,0.582

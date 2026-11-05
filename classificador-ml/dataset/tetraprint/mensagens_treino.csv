@@ -627,3 +627,55 @@ posso mandar em EPS?,arquivos_aceitos
 o arquivo precisa estar em alta resolução?,arquivos_aceitos
 vocês aceitam arquivo do Fusion 360?,arquivos_aceitos
 qual formato vocês recomendam pra gravação de foto?,arquivos_aceitos
+quanto vai custar no total?,precos_geral
+qual o preço?,precos_geral
+quanto vocês cobram?,precos_geral
+me passa o valor,precos_geral
+consegue me dar uma estimativa?,precos_geral
+quanto mais ou menos fica?,precos_geral
+qual valor vocês cobram em média?,precos_geral
+o preço de vocês é acessível?,precos_geral
+quero saber o preço,precos_geral
+quanto vai sair?,precos_geral
+qual o valor do serviço de vocês?,precos_geral
+tem tabela de preços?,precos_geral
+o preço depende do quê?,precos_geral
+como vocês calculam o preço?,precos_geral
+quanto custa em média um pedido?,precos_geral
+quero fazer um pedido,orcamento_geral
+como faço para comprar com vocês?,orcamento_geral
+quero encomendar uma peça,orcamento_geral
+quais são as etapas do pedido?,orcamento_geral
+quero fazer um orçamento,orcamento_geral
+pode me fazer um orçamento?,orcamento_geral
+como funciona a encomenda com vocês?,orcamento_geral
+quero comprar uma peça personalizada,orcamento_geral
+quero anular minha encomenda,alteracao_cancelamento
+não quero mais o pedido que fiz,alteracao_cancelamento
+preciso cancelar o que encomendei,alteracao_cancelamento
+dá para trocar a cor do meu pedido?,alteracao_cancelamento
+quero refazer o pedido com outro material,alteracao_cancelamento
+quero aumentar a quantidade do meu pedido,alteracao_cancelamento
+posso diminuir a quantidade que encomendei?,alteracao_cancelamento
+ainda dá tempo de alterar meu pedido?,alteracao_cancelamento
+quero desfazer o pedido,alteracao_cancelamento
+dá para trocar o texto da gravação que pedi?,alteracao_cancelamento
+não tenho nada pronto vocês desenham?,criacao_arte
+vocês criam o arquivo do zero?,criacao_arte
+"não tenho o arquivo de corte, vocês preparam?",criacao_arte
+o serviço de design é à parte?,criacao_arte
+vocês fazem o desenho pra mim a partir de um esboço?,criacao_arte
+vocês fazem o projeto a partir de uma descrição?,criacao_arte
+vocês transformam meu rascunho em projeto?,criacao_arte
+alguém aí faz a modelagem da peça?,criacao_arte
+ja começaram meu pedido?,status_pedido
+qual o status da minha encomenda?,status_pedido
+me atualiza sobre a minha encomenda?,status_pedido
+minha peça já foi despachada?,status_pedido
+como está o andamento da minha peça?,status_pedido
+o preço muda se eu pedir mais unidades?,desconto_quantidade
+pedindo em quantidade o valor cai?,desconto_quantidade
+qual o preço para revenda?,desconto_quantidade
+tem valor diferenciado para pedido grande?,desconto_quantidade
+fazem preço melhor pra muitas peças?,desconto_quantidade
+qual o desconto para 200 unidades?,desconto_quantidade

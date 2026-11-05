@@ -1,0 +1,32 @@
+{
+  "rotulo": "depois",
+  "executado_em": "2026-11-05T11:30:41",
+  "dataset": {
+    "frases": 680,
+    "intencoes": 23,
+    "hash": "967d4b4330c2"
+  },
+  "modelo_escolhido": "svm",
+  "validacao_cruzada": {
+    "svm": {
+      "f1_macro": 0.7742205530850208,
+      "f1_desvio": 0.04095161792669626,
+      "acuracia": 0.7852941176470588
+    },
+    "naive_bayes": {
+      "f1_macro": 0.4939148172002296,
+      "f1_desvio": 0.04600129619511874,
+      "acuracia": 0.5823529411764706
+    }
+  },
+  "limiar": 0.8,
+  "cobertura_no_limiar": 0.23823529411764705,
+  "acerto_no_limiar": 0.9629629629629629,
+  "teste_fixo": {
+    "frases": 69,
+    "acuracia": 0.7246376811594203,
+    "f1_macro": 0.7228433402346447,
+    "cobertura_no_limiar": 0.15942028985507245,
+    "acerto_no_limiar": 1.0
+  }
+}
