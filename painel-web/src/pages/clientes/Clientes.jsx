@@ -109,6 +109,7 @@ export default function Clientes() {
               <th>Telefone</th>
               <th>Chamados</th>
               <th>Último chamado</th>
+              <th>Aviso de privacidade</th>
               <th>Situação</th>
               <th><span className="pa-vh">Ações</span></th>
             </tr>
@@ -135,6 +136,11 @@ export default function Clientes() {
                 <td className="pa-mono">{formatarTelefone(cliente.telefone)}</td>
                 <td>{cliente.total_chamados}</td>
                 <td>{dataHora(cliente.ultimo_chamado_em)}</td>
+                <td>
+                  {cliente.privacidade_informado_em
+                    ? `v${cliente.privacidade_versao} · ${dataHora(cliente.privacidade_informado_em)}`
+                    : <span className="pa-faint">Não enviado</span>}
+                </td>
                 <td>
                   {cliente.chamado_aberto_status
                     ? <StatusBadge status={cliente.chamado_aberto_status} />

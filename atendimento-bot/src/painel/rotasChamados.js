@@ -160,7 +160,7 @@ router.get("/:id/mensagens", async (req, res, next) => {
 
     let consultaMensagens = req.db
       .from("mensagens")
-      .select("id, remetente, conteudo, atendente_id, criado_em")
+      .select("id, remetente, conteudo, atendente_id, intencao, criado_em")
       .eq("chamado_id", id)
       .order("criado_em", { ascending: false })
       .order("id", { ascending: false })

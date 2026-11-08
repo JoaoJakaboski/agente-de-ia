@@ -6,6 +6,7 @@ const { registrarMensagem } = require("./mensagensService");
 const { enviarMensagemWhatsapp } = require("./evolutionService");
 const { respostaPorIntencao } = require("./regrasFaqService");
 const { AVISOS, avisarCliente } = require("./avisosCliente");
+const { textoAviso, reservarAviso, liberarAviso, ehPedidoDeExclusao } = require("./privacidadeService");
 
 const RESPOSTAS_PADRAO = {
   audio: "No momento não conseguimos processar áudios — pode escrever sua mensagem em texto? 🙏",
@@ -25,11 +26,25 @@ async function receberMensagem(instanciaEvolution, telefoneCliente, tipoMensagem
   const conteudoRegistrado = texto || `[Mensagem do tipo ${tipoMensagem}]`;
   await registrarMensagem(chamado.id, empresa.id, "cliente", conteudoRegistrado);
 
-  if (chamado.isNovo) {
-    const link = process.env.LINK_POLITICA_PRIVACIDADE || "em_breve";
-    const aviso = `Olá!!! Você está falando com o assistente virtual da ${empresa.nome} 🤖. Usamos seus dados só pra te atender. Política de privacidade: ${link}`;
-    await enviarMensagemWhatsapp(instanciaEvolution, telefoneCliente, aviso);
-    await registrarMensagem(chamado.id, empresa.id, "bot", aviso);
+  // aviso de privacidade: uma vez por cliente, e de novo quando a versão do aviso muda
+  if (await reservarAviso(chamado.clienteId)) {
+    const aviso = textoAviso(empresa.nome);
+    const enviado = await enviarMensagemWhatsapp(instanciaEvolution, telefoneCliente, aviso);
+    if (enviado) {
+      await registrarMensagem(chamado.id, empresa.id, "bot", aviso, null, { intencao: "aviso_privacidade" });
+    } else {
+      await liberarAviso(chamado.clienteId);
+    }
+  }
+
+  // pedido de exclusão (LGPD): vai para a equipe confirmar; a exclusão é feita no painel.
+  // Com um atendente na conversa, ele mesmo responde: o bot não interfere
+  if (ehPedidoDeExclusao(texto) && chamado.status !== "em_atendimento_humano") {
+    if (chamado.status === "bot" || chamado.status === "agente") {
+      await atualizarStatusChamado(chamado.id, "aguardando_humano", "exclusao_dados");
+    }
+    await avisarCliente(instanciaEvolution, telefoneCliente, chamado.id, empresa.id, AVISOS.exclusao);
+    return;
   }
 
   // atendente já está cuidando dessa conversa: bot fica quieto, só registra

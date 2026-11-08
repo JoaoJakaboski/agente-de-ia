@@ -23,6 +23,7 @@ const ASSUNTOS = {
   criacao_arte: "Criação de arte",
   bot_desligado: "Bot desligado",
   iniciado_pelo_painel: "Iniciado pela equipe",
+  exclusao_dados: "Pedido de exclusão de dados",
 };
 
 const MOTIVOS_ENCERRAMENTO = {

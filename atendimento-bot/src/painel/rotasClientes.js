@@ -11,7 +11,7 @@ router.use(exigirSessao);
 const TAMANHO_PAGINA = 30;
 const LIMITE_MAXIMO = 200;
 const LIMITE_TEXTO = 4000;
-const CAMPOS = "id, nome, telefone, criado_em, total_chamados, ultimo_chamado_em, chamado_aberto_id, chamado_aberto_status";
+const CAMPOS = "id, nome, telefone, criado_em, total_chamados, ultimo_chamado_em, chamado_aberto_id, chamado_aberto_status, privacidade_versao, privacidade_informado_em";
 
 function inteiroEntre(valor, padrao, minimo, maximo) {
   const numero = Number.parseInt(valor, 10);

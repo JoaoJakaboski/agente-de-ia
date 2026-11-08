@@ -21,15 +21,13 @@ function mesclar(atuais, novos) {
   return [...porId.values()].sort((a, b) => (a.criado_em < b.criado_em ? -1 : a.criado_em > b.criado_em ? 1 : 0));
 }
 
-function montarLinhaDoTempo({ mensagens, eventos }, agora, temInicio) {
-  const primeiraDoBot = temInicio ? mensagens.find((mensagem) => mensagem.remetente === "bot") : null;
-
+function montarLinhaDoTempo({ mensagens, eventos }, agora) {
   const itens = [
     ...mensagens.map((mensagem) => ({
       chave: `m-${mensagem.id}`,
       em: mensagem.criado_em,
       mensagem,
-      avisoPrivacidade: Boolean(primeiraDoBot) && mensagem.id === primeiraDoBot.id,
+      avisoPrivacidade: mensagem.intencao === "aviso_privacidade",
     })),
     ...eventos
       .map((evento) => ({ chave: `e-${evento.id}`, em: evento.criado_em, sistema: textoEvento(evento) }))
@@ -73,7 +71,7 @@ function LinhaDoTempo({ chamadoId, conversa }) {
   }, [conversa.dados]);
 
   const itens = useMemo(
-    () => (historico.iniciado ? montarLinhaDoTempo(historico, agora, !historico.temMaisAntigas) : []),
+    () => (historico.iniciado ? montarLinhaDoTempo(historico, agora) : []),
     [historico, agora]
   );
 

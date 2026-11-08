@@ -4,6 +4,7 @@ const { registrarMensagem } = require("./mensagensService");
 const AVISOS = {
   encaminhado: "Encaminhei sua mensagem para a nossa equipe. Assim que alguém estiver disponível, a conversa continua por aqui. 🙂",
   transferido: "Seu atendimento vai continuar com outra pessoa da nossa equipe. Assim que alguém estiver disponível, a conversa continua por aqui. 🙂",
+  exclusao: "Recebemos seu pedido para apagar seus dados. Alguém da nossa equipe vai confirmar com você por aqui e, em seguida, seus dados e o histórico das conversas serão apagados.",
 };
 
 // envia pelo WhatsApp e registra na conversa; devolve se chegou

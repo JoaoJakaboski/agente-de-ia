@@ -366,6 +366,8 @@ CREATE TABLE public.clientes (
     nome text,
     criado_em timestamp with time zone DEFAULT now() NOT NULL,
     atualizado_em timestamp with time zone DEFAULT now() NOT NULL,
+    privacidade_versao integer,
+    privacidade_informado_em timestamp with time zone,
     CONSTRAINT clientes_nome_check CHECK (((nome IS NULL) OR ((char_length(nome) >= 1) AND (char_length(nome) <= 80))))
 );
 
@@ -476,7 +478,9 @@ CREATE VIEW public.clientes_lista WITH (security_invoker='true') AS
     u.criado_em AS ultimo_chamado_em,
     a.id AS chamado_aberto_id,
     a.status AS chamado_aberto_status,
-    lower(extensions.unaccent('extensions.unaccent'::regdictionary, ((COALESCE(cl.nome, ''::text) || ' '::text) || cl.telefone))) AS busca
+    lower(extensions.unaccent('extensions.unaccent'::regdictionary, ((COALESCE(cl.nome, ''::text) || ' '::text) || cl.telefone))) AS busca,
+    cl.privacidade_versao,
+    cl.privacidade_informado_em
    FROM (((public.clientes cl
      LEFT JOIN LATERAL ( SELECT count(*) AS total
            FROM public.chamados c

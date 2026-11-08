@@ -29,7 +29,7 @@ async function garantirCliente(empresaId, telefone) {
 async function garantirChamado(empresaId, telefoneCliente, tentativa=0) {
     const { data: existente, error: erroConsulta } = await supabase
         .from("chamados")
-        .select("id, status")
+        .select("id, status, cliente_id")
         .eq("empresa_id", empresaId)
         .eq("telefone_cliente", telefoneCliente)
         .neq("status", "encerrado")
@@ -43,7 +43,7 @@ async function garantirChamado(empresaId, telefoneCliente, tentativa=0) {
     }
 
     if (existente) {
-        return { id: existente.id, status: existente.status, isNovo: false };
+        return { id: existente.id, status: existente.status, clienteId: existente.cliente_id, isNovo: false };
     }
 
     const clienteId = await garantirCliente(empresaId, telefoneCliente);
@@ -64,7 +64,7 @@ async function garantirChamado(empresaId, telefoneCliente, tentativa=0) {
         return null;
     }
 
-    return { id: novo.id, status: novo.status, isNovo: true };
+    return { id: novo.id, status: novo.status, clienteId, isNovo: true };
 }
 
 async function atualizarStatusChamado(chamadoId, status, assunto) {
